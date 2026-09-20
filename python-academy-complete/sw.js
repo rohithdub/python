@@ -1,4 +1,4 @@
-const CACHE = "python-academy-shell-v7";
+const CACHE = "python-academy-shell-v8";
 const APP = [
   "./",
   "./index.html",
