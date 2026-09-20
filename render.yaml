@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: python-academy-backend
+    runtime: node
+    plan: free
+    buildCommand: npm install --production
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.14.0
+      - key: PORT
+        value: 10000

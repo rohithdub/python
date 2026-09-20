@@ -7,6 +7,9 @@
     "start": "node server/server.js",
     "test": "node server/test_api.js"
   },
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "keywords": ["python", "education", "backend", "fullstack", "sqlite"],
   "author": "Python Academy",
   "license": "MIT"

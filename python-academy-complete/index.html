@@ -674,7 +674,7 @@ const KEY='python_academy_complete_v1';
 const DEFAULT={version:1,xp:0,streak:0,lastStudy:null,completedLessons:[],lessonPractice:{},practiceAwarded:{},practiceCode:{},practiceInput:{},quizResults:{},quizXpAwarded:{},completedChallenges:[],notes:{},bookmarks:[],recentLessons:[],labCode:'print("Hello, Python!")',labInput:''};
 let state=loadState();
 // --- Dual-Mode Cloud Backend Engine ---
-const API_BASE = window.location.port === '5000' ? '' : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : (localStorage.getItem('py_academy_api_url') || ''));
+let API_BASE = (localStorage.getItem('py_academy_api_url') || (window.location.port === '5000' ? '' : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : ''))).replace(/\/+$/, '');
 let authToken = localStorage.getItem('py_academy_token') || null;
 let currentUser = null;
 let isCloudOnline = false;
@@ -752,6 +752,79 @@ function updateCloudUI() {
     dot.style.color = '#9aa8c2';
     txt.textContent = 'Local';
     dot.title = 'Offline / Local Mode (Stored in browser)';
+  }
+}
+
+
+// --- Cloud Backend Configuration Helpers ---
+function openServerConfigModal() {
+  let modal = document.getElementById('server-config-modal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'server-config-modal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(4,8,18,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:99999;padding:20px';
+    document.body.appendChild(modal);
+  }
+  const currentUrl = localStorage.getItem('py_academy_api_url') || (window.location.port === '5000' ? 'http://localhost:5000' : '');
+  modal.innerHTML = `
+    <div style="background:#0e1526;border:1px solid rgba(124,92,255,0.4);border-radius:24px;max-width:480px;width:100%;padding:28px 24px;box-shadow:0 24px 60px rgba(0,0,0,0.6)">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="font-size:28px">☁️</span>
+        <div>
+          <h3 style="margin:0;font-size:18px;color:#fff">24/7 Cloud Backend Server</h3>
+          <p style="margin:2px 0 0;font-size:12.5px;color:#94a3b8">Connect your Render or cloud backend to sync accounts across devices.</p>
+        </div>
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#cbd5e1">Backend Server URL</label>
+        <input id="server-url-input" type="url" placeholder="https://python-academy.onrender.com" value="${esc(currentUrl)}" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;box-sizing:border-box">
+        <div style="margin-top:6px;font-size:12px;color:#94a3b8">Status: <strong style="color:${isCloudOnline ? '#00e676' : '#f59e0b'}">${isCloudOnline ? '🟢 Connected (Online)' : '⚪ Offline / Standalone'}</strong></div>
+      </div>
+      <div id="server-test-msg" style="margin-bottom:16px;font-size:13px"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="ghost" onclick="document.getElementById('server-config-modal').style.display='none'">Close</button>
+        <button class="primary" onclick="saveAndTestBackendServer()">Save & Connect</button>
+      </div>
+    </div>
+  `;
+  modal.style.display = 'flex';
+}
+
+async function saveAndTestBackendServer() {
+  const input = document.getElementById('server-url-input');
+  const msg = document.getElementById('server-test-msg');
+  if (!input) return;
+  const rawUrl = input.value.trim().replace(/\/+$/, '');
+  msg.style.color = '#94a3b8';
+  msg.textContent = 'Testing connection…';
+  if (!rawUrl) {
+    localStorage.removeItem('py_academy_api_url');
+    API_BASE = window.location.port === '5000' ? '' : '';
+    isCloudOnline = false;
+    updateCloudUI();
+    msg.style.color = '#38bdf8';
+    msg.textContent = 'Reset to local browser mode.';
+    setTimeout(() => { document.getElementById('server-config-modal').style.display = 'none'; renderAll(); }, 1200);
+    return;
+  }
+  try {
+    const res = await fetch(rawUrl + '/api/health', { signal: AbortSignal.timeout(6000) });
+    if (res.ok) {
+      localStorage.setItem('py_academy_api_url', rawUrl);
+      API_BASE = rawUrl;
+      isCloudOnline = true;
+      msg.style.color = '#00e676';
+      msg.textContent = '✅ Connected successfully! Cloud sync active.';
+      if (authToken) await fetchCurrentUser();
+      updateCloudUI();
+      setTimeout(() => { document.getElementById('server-config-modal').style.display = 'none'; renderAll(); }, 1400);
+    } else {
+      msg.style.color = '#f87171';
+      msg.textContent = 'Server responded with status ' + res.status + '. Check URL.';
+    }
+  } catch (err) {
+    msg.style.color = '#f87171';
+    msg.textContent = 'Could not reach server. If sleeping on Render, give it 30s to wake up.';
   }
 }
 
@@ -1413,7 +1486,7 @@ function renderChallenges(){const el=document.getElementById('view-challenges');
 function openChallenge(id){currentChallenge=CHALLENGES.find(c=>c.id===id); go('challenges',id);}
 function renderSearch(){const el=document.getElementById('view-search'); const r=parseRoute(); const term=document.getElementById('globalSearch').value.trim(); if(r.view!=='search'&&!term)return; const hits=term?LESSONS.filter(l=>(l.title+' '+l.levelTitle+' '+l.concept).toLowerCase().includes(term.toLowerCase())):[]; el.innerHTML=`<div class="hero"><div class="eyebrow">Search</div><h2>${term?'Results for “'+esc(term)+'”':'Find a lesson'}</h2><p>Search by topic, level, or concept.</p></div>${term?(hits.length?`<div class="grid">${hits.map(l=>`<div class="card"><div class="pill">Level ${l.level}</div><h3>${esc(l.title)}</h3><p>${esc(l.objective)}</p><button class="primary" onclick="go('lesson','${l.id}')">Open lesson</button></div>`).join('')}</div>`:'<div class="empty">No matching lessons found.</div>'):'<div class="empty">Type in the search box above.</div>'}`;}
 async function runChallenge(id){const c=CHALLENGES.find(x=>x.id===id),code=document.getElementById('challengeCode').value,status=document.getElementById('challengeStatus'); status.className='status'; status.textContent='Running tests…'; const results=[]; let firstErr=null; for(const t of c.tests){try{const out=await executePython(code,t.input||'',3000); results.push(out.trim()===t.expected.trim());}catch(err){if(!firstErr)firstErr=err; results.push(false);} } const passed=results.every(Boolean); status.className='status '+(passed?'ok':'bad'); if(passed){status.textContent='All tests passed! Challenge solved. 🎉'; const isNew = !state.completedChallenges.includes(id); if(isNew){state.completedChallenges.push(id);state.xp+=25;save();} showCelebrationModal({ title: 'Challenge Conquered! 🏆', subtitle: `You solved "${c.title}" by passing all test cases!`, xp: isNew ? 25 : 0, nextId: null });} else {let html='Some tests failed. Check your output matches the expected output exactly.'; if(firstErr){const errInfo=formatBeginnerError(firstErr); html+=`<div style="margin-top:8px"><strong>Error:</strong> <code>${esc(errInfo.raw)}</code></div>${errInfo.tip?`<div style="margin-top:8px;padding:8px 12px;background:rgba(124,92,255,0.18);border:1px solid rgba(124,92,255,0.4);border-radius:10px;color:#dcd6ff;font-size:13px">💡 <strong>Beginner Tip:</strong> ${esc(errInfo.tip)}</div>`:''}`;} status.innerHTML=html;}}
-function renderProfile(){const el=document.getElementById('view-profile'); const mastered=state.completedLessons.length; const notes=Object.values(state.notes).filter(Boolean).length; const cloudInfo=currentUser?`Signed in as <strong>${esc(currentUser.username)}</strong> (${esc(currentUser.email)}) · Cloud Synchronized`:(isCloudOnline?'Running in local mode. Sign in to sync your study progress across devices.':'Offline mode. All progress is safely stored in this browser.'); const cloudActionBtn=currentUser?`<button class="primary" onclick="openAuthModal()">☁️ Account: ${esc(currentUser.username)}</button>`:`<button class="primary" onclick="openAuthModal()">☁️ Sign In / Create Account</button>`; el.innerHTML=`<div class="hero"><div class="eyebrow">Profile & progress</div><h2>Your private learning dashboard.</h2><p>${cloudInfo}</p><div class="toolbar" style="margin-top:14px">${cloudActionBtn}</div></div><div class="grid grid-3"><div class="card"><div class="eyebrow">Mastery</div><h3>${pct(mastered,LESSONS.length)}%</h3><p>${mastered} of ${LESSONS.length} lessons</p></div><div class="card"><div class="eyebrow">Bookmarks</div><h3>${state.bookmarks.length}</h3><p>Lessons saved for review</p></div><div class="card"><div class="eyebrow">Notes</div><h3>${notes}</h3><p>Personal notes stored locally</p></div></div><div class="card" style="margin-top:16px"><div class="eyebrow">Level status</div>${CURRICULUM.map(l=>{const p=levelProgress(+l.id);return `<div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><strong>Level ${l.id} · ${esc(l.title)}</strong><div class="progress" style="margin-top:8px"><span style="width:${pct(p.done,p.total)}%"></span></div></div><span class="pill">${p.done} / ${p.total}</span></div>`}).join('')}</div><div class="toolbar" style="margin-top:16px"><button class="ghost" onclick="exportProgress()">Export progress</button><button class="ghost" onclick="importProgress()">Import progress</button><button class="danger" onclick="resetProgress()">Reset everything</button></div>`}
+function renderProfile(){const el=document.getElementById('view-profile'); const mastered=state.completedLessons.length; const notes=Object.values(state.notes).filter(Boolean).length; const cloudInfo=currentUser?`Signed in as <strong>${esc(currentUser.username)}</strong> (${esc(currentUser.email)}) · Cloud Synchronized`:(isCloudOnline?'Running in local mode. Sign in to sync your study progress across devices.':'Offline mode. All progress is safely stored in this browser.'); const cloudActionBtn=currentUser?`<button class="primary" onclick="openAuthModal()">☁️ Account: ${esc(currentUser.username)}</button>`:`<button class="primary" onclick="openAuthModal()">☁️ Sign In / Create Account</button>`; el.innerHTML=`<div class="hero"><div class="eyebrow">Profile & progress</div><h2>Your private learning dashboard.</h2><p>${cloudInfo}</p><div class="toolbar" style="margin-top:14px;gap:10px;flex-wrap:wrap">${cloudActionBtn}<button class="ghost" onclick="openServerConfigModal()">☁️ Cloud Backend Server</button></div></div><div class="grid grid-3"><div class="card"><div class="eyebrow">Mastery</div><h3>${pct(mastered,LESSONS.length)}%</h3><p>${mastered} of ${LESSONS.length} lessons</p></div><div class="card"><div class="eyebrow">Bookmarks</div><h3>${state.bookmarks.length}</h3><p>Lessons saved for review</p></div><div class="card"><div class="eyebrow">Notes</div><h3>${notes}</h3><p>Personal notes stored locally</p></div></div><div class="card" style="margin-top:16px"><div class="eyebrow">Level status</div>${CURRICULUM.map(l=>{const p=levelProgress(+l.id);return `<div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><strong>Level ${l.id} · ${esc(l.title)}</strong><div class="progress" style="margin-top:8px"><span style="width:${pct(p.done,p.total)}%"></span></div></div><span class="pill">${p.done} / ${p.total}</span></div>`}).join('')}</div><div class="toolbar" style="margin-top:16px"><button class="ghost" onclick="exportProgress()">Export progress</button><button class="ghost" onclick="importProgress()">Import progress</button><button class="danger" onclick="resetProgress()">Reset everything</button></div>`}
 function exportProgress(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='python-academy-progress.json';a.click();URL.revokeObjectURL(a.href)}
 function importProgress(){const input=document.createElement('input');input.type='file';input.accept='.json';input.onchange=()=>{const file=input.files?.[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{localStorage.setItem(KEY,String(r.result));state=loadState();save();alert('Progress imported successfully.')}catch{alert('Invalid progress file.')}};r.readAsText(file)};input.click();}
 function resetProgress(){if(confirm('Reset all lessons, XP, notes, bookmarks, and challenges?')){localStorage.removeItem(KEY);state=structuredClone(DEFAULT);save();go('dashboard')}}
