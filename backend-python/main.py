@@ -200,6 +200,81 @@ def get_leaderboard(limit: int = 20, db: Session = Depends(get_db)):
     ]
     return {"leaderboard": leaderboard}
 
+# --- Admin Dashboard Routes ---
+@app.get("/api/admin/users")
+def get_admin_users(
+    key: Optional[str] = None,
+    x_admin_key: Optional[str] = Header(None),
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    configured_key = os.getenv("ADMIN_KEY", "admin123")
+    admin_key = x_admin_key or key
+    
+    is_authorized = False
+    if admin_key == configured_key:
+        is_authorized = True
+    elif authorization and authorization.startswith("Bearer "):
+        try:
+            token = authorization.split(" ")[1]
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_id = payload.get("userId")
+            if user_id:
+                u = db.query(models.User).filter(models.User.id == user_id).first()
+                if u and (u.username.lower() in ["admin", "rohithdub"] or u.email.lower() == "rohithkumar55666@gmail.com"):
+                    is_authorized = True
+        except:
+            pass
+
+    if not is_authorized:
+        raise HTTPException(status_code=403, detail="Unauthorized: Admin passkey required")
+
+    users_query = db.query(models.User, models.UserProgress).outerjoin(
+        models.UserProgress, models.User.id == models.UserProgress.user_id
+    ).order_by(models.User.created_at.desc()).all()
+
+    user_list = []
+    total_xp = 0
+    total_completed = 0
+
+    for u, up in users_query:
+        xp = up.xp if up else 0
+        streak = up.streak if up else 0
+        completed_count = up.completed_count if up else 0
+        total_xp += xp
+        total_completed += completed_count
+
+        state_data = {}
+        if up and up.state_json:
+            try:
+                state_data = json.loads(up.state_json)
+            except:
+                pass
+
+        user_list.append({
+            "id": u.id,
+            "username": u.username,
+            "email": u.email,
+            "createdAt": u.created_at.isoformat() if u.created_at else None,
+            "xp": xp,
+            "streak": streak,
+            "completedCount": completed_count,
+            "updatedAt": up.updated_at.isoformat() if up and up.updated_at else None,
+            "completedLessons": state_data.get("completedLessons", []),
+            "quizResults": state_data.get("quizResults", {}),
+            "notesCount": len(state_data.get("notes", {})),
+            "challengesCount": len(state_data.get("completedChallenges", []))
+        })
+
+    stats = {
+        "totalUsers": len(user_list),
+        "totalXp": total_xp,
+        "totalLessonsCompleted": total_completed,
+        "totalCodeRuns": db.query(models.CodeRun).count()
+    }
+
+    return {"ok": True, "stats": stats, "users": user_list}
+
 # --- Code Execution Route ---
 @app.post("/api/execute", response_model=schemas.ExecuteResponse)
 def execute_code(payload: schemas.ExecuteRequest):

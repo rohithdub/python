@@ -225,6 +225,53 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { projects: curriculumData.projects });
     }
 
+    // Admin Dashboard Routes
+    if (pathname === '/api/admin/users' && req.method === 'GET') {
+      const authUser = getAuthUser(req);
+      const adminKey = req.headers['x-admin-key'] || parsedUrl.searchParams.get('key');
+      const configuredKey = process.env.ADMIN_KEY || 'admin123';
+      
+      const isAuthorized = 
+        (adminKey && adminKey === configuredKey) ||
+        (authUser && (
+          authUser.username.toLowerCase() === 'admin' || 
+          authUser.username.toLowerCase() === 'rohithdub' || 
+          authUser.email.toLowerCase() === 'rohithkumar55666@gmail.com'
+        ));
+
+      if (!isAuthorized) {
+        return sendJson(res, 403, { error: 'Unauthorized: Admin passkey required' });
+      }
+
+      const users = db.getAllUsersWithProgress().map(u => {
+        let parsedState = null;
+        try {
+          if (u.state_json) parsedState = JSON.parse(u.state_json);
+        } catch {}
+        return {
+          id: u.id,
+          username: u.username,
+          email: u.email,
+          createdAt: u.created_at,
+          xp: u.xp,
+          streak: u.streak,
+          completedCount: u.completed_count,
+          updatedAt: u.updated_at,
+          completedLessons: parsedState?.completedLessons || [],
+          quizResults: parsedState?.quizResults || {},
+          notesCount: parsedState?.notes ? Object.keys(parsedState.notes).length : 0,
+          challengesCount: parsedState?.completedChallenges?.length || 0
+        };
+      });
+
+      const stats = db.getAdminStats();
+      return sendJson(res, 200, { ok: true, stats, users });
+    }
+
+    if (pathname === '/api/admin/stats' && req.method === 'GET') {
+      return sendJson(res, 200, { ok: true, stats: db.getAdminStats() });
+    }
+
     // Unmatched API route
     return sendJson(res, 404, { error: 'API route not found' });
   }

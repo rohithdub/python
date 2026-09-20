@@ -132,5 +132,37 @@ module.exports = {
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
     return stmt.run(userId, code, stdin, stdout, stderr, executionTimeMs, status);
+  },
+
+  // Admin queries
+  getAllUsersWithProgress() {
+    const stmt = db.prepare(`
+      SELECT 
+        u.id, 
+        u.username, 
+        u.email, 
+        u.created_at,
+        COALESCE(up.xp, 0) AS xp,
+        COALESCE(up.streak, 0) AS streak,
+        COALESCE(up.completed_count, 0) AS completed_count,
+        up.updated_at,
+        up.state_json
+      FROM users u
+      LEFT JOIN user_progress up ON u.id = up.user_id
+      ORDER BY u.created_at DESC
+    `);
+    return stmt.all();
+  },
+
+  getAdminStats() {
+    const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get()?.count || 0;
+    const progressStats = db.prepare('SELECT COALESCE(SUM(xp), 0) as total_xp, COALESCE(SUM(completed_count), 0) as total_completed FROM user_progress').get() || { total_xp: 0, total_completed: 0 };
+    const codeRunCount = db.prepare('SELECT COUNT(*) as count FROM code_runs').get()?.count || 0;
+    return {
+      totalUsers: userCount,
+      totalXp: progressStats.total_xp,
+      totalLessonsCompleted: progressStats.total_completed,
+      totalCodeRuns: codeRunCount
+    };
   }
 };
