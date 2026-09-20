@@ -1,0 +1,4366 @@
+{
+  "curriculum": [
+    {
+      "id": "0",
+      "title": "Programming Foundations",
+      "lessons": [
+        {
+          "id": "L0_1",
+          "title": "Computers & Programs"
+        },
+        {
+          "id": "L0_2",
+          "title": "Values & Data"
+        },
+        {
+          "id": "L0_3",
+          "title": "Variables & State"
+        },
+        {
+          "id": "L0_4",
+          "title": "Expressions & Operators"
+        },
+        {
+          "id": "L0_5",
+          "title": "Input & Output"
+        },
+        {
+          "id": "L0_6",
+          "title": "Algorithms & Pseudocode"
+        },
+        {
+          "id": "L0_7",
+          "title": "Debugging Mindset"
+        },
+        {
+          "id": "L0_8",
+          "title": "First Mini Program"
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "title": "Python Fundamentals",
+      "lessons": [
+        {
+          "id": "L1_1",
+          "title": "Python Syntax"
+        },
+        {
+          "id": "L1_2",
+          "title": "Numbers & Strings"
+        },
+        {
+          "id": "L1_3",
+          "title": "String Methods"
+        },
+        {
+          "id": "L1_4",
+          "title": "Type Conversion"
+        },
+        {
+          "id": "L1_5",
+          "title": "Booleans & Comparisons"
+        },
+        {
+          "id": "L1_6",
+          "title": "Sequences Overview"
+        },
+        {
+          "id": "L1_7",
+          "title": "Formatting & f-strings"
+        },
+        {
+          "id": "L1_8",
+          "title": "Fundamentals Project"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Control Flow",
+      "lessons": [
+        {
+          "id": "L2_1",
+          "title": "if / elif / else"
+        },
+        {
+          "id": "L2_2",
+          "title": "Nested Decisions"
+        },
+        {
+          "id": "L2_3",
+          "title": "for Loops"
+        },
+        {
+          "id": "L2_4",
+          "title": "while Loops"
+        },
+        {
+          "id": "L2_5",
+          "title": "break & continue"
+        },
+        {
+          "id": "L2_6",
+          "title": "Loop Patterns"
+        },
+        {
+          "id": "L2_7",
+          "title": "Pattern Practice"
+        },
+        {
+          "id": "L2_8",
+          "title": "Control Flow Project"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Data Structures",
+      "lessons": [
+        {
+          "id": "L3_1",
+          "title": "Lists"
+        },
+        {
+          "id": "L3_2",
+          "title": "List Methods"
+        },
+        {
+          "id": "L3_3",
+          "title": "Tuples"
+        },
+        {
+          "id": "L3_4",
+          "title": "Sets"
+        },
+        {
+          "id": "L3_5",
+          "title": "Dictionaries"
+        },
+        {
+          "id": "L3_6",
+          "title": "Nested Collections"
+        },
+        {
+          "id": "L3_7",
+          "title": "Comprehensions"
+        },
+        {
+          "id": "L3_8",
+          "title": "Data Structures Project"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Functions",
+      "lessons": [
+        {
+          "id": "L4_1",
+          "title": "Function Basics"
+        },
+        {
+          "id": "L4_2",
+          "title": "Parameters & Arguments"
+        },
+        {
+          "id": "L4_3",
+          "title": "Return Values"
+        },
+        {
+          "id": "L4_4",
+          "title": "Scope"
+        },
+        {
+          "id": "L4_5",
+          "title": "Lambda & Functional Tools"
+        },
+        {
+          "id": "L4_6",
+          "title": "Recursion"
+        },
+        {
+          "id": "L4_7",
+          "title": "Function Design"
+        },
+        {
+          "id": "L4_8",
+          "title": "Functions Project"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Problem Solving & Algorithms",
+      "lessons": [
+        {
+          "id": "L5_1",
+          "title": "Problem Decomposition"
+        },
+        {
+          "id": "L5_2",
+          "title": "Time & Space Complexity"
+        },
+        {
+          "id": "L5_3",
+          "title": "Linear Search"
+        },
+        {
+          "id": "L5_4",
+          "title": "Binary Search"
+        },
+        {
+          "id": "L5_5",
+          "title": "Sorting Concepts"
+        },
+        {
+          "id": "L5_6",
+          "title": "Two-Pointer Patterns"
+        },
+        {
+          "id": "L5_7",
+          "title": "Frequency Counting"
+        },
+        {
+          "id": "L5_8",
+          "title": "Algorithms Project"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Intermediate Python",
+      "lessons": [
+        {
+          "id": "L6_1",
+          "title": "Exceptions"
+        },
+        {
+          "id": "L6_2",
+          "title": "Modules & Imports"
+        },
+        {
+          "id": "L6_3",
+          "title": "Files & Paths"
+        },
+        {
+          "id": "L6_4",
+          "title": "JSON & Serialization"
+        },
+        {
+          "id": "L6_5",
+          "title": "Dates & Time"
+        },
+        {
+          "id": "L6_6",
+          "title": "Iterators & Generators"
+        },
+        {
+          "id": "L6_7",
+          "title": "Decorators & Context Managers"
+        },
+        {
+          "id": "L6_8",
+          "title": "Intermediate Project"
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Object-Oriented Python",
+      "lessons": [
+        {
+          "id": "L7_1",
+          "title": "Classes & Objects"
+        },
+        {
+          "id": "L7_2",
+          "title": "Constructors & Attributes"
+        },
+        {
+          "id": "L7_3",
+          "title": "Methods & Encapsulation"
+        },
+        {
+          "id": "L7_4",
+          "title": "Inheritance"
+        },
+        {
+          "id": "L7_5",
+          "title": "Polymorphism"
+        },
+        {
+          "id": "L7_6",
+          "title": "Dataclasses"
+        },
+        {
+          "id": "L7_7",
+          "title": "Composition & Design"
+        },
+        {
+          "id": "L7_8",
+          "title": "OOP Project"
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Advanced Python",
+      "lessons": [
+        {
+          "id": "L8_1",
+          "title": "Type Hints"
+        },
+        {
+          "id": "L8_2",
+          "title": "Advanced Comprehensions"
+        },
+        {
+          "id": "L8_3",
+          "title": "Functional Programming"
+        },
+        {
+          "id": "L8_4",
+          "title": "Regular Expressions"
+        },
+        {
+          "id": "L8_5",
+          "title": "Concurrency Concepts"
+        },
+        {
+          "id": "L8_6",
+          "title": "asyncio Basics"
+        },
+        {
+          "id": "L8_7",
+          "title": "Performance & Profiling"
+        },
+        {
+          "id": "L8_8",
+          "title": "Advanced Project"
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Real-World Python",
+      "lessons": [
+        {
+          "id": "L9_1",
+          "title": "CLI Applications"
+        },
+        {
+          "id": "L9_2",
+          "title": "Environment & Configuration"
+        },
+        {
+          "id": "L9_3",
+          "title": "Testing Fundamentals"
+        },
+        {
+          "id": "L9_4",
+          "title": "Logging"
+        },
+        {
+          "id": "L9_5",
+          "title": "HTTP & APIs"
+        },
+        {
+          "id": "L9_6",
+          "title": "Data Processing"
+        },
+        {
+          "id": "L9_7",
+          "title": "Packaging & Project Structure"
+        },
+        {
+          "id": "L9_8",
+          "title": "Real-World Project"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Professional Projects",
+      "lessons": [
+        {
+          "id": "L10_1",
+          "title": "Project Planning"
+        },
+        {
+          "id": "L10_2",
+          "title": "Clean Code"
+        },
+        {
+          "id": "L10_3",
+          "title": "Architecture Basics"
+        },
+        {
+          "id": "L10_4",
+          "title": "Testing Strategy"
+        },
+        {
+          "id": "L10_5",
+          "title": "Security Basics"
+        },
+        {
+          "id": "L10_6",
+          "title": "Git & Collaboration"
+        },
+        {
+          "id": "L10_7",
+          "title": "Deployment Thinking"
+        },
+        {
+          "id": "L10_8",
+          "title": "Capstone Portfolio"
+        }
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "objective": "Understand how instructions, programs, input, output, and errors fit together.",
+      "why": "You will use computers & programs when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand how instructions, programs, input, output, and errors fit together. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Computers & Programs\n\n# Write the smallest working example first.",
+      "code": "print(\"Hello, Python!\")",
+      "explanation": "Python executes instructions in order unless control flow changes that order. Think of a program as a precise list of instructions.",
+      "mistakes": [
+        "Using Computers & Programs mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see \"Hello, Python!\". Then change the text inside quotes to your name or greeting (e.g. print(\"Hello, Alex!\")) and click Run practice.",
+      "quiz": [
+        {
+          "q": "Which Python function displays text or numbers on the screen?",
+          "options": [
+            "input()",
+            "print()",
+            "show()",
+            "echo()"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you represent a text string in Python?",
+          "options": [
+            "Inside angle brackets <Hello>",
+            "Inside dollar signs $Hello$",
+            "Inside quotes like \"Hello\"",
+            "With no quotes"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L0_1",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 1,
+      "title": "Computers & Programs"
+    },
+    {
+      "objective": "Learn what data is and how programs represent numbers, text, and true/false values.",
+      "why": "You will use values & data when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Learn what data is and how programs represent numbers, text, and true/false values. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Values & Data\n\n# Write the smallest working example first.",
+      "code": "age = 18\nname = \"Rohith\"\nactive = True\nprint(age, name, active)",
+      "explanation": "Python values have types. Numbers can be calculated, strings represent text, and booleans represent truth values.",
+      "mistakes": [
+        "Using Values & Data mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see Python data types. Try printing the type of your favorite number like type(100) or decimal like type(9.99).",
+      "quiz": [
+        {
+          "q": "What data type is the whole number 42 in Python?",
+          "options": [
+            "int (integer)",
+            "float",
+            "str (string)",
+            "bool (boolean)"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which of these represents a True or False value?",
+          "options": [
+            "str",
+            "bool",
+            "int",
+            "list"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L0_2",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 2,
+      "title": "Values & Data"
+    },
+    {
+      "objective": "Understand names, assignment, and how program state changes.",
+      "why": "You will use variables & state when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand names, assignment, and how program state changes. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Variables & State\n\n# Write the smallest working example first.",
+      "code": "score = 10\nscore = score + 5\nprint(score)",
+      "explanation": "Assignment binds a name to a value. Reassigning a name changes what that name refers to.",
+      "mistakes": [
+        "Using Variables & State mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see the score change. Try changing the starting score to 50, or increase it by 10 instead of 5.",
+      "quiz": [
+        {
+          "q": "How do you create a variable called score and set it to 10?",
+          "options": [
+            "var score := 10",
+            "int score == 10",
+            "set score to 10",
+            "score = 10"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What happens when you reassign an existing variable with a new value?",
+          "options": [
+            "The variable updates to store the new value",
+            "Python throws a syntax error",
+            "Both values are merged",
+            "The computer reboots"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L0_3",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 3,
+      "title": "Variables & State"
+    },
+    {
+      "objective": "Build expressions with arithmetic, comparison, and logical operators.",
+      "why": "You will use expressions & operators when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build expressions with arithmetic, comparison, and logical operators. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Expressions & Operators\n\n# Write the smallest working example first.",
+      "code": "a = 10\nb = 3\nprint(a + b)\nprint(a > b)\nprint(a > 5 and b < 5)",
+      "explanation": "Expressions produce values. Operators combine or transform values so you can calculate, compare, and make logical decisions.",
+      "mistakes": [
+        "Using Expressions & Operators mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see math calculations. Try calculating 25 * 4 or 100 - 35 in a new print() statement.",
+      "quiz": [
+        {
+          "q": "What symbol is used for multiplication in Python?",
+          "options": [
+            "x",
+            "•",
+            "*",
+            "^"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the result of 10 + 2 * 3 in Python?",
+          "options": [
+            "36",
+            "24",
+            "15",
+            "16 (multiplication happens before addition)"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L0_4",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 4,
+      "title": "Expressions & Operators"
+    },
+    {
+      "objective": "Read user input and present useful output with formatting.",
+      "why": "You will use input & output when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Read user input and present useful output with formatting. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Input & Output\n\n# Write the smallest working example first.",
+      "code": "name = input(\"Name: \")\nage = int(input(\"Age: \"))\nprint(f\"Hello {name}, next year you will be {age + 1}.\")",
+      "explanation": "input() returns text. Convert numeric input explicitly, then use formatted output to make the result easy to read.",
+      "mistakes": [
+        "Using Input & Output mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code and enter your name in the input box below. Try changing the greeting message!",
+      "quiz": [
+        {
+          "q": "Which function is used to capture user keyboard input?",
+          "options": [
+            "read()",
+            "input()",
+            "scan()",
+            "get()"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What type of data does the input() function return by default?",
+          "options": [
+            "int (integer)",
+            "bool (boolean)",
+            "str (string / text)",
+            "float (decimal)"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L0_5",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 5,
+      "title": "Input & Output"
+    },
+    {
+      "objective": "Turn a problem into clear, ordered steps before coding.",
+      "why": "You will use algorithms & pseudocode when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Turn a problem into clear, ordered steps before coding. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Algorithms & Pseudocode\n\n# Write the smallest working example first.",
+      "code": "# Pseudocode:\n# read number\n# if even -> say even\n# otherwise -> say odd\n\nn = int(input(\"Number: \"))\nprint(\"Even\" if n % 2 == 0 else \"Odd\")",
+      "explanation": "Pseudocode is a design tool. It lets you focus on the solution steps before worrying about exact syntax.",
+      "mistakes": [
+        "Using Algorithms & Pseudocode mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the step-by-step instructions. Try adding a 4th step printing \"Step 4: Practice complete!\".",
+      "quiz": [
+        {
+          "q": "What is an algorithm in computer programming?",
+          "options": [
+            "A step-by-step set of instructions to solve a problem",
+            "A type of computer hardware",
+            "A programming error",
+            "A secret password"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Why is planning with pseudocode helpful before coding?",
+          "options": [
+            "It makes Python execute faster",
+            "It clarifies the logic before worrying about exact syntax",
+            "It replaces the need for testing",
+            "It is required by the computer"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L0_6",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 6,
+      "title": "Algorithms & Pseudocode"
+    },
+    {
+      "objective": "Identify syntax, runtime, and logic errors systematically.",
+      "why": "You will use debugging mindset when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Identify syntax, runtime, and logic errors systematically. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Debugging Mindset\n\n# Write the smallest working example first.",
+      "code": "total = 0\nfor value in [2, 4, 6]:\n    total += value\nprint(total)",
+      "explanation": "Debugging is evidence-driven: reproduce the problem, inspect values, isolate the cause, make one change, and retest.",
+      "mistakes": [
+        "Using Debugging Mindset mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to verify it runs without errors. Try printing an extra celebratory message!",
+      "quiz": [
+        {
+          "q": "What is debugging in programming?",
+          "options": [
+            "Deleting the entire program",
+            "Buying a new computer",
+            "Turning off the monitor",
+            "Finding and fixing mistakes or bugs in your code"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "When Python shows an error message, what should you do first?",
+          "options": [
+            "Read the error type and line number carefully",
+            "Guess randomly and change unrelated lines",
+            "Close the editor immediately",
+            "Ignore the message"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L0_7",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 7,
+      "title": "Debugging Mindset"
+    },
+    {
+      "objective": "Combine the foundations into a small interactive program.",
+      "why": "You will use first mini program when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Combine the foundations into a small interactive program. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# First Mini Program\n\n# Write the smallest working example first.",
+      "code": "name = input(\"Your name: \")\ncity = input(\"Your city: \")\nprint(f\"Profile: {name} from {city}\")",
+      "explanation": "A small program becomes meaningful when it accepts input, stores state, applies logic, and communicates a result clearly.",
+      "mistakes": [
+        "Using First Mini Program mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run your first mini program! Change the variables (like user name or score) to make it personal to you.",
+      "quiz": [
+        {
+          "q": "What is a key benefit of combining variables and print() statements?",
+          "options": [
+            "It encrypts your code",
+            "It prevents all errors permanently",
+            "You can create dynamic programs that display personalized results",
+            "It makes Python run backwards"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What character indicates a single-line comment in Python?",
+          "options": [
+            "//",
+            "/*",
+            "<!--",
+            "#"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L0_8",
+      "level": 0,
+      "levelTitle": "Programming Foundations",
+      "order": 8,
+      "title": "First Mini Program"
+    },
+    {
+      "objective": "Learn indentation, statements, comments, and Python style basics.",
+      "why": "You will use python syntax when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Learn indentation, statements, comments, and Python style basics. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Indentation defines blocks\nname = \"Rohith\"\nif name:\n    print(f\"Hello, {name}!\")",
+      "code": "# Indentation defines blocks\nname = \"Rohith\"\nif name:\n    print(f\"Hello, {name}!\")",
+      "explanation": "Python uses indentation to define blocks. Consistent four-space indentation is the normal convention; a missing or extra indentation level changes program structure.",
+      "mistakes": [
+        "Using Python Syntax mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see Python syntax. Try adding a second print(\"I am learning Python!\") statement.",
+      "quiz": [
+        {
+          "q": "How does Python determine which lines belong inside a code block?",
+          "options": [
+            "Curly braces {}",
+            "Indentation (spaces at the start of lines)",
+            "Semicolons ;",
+            "Parentheses ()"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How many spaces are standard for each indentation level in Python?",
+          "options": [
+            "1 space",
+            "10 spaces",
+            "4 spaces",
+            "8 spaces"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L1_1",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 1,
+      "title": "Python Syntax"
+    },
+    {
+      "objective": "Work confidently with numeric and string values.",
+      "why": "You will use numbers & strings when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Work confidently with numeric and string values. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "price = 1499\nquantity = 2\nlabel = \"Keyboard\"\nprint(label, price * quantity)",
+      "code": "price = 1499\nquantity = 2\nlabel = \"Keyboard\"\nprint(label, price * quantity)",
+      "explanation": "Integers and floats are numeric values; strings are text. Keep them conceptually separate and convert deliberately when combining user input with calculations.",
+      "mistakes": [
+        "Using Numbers & Strings mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see number and string operations. Try changing the numbers or combining your own words.",
+      "quiz": [
+        {
+          "q": "What is the difference between 5 and \"5\" in Python?",
+          "options": [
+            "5 is an integer (number), while \"5\" is a string (text)",
+            "They are completely identical",
+            "\"5\" is a float",
+            "5 is invalid syntax"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What happens when you add two strings: \"Py\" + \"thon\"?",
+          "options": [
+            "Error",
+            "\"Python\" (concatenation)",
+            "0",
+            "\"Py thon\""
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L1_2",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 2,
+      "title": "Numbers & Strings"
+    },
+    {
+      "objective": "Transform, search, split, join, and format text.",
+      "why": "You will use string methods when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Transform, search, split, join, and format text. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# String Methods\n\n# Write the smallest working example first.",
+      "code": "text = \"  python academy  \"\nclean = text.strip().title()\nprint(clean)\nprint(clean.replace(\"Academy\", \"Course\"))",
+      "explanation": "String methods return new strings. Common tools include strip(), lower(), upper(), title(), replace(), split(), and join().",
+      "mistakes": [
+        "Using String Methods mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see variable updates. Try creating a new variable like greeting = \"Welcome\" and printing it.",
+      "quiz": [
+        {
+          "q": "Which string method converts all letters to uppercase?",
+          "options": [
+            ".capitalize()",
+            ".toUpper()",
+            ".big()",
+            ".upper()"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What does the .strip() method do to a string?",
+          "options": [
+            "Removes leading and trailing whitespace",
+            "Reverses the string",
+            "Deletes all vowels",
+            "Counts the words"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L1_3",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 3,
+      "title": "String Methods"
+    },
+    {
+      "objective": "Convert between common Python types safely.",
+      "why": "You will use type conversion when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Convert between common Python types safely. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Type Conversion\n\n# Write the smallest working example first.",
+      "code": "text = \"42\"\nnumber = int(text)\nprint(number + 8)\nprint(str(number))",
+      "explanation": "Conversion is explicit and predictable: int(\"42\") creates an integer, while str(42) creates text. Not every string is a valid integer.",
+      "mistakes": [
+        "Using Type Conversion mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see type conversion with int() and str(). Try converting a new string number like \"50\" into an integer.",
+      "quiz": [
+        {
+          "q": "How do you convert the text string \"25\" into a number for math?",
+          "options": [
+            "str(25)",
+            "to_number(\"25\")",
+            "int(\"25\")",
+            "parse(\"25\")"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What happens if you try to convert int(\"hello\")?",
+          "options": [
+            "It converts to 0",
+            "It ignores the letters",
+            "It converts to 100",
+            "Python raises a ValueError"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L1_4",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 4,
+      "title": "Type Conversion"
+    },
+    {
+      "objective": "Use comparisons and truth values in decisions.",
+      "why": "You will use booleans & comparisons when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use comparisons and truth values in decisions. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "age = 18\nprint(age >= 18)\nprint(age < 13 or age > 60)",
+      "code": "age = 18\nprint(age >= 18)\nprint(age < 13 or age > 60)",
+      "explanation": "Comparison operators return booleans. Combine boolean expressions with and, or, and not to express rules clearly.",
+      "mistakes": [
+        "Using Booleans & Comparisons mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see string methods like .upper(). Try converting your favorite city or food to uppercase!",
+      "quiz": [
+        {
+          "q": "Which operator checks if two values are equal in Python?",
+          "options": [
+            "=",
+            "==",
+            "!=",
+            "==="
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What does 10 >= 10 evaluate to?",
+          "options": [
+            "False",
+            "None",
+            "True",
+            "Error"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L1_5",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 5,
+      "title": "Booleans & Comparisons"
+    },
+    {
+      "objective": "Understand strings, lists, tuples, and indexing.",
+      "why": "You will use sequences overview when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand strings, lists, tuples, and indexing. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "text = \"Python\"\nitems = [10, 20, 30]\npoint = (4, 7)\nprint(text[0], items[-1], point[1])",
+      "code": "text = \"Python\"\nitems = [10, 20, 30]\npoint = (4, 7)\nprint(text[0], items[-1], point[1])",
+      "explanation": "Strings, lists, and tuples are ordered sequences. They support indexing and slicing, while mutability differs between lists and tuples/strings.",
+      "mistakes": [
+        "Using Sequences Overview mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see f-string formatting. Try writing an f-string with your own name and favorite hobby.",
+      "quiz": [
+        {
+          "q": "What index does Python use for the very first item of a sequence?",
+          "options": [
+            "0",
+            "1",
+            "-1",
+            "first"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which function returns the total number of characters in a string or items in a list?",
+          "options": [
+            "size()",
+            "len()",
+            "count()",
+            "total()"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L1_6",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 6,
+      "title": "Sequences Overview"
+    },
+    {
+      "objective": "Create readable, professional output with f-strings.",
+      "why": "You will use formatting & f-strings when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Create readable, professional output with f-strings. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "name = \"Rohith\"\nscore = 92\nprint(f\"{name} scored {score}%\")\nprint(f\"Average: {18/5:.2f}\")",
+      "code": "name = \"Rohith\"\nscore = 92\nprint(f\"{name} scored {score}%\")\nprint(f\"Average: {18/5:.2f}\")",
+      "explanation": "f-strings place expressions inside braces and support format specifications such as .2f for two decimal places.",
+      "mistakes": [
+        "Using Formatting & f-strings mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code. Try adding a comment starting with # explaining what line 1 does, then run it again.",
+      "quiz": [
+        {
+          "q": "How do you format variables into text using an f-string?",
+          "options": [
+            "\"Hello, {name}!\"",
+            "f\"Hello, [name]!\"",
+            "format(\"Hello\", name)",
+            "f\"Hello, {name}!\""
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What prefix letter is placed before quotes to create an f-string?",
+          "options": [
+            "f or F",
+            "s",
+            "str",
+            "$"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L1_7",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 7,
+      "title": "Formatting & f-strings"
+    },
+    {
+      "objective": "Build a small profile and bill calculator using core Python.",
+      "why": "You will use fundamentals project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build a small profile and bill calculator using core Python. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "name = input(\"Name: \")\nitem = input(\"Favorite Python topic: \")\nprint(f\"{name} likes {item}.\")",
+      "code": "name = input(\"Name: \")\nitem = input(\"Favorite Python topic: \")\nprint(f\"{name} likes {item}.\")",
+      "explanation": "Combine input, variables, strings, and formatting into a tiny program. Keep the data flow easy to follow.",
+      "mistakes": [
+        "Using Fundamentals Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the foundations project. Customize the printed details with your own personal statistics!",
+      "quiz": [
+        {
+          "q": "Why is writing modular, well-named code important?",
+          "options": [
+            "It makes the file size larger",
+            "It is required by the operating system",
+            "It makes code easier for humans to read, debug, and maintain",
+            "It hides code from users"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is a good way to test that your program works as expected?",
+          "options": [
+            "Assume it works without running it",
+            "Delete the comments",
+            "Change random lines",
+            "Run it with different sample inputs and verify the output"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L1_8",
+      "level": 1,
+      "levelTitle": "Python Fundamentals",
+      "order": 8,
+      "title": "Fundamentals Project"
+    },
+    {
+      "objective": "Make programs choose between paths.",
+      "why": "You will use if / elif / else when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Make programs choose between paths. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# if / elif / else\n\n# Write the smallest working example first.",
+      "code": "score = 72\nif score >= 90:\n    grade = \"A\"\nelif score >= 60:\n    grade = \"B\"\nelse:\n    grade = \"C\"\nprint(grade)",
+      "explanation": "Python checks branches from top to bottom. The first true branch runs and the remaining branches are skipped.",
+      "mistakes": [
+        "Using if / elif / else mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see True and False comparison results. Try checking if 15 > 10 or if 50 == 50.",
+      "quiz": [
+        {
+          "q": "Which keyword is used to test an alternative condition if the first if is False?",
+          "options": [
+            "else if",
+            "elif",
+            "elseif",
+            "then"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What character must follow every if, elif, and else line?",
+          "options": [
+            "; (semicolon)",
+            "{ (brace)",
+            ": (colon)",
+            ", (comma)"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L2_1",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 1,
+      "title": "if / elif / else"
+    },
+    {
+      "objective": "Build multi-step decision logic without losing clarity.",
+      "why": "You will use nested decisions when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build multi-step decision logic without losing clarity. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "age = 20\nhas_id = True\nif age >= 18:\n    if has_id:\n        print(\"Entry allowed\")\n    else:\n        print(\"Bring ID\")\nelse:\n    print(\"Too young\")",
+      "code": "age = 20\nhas_id = True\nif age >= 18:\n    if has_id:\n        print(\"Entry allowed\")\n    else:\n        print(\"Bring ID\")\nelse:\n    print(\"Too young\")",
+      "explanation": "Nested decisions are useful when one rule depends on another. Keep nesting shallow and extract logic into variables or functions when it becomes hard to read.",
+      "mistakes": [
+        "Using Nested Decisions mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see if/else branching. Try changing the score or age variable to see a different branch execute.",
+      "quiz": [
+        {
+          "q": "What is a nested decision in Python?",
+          "options": [
+            "An if statement placed inside another if statement",
+            "A decision with no conditions",
+            "A loop that never runs",
+            "An error in syntax"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How many indentation levels does the body of a nested if statement have?",
+          "options": [
+            "1 level (4 spaces)",
+            "2 levels (8 spaces)",
+            "0 levels",
+            "3 spaces"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L2_2",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 2,
+      "title": "Nested Decisions"
+    },
+    {
+      "objective": "Repeat actions over sequences and ranges.",
+      "why": "You will use for loops when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Repeat actions over sequences and ranges. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# for Loops\n\n# Write the smallest working example first.",
+      "code": "total = 0\nfor n in range(1, 6):\n    total += n\nprint(total)",
+      "explanation": "for loops iterate over items. range(1, 6) produces 1 through 5, so the loop body runs five times.",
+      "mistakes": [
+        "Using for Loops mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code using and, or, not. Try changing the boolean values to see how the condition evaluates.",
+      "quiz": [
+        {
+          "q": "What does range(3) generate in a for loop?",
+          "options": [
+            "1, 2, 3",
+            "0, 1, 2, 3",
+            "3, 2, 1",
+            "0, 1, 2"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Which loop is best when you know in advance how many items to process?",
+          "options": [
+            "for loop",
+            "while loop",
+            "do-while loop",
+            "infinite loop"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L2_3",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 3,
+      "title": "for Loops"
+    },
+    {
+      "objective": "Repeat until a condition changes.",
+      "why": "You will use while loops when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Repeat until a condition changes. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# while Loops\n\n# Write the smallest working example first.",
+      "code": "attempts = 0\nwhile attempts < 3:\n    print(\"Attempt\", attempts + 1)\n    attempts += 1",
+      "explanation": "while repeats while its condition stays true. Always make sure something inside the loop can eventually make the condition false.",
+      "mistakes": [
+        "Using while Loops mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the while loop. Try changing the loop limit to count up to 10 instead of 5.",
+      "quiz": [
+        {
+          "q": "When does a while loop stop repeating?",
+          "options": [
+            "After exactly 10 runs",
+            "When the computer runs out of memory",
+            "When its condition evaluates to False",
+            "It never stops"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What happens if a while loop condition never becomes False?",
+          "options": [
+            "Python automatically exits after 1 second",
+            "The program deletes itself",
+            "A syntax error appears",
+            "An infinite loop occurs"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L2_4",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 4,
+      "title": "while Loops"
+    },
+    {
+      "objective": "Control loop execution precisely.",
+      "why": "You will use break & continue when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Control loop execution precisely. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "for n in range(1, 8):\n    if n == 3:\n        continue\n    if n == 6:\n        break\n    print(n)",
+      "code": "for n in range(1, 8):\n    if n == 3:\n        continue\n    if n == 6:\n        break\n    print(n)",
+      "explanation": "continue skips the current iteration; break exits the loop completely. Use both to express clear loop control, not to hide complicated logic.",
+      "mistakes": [
+        "Using break & continue mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the for loop. Try changing range(5) to range(1, 11) to print numbers 1 through 10.",
+      "quiz": [
+        {
+          "q": "Which keyword immediately exits and stops the current loop?",
+          "options": [
+            "continue",
+            "break",
+            "pass",
+            "stop"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which keyword skips the rest of the current iteration and moves to the next one?",
+          "options": [
+            "break",
+            "skip",
+            "continue",
+            "next"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L2_5",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 5,
+      "title": "break & continue"
+    },
+    {
+      "objective": "Master counters, accumulators, flags, and validation loops.",
+      "why": "You will use loop patterns when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Master counters, accumulators, flags, and validation loops. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "numbers = [3, 7, 2, 9]\ntotal = 0\ncount = 0\nfor n in numbers:\n    if n > 5:\n        total += n\n        count += 1\nprint(total, count)",
+      "code": "numbers = [3, 7, 2, 9]\ntotal = 0\ncount = 0\nfor n in numbers:\n    if n > 5:\n        total += n\n        count += 1\nprint(total, count)",
+      "explanation": "Accumulators build a result, counters track frequency, and flags remember whether a condition was seen. These patterns appear everywhere in problem solving.",
+      "mistakes": [
+        "Using Loop Patterns mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see break and continue. Try changing the target number where the loop stops.",
+      "quiz": [
+        {
+          "q": "What is an accumulator variable in a loop pattern?",
+          "options": [
+            "A variable that gathers or sums up values as the loop runs",
+            "A loop that runs backwards",
+            "An error counter",
+            "A type of list"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How can you keep track of both the index and item in a for loop?",
+          "options": [
+            "Using count(items)",
+            "Using enumerate(items)",
+            "Using index(items)",
+            "Using loop(items)"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L2_6",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 6,
+      "title": "Loop Patterns"
+    },
+    {
+      "objective": "Combine decisions and loops to solve small problems.",
+      "why": "You will use pattern practice when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Combine decisions and loops to solve small problems. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "text = \"hello world\"\nvowels = 0\nfor ch in text.lower():\n    if ch in \"aeiou\":\n        vowels += 1\nprint(vowels)",
+      "code": "text = \"hello world\"\nvowels = 0\nfor ch in text.lower():\n    if ch in \"aeiou\":\n        vowels += 1\nprint(vowels)",
+      "explanation": "Combine loops with conditionals to transform a problem statement into a repeatable decision pattern.",
+      "mistakes": [
+        "Using Pattern Practice mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the nested code. Try changing the loop numbers to print a different multiplication or grid pattern.",
+      "quiz": [
+        {
+          "q": "Why is testing loop boundary conditions (like 0 or empty lists) important?",
+          "options": [
+            "Loops fail on large numbers",
+            "Python requires boundary tests to compile",
+            "It makes loops run twice as fast",
+            "Off-by-one errors and empty edge cases are common source of bugs"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What does pass do in an if statement or loop body?",
+          "options": [
+            "Acts as a placeholder that does nothing",
+            "Exits the program",
+            "Prints \"pass\"",
+            "Restarts the loop"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L2_7",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 7,
+      "title": "Pattern Practice"
+    },
+    {
+      "objective": "Create a menu-driven number toolkit.",
+      "why": "You will use control flow project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Create a menu-driven number toolkit. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "while True:\n    choice = input(\"1) square  2) quit: \")\n    if choice == \"2\":\n        break\n    if choice == \"1\":\n        n = int(input(\"Number: \"))\n        print(n * n)\n    else:\n        print(\"Invalid choice\")",
+      "code": "while True:\n    choice = input(\"1) square  2) quit: \")\n    if choice == \"2\":\n        break\n    if choice == \"1\":\n        n = int(input(\"Number: \"))\n        print(n * n)\n    else:\n        print(\"Invalid choice\")",
+      "explanation": "A menu-driven loop is a compact way to combine validation, branching, repetition, and clean program exit.",
+      "mistakes": [
+        "Using Control Flow Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the control flow project. Try changing the test values or conditions to see how the program responds.",
+      "quiz": [
+        {
+          "q": "What makes a program interactive?",
+          "options": [
+            "Having lots of comments",
+            "Using only print statements",
+            "Responding to user inputs with conditional decisions and loops",
+            "Running in the background"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is a good way to structure a text-based menu loop?",
+          "options": [
+            "A single if statement",
+            "Ten nested for loops",
+            "A list of strings with no loop",
+            "A while loop that keeps running until the user enters an exit choice"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L2_8",
+      "level": 2,
+      "levelTitle": "Control Flow",
+      "order": 8,
+      "title": "Control Flow Project"
+    },
+    {
+      "objective": "Store and manipulate ordered collections.",
+      "why": "You will use lists when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Store and manipulate ordered collections. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Lists\n\n# Write the smallest working example first.",
+      "code": "names = [\"Asha\", \"Ravi\", \"Mina\"]\nprint(names[0])\nnames.append(\"Zara\")\nprint(names)",
+      "explanation": "Lists are mutable ordered collections. Indexing starts at zero, and methods such as append() change the list in place.",
+      "mistakes": [
+        "Using Lists mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to call the function. Try calling greet() with a different friend’s name!",
+      "quiz": [
+        {
+          "q": "Which brackets are used to define a list in Python?",
+          "options": [
+            "Curly braces {}",
+            "Square brackets []",
+            "Parentheses ()",
+            "Angle brackets <>"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is the index of the last element in a Python list?",
+          "options": [
+            "0",
+            "last",
+            "-1",
+            "100"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L3_1",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 1,
+      "title": "Lists"
+    },
+    {
+      "objective": "Add, remove, sort, reverse, and search list data.",
+      "why": "You will use list methods when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Add, remove, sort, reverse, and search list data. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "items = [3, 1, 4]\nitems.append(2)\nitems.sort()\nitems.remove(3)\nprint(items)",
+      "code": "items = [3, 1, 4]\nitems.append(2)\nitems.sort()\nitems.remove(3)\nprint(items)",
+      "explanation": "List methods change a mutable list. Know which methods mutate in place and which operations create a new result.",
+      "mistakes": [
+        "Using List Methods mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the function with parameters. Try passing two different numbers to see their combined result.",
+      "quiz": [
+        {
+          "q": "Which method adds a single item to the end of a list?",
+          "options": [
+            ".append()",
+            ".add()",
+            ".push()",
+            ".insert_last()"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which method removes and returns the last item from a list?",
+          "options": [
+            ".remove()",
+            ".pop()",
+            ".delete()",
+            ".shift()"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L3_2",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 2,
+      "title": "List Methods"
+    },
+    {
+      "objective": "Use immutable grouped data and unpacking.",
+      "why": "You will use tuples when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use immutable grouped data and unpacking. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "point = (10, 20)\nx, y = point\nprint(x, y)",
+      "code": "point = (10, 20)\nx, y = point\nprint(x, y)",
+      "explanation": "Tuples are ordered and immutable. Tuple unpacking makes grouped return values and fixed records easy to work with.",
+      "mistakes": [
+        "Using Tuples mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see return values. Try saving the returned answer in a variable and printing it.",
+      "quiz": [
+        {
+          "q": "What is the main difference between a list and a tuple?",
+          "options": [
+            "Tuples cannot store numbers",
+            "Tuples use square brackets",
+            "Lists are faster than tuples",
+            "Tuples are immutable (cannot be changed after creation)"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Which brackets are used to define a tuple?",
+          "options": [
+            "Parentheses ()",
+            "Square brackets []",
+            "Curly braces {}",
+            "Angle brackets <>"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L3_3",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 3,
+      "title": "Tuples"
+    },
+    {
+      "objective": "Work with unique values and set operations.",
+      "why": "You will use sets when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Work with unique values and set operations. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "a = {1, 2, 3, 4}\nb = {3, 4, 5}\nprint(a & b)\nprint(a | b)",
+      "code": "a = {1, 2, 3, 4}\nb = {3, 4, 5}\nprint(a & b)\nprint(a | b)",
+      "explanation": "Sets store unique values and support intersection, union, difference, and fast membership checks.",
+      "mistakes": [
+        "Using Sets mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code with default arguments. Try calling the function both with and without the optional parameter.",
+      "quiz": [
+        {
+          "q": "What is a special property of a Python set?",
+          "options": [
+            "Elements are stored in sorted order",
+            "Elements can be accessed by index",
+            "All elements must be unique (no duplicates)",
+            "Sets can only store strings"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which method adds an element to a set?",
+          "options": [
+            ".append()",
+            ".push()",
+            ".insert()",
+            ".add()"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L3_4",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 4,
+      "title": "Sets"
+    },
+    {
+      "objective": "Map keys to values and model structured records.",
+      "why": "You will use dictionaries when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Map keys to values and model structured records. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Dictionaries\n\n# Write the smallest working example first.",
+      "code": "student = {\"name\": \"Rohith\", \"marks\": 92}\nprint(student[\"name\"])\nstudent[\"passed\"] = True\nprint(student)",
+      "explanation": "Dictionaries associate keys with values, making them useful for records and fast lookups by key.",
+      "mistakes": [
+        "Using Dictionaries mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see local vs global variables. Try changing the local variable inside the function.",
+      "quiz": [
+        {
+          "q": "What structure does a Python dictionary store data in?",
+          "options": [
+            "Indexed items only",
+            "Key-value pairs",
+            "Ordered numbers",
+            "True/False values only"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you look up the value for the key \"age\" in a dictionary called person?",
+          "options": [
+            "person(age)",
+            "person.index(\"age\")",
+            "person[\"age\"]",
+            "person{age}"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L3_5",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 5,
+      "title": "Dictionaries"
+    },
+    {
+      "objective": "Combine lists and dictionaries for real-world data.",
+      "why": "You will use nested collections when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Combine lists and dictionaries for real-world data. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "students = [\n    {\"name\": \"Asha\", \"marks\": [80, 91]},\n    {\"name\": \"Ravi\", \"marks\": [72, 88]},\n]\nfor student in students:\n    print(student[\"name\"], sum(student[\"marks\"]))",
+      "code": "students = [\n    {\"name\": \"Asha\", \"marks\": [80, 91]},\n    {\"name\": \"Ravi\", \"marks\": [72, 88]},\n]\nfor student in students:\n    print(student[\"name\"], sum(student[\"marks\"]))",
+      "explanation": "Nested collections let you model realistic data such as lists of records containing lists of values. Navigate one layer at a time.",
+      "mistakes": [
+        "Using Nested Collections mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see *args and **kwargs. Try passing 3 or 4 extra values into the function call.",
+      "quiz": [
+        {
+          "q": "What is a nested collection?",
+          "options": [
+            "A list of dictionaries or dictionary of lists",
+            "A variable with two names",
+            "An infinite loop",
+            "A function inside a comment"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Given data = [{\"score\": 90}], how do you get the score?",
+          "options": [
+            "data[\"score\"][0]",
+            "data[0][\"score\"]",
+            "data(0)(score)",
+            "data.score[0]"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L3_6",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 6,
+      "title": "Nested Collections"
+    },
+    {
+      "objective": "Build collections concisely and clearly.",
+      "why": "You will use comprehensions when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build collections concisely and clearly. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Comprehensions\n\n# Write the smallest working example first.",
+      "code": "squares = [n * n for n in range(1, 6)]\nevens = [n for n in range(10) if n % 2 == 0]\nprint(squares)\nprint(evens)",
+      "explanation": "Comprehensions create collections from an iterable with an optional condition. Prefer them when the expression remains easy to read.",
+      "mistakes": [
+        "Using Comprehensions mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see docstrings. Try adding a line to print the function docstring with print(function_name.__doc__).",
+      "quiz": [
+        {
+          "q": "What is a list comprehension in Python?",
+          "options": [
+            "A way to delete lists",
+            "A tool to compress file size",
+            "A sorting algorithm",
+            "A concise, elegant syntax to create a new list from an iterable"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What does [x * 2 for x in [1, 2, 3]] produce?",
+          "options": [
+            "[2, 4, 6]",
+            "[1, 2, 3]",
+            "[1, 4, 9]",
+            "[2, 2, 2]"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L3_7",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 7,
+      "title": "Comprehensions"
+    },
+    {
+      "objective": "Create a student marks manager using collections.",
+      "why": "You will use data structures project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Create a student marks manager using collections. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "students = {\"Asha\": 88, \"Ravi\": 76, \"Mina\": 94}\nfor name, marks in sorted(students.items(), key=lambda p: p[1], reverse=True):\n    print(name, marks)",
+      "code": "students = {\"Asha\": 88, \"Ravi\": 76, \"Mina\": 94}\nfor name, marks in sorted(students.items(), key=lambda p: p[1], reverse=True):\n    print(name, marks)",
+      "explanation": "Use a dictionary for student records, then combine iteration and sorting to produce a useful report.",
+      "mistakes": [
+        "Using Data Structures Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the functions project. Try calling the main functions with your own test data.",
+      "quiz": [
+        {
+          "q": "Why choose a dictionary over a list for user profiles?",
+          "options": [
+            "Lists cannot store text",
+            "Dictionaries use less memory",
+            "Dictionaries allow looking up attributes by descriptive keys like \"email\"",
+            "Lists can only hold 10 items"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which method safely retrieves a dictionary value without throwing a KeyError?",
+          "options": [
+            "dict.find(\"key\")",
+            "dict[\"key\"]",
+            "dict.search(\"key\")",
+            "dict.get(\"key\", default)"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L3_8",
+      "level": 3,
+      "levelTitle": "Data Structures",
+      "order": 8,
+      "title": "Data Structures Project"
+    },
+    {
+      "objective": "Define reusable functions with parameters and return values.",
+      "why": "You will use function basics when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Define reusable functions with parameters and return values. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Function Basics\n\n# Write the smallest working example first.",
+      "code": "def area(width, height):\n    return width * height\n\nprint(area(5, 3))",
+      "explanation": "A function packages a behavior behind a name. Parameters receive inputs and return sends a result back to the caller.",
+      "mistakes": [
+        "Using Function Basics mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see list items. Try adding a new item with .append(\"newItem\") and print the updated list.",
+      "quiz": [
+        {
+          "q": "Which keyword is used to define a function in Python?",
+          "options": [
+            "func",
+            "def",
+            "function",
+            "fn"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you execute (call) a function named greet?",
+          "options": [
+            "call greet",
+            "def greet",
+            "greet()",
+            "run greet"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L4_1",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 1,
+      "title": "Function Basics"
+    },
+    {
+      "objective": "Use positional, keyword, default, and variadic arguments.",
+      "why": "You will use parameters & arguments when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use positional, keyword, default, and variadic arguments. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def greet(name, message=\"Welcome\"):\n    return f\"{message}, {name}!\"\nprint(greet(\"Rohith\"))\nprint(greet(\"Rohith\", message=\"Good evening\"))",
+      "code": "def greet(name, message=\"Welcome\"):\n    return f\"{message}, {name}!\"\nprint(greet(\"Rohith\"))\nprint(greet(\"Rohith\", message=\"Good evening\"))",
+      "explanation": "Parameters are the function’s interface. Arguments provide actual values. Defaults make optional inputs convenient; keyword arguments make calls clearer.",
+      "mistakes": [
+        "Using Parameters & Arguments mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see list methods. Try sorting or reversing a list of numbers!",
+      "quiz": [
+        {
+          "q": "What is a parameter in a function definition?",
+          "options": [
+            "A placeholder variable defined in the function signature to accept input",
+            "The output of the function",
+            "A comment line",
+            "The name of the file"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "In def add(a, b): what are a and b?",
+          "options": [
+            "Return values",
+            "Parameters",
+            "Global variables",
+            "Keywords"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L4_2",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 2,
+      "title": "Parameters & Arguments"
+    },
+    {
+      "objective": "Design functions that return useful results rather than printing everything.",
+      "why": "You will use return values when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Design functions that return useful results rather than printing everything. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Return Values\n\n# Write the smallest working example first.",
+      "code": "def is_even(number):\n    return number % 2 == 0\n\nresult = is_even(14)\nprint(result)",
+      "explanation": "Returning values keeps a function reusable. The caller decides what to do with the result.",
+      "mistakes": [
+        "Using Return Values mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the tuple code. Notice that tuples cannot be modified. Try accessing tuple[0] to see the first item.",
+      "quiz": [
+        {
+          "q": "Which keyword is used to send a value back from a function to its caller?",
+          "options": [
+            "send",
+            "output",
+            "give",
+            "return"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What does a Python function return by default if there is no return statement?",
+          "options": [
+            "None",
+            "0",
+            "False",
+            "\"\""
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L4_3",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 3,
+      "title": "Return Values"
+    },
+    {
+      "objective": "Understand local, global, and enclosing names.",
+      "why": "You will use scope when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand local, global, and enclosing names. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "total = 10\n\ndef demo():\n    total = 25\n    return total\n\nprint(demo())\nprint(total)",
+      "code": "total = 10\n\ndef demo():\n    total = 25\n    return total\n\nprint(demo())\nprint(total)",
+      "explanation": "A local name can shadow a name outside the function. Prefer passing values in and returning values out instead of relying on global state.",
+      "mistakes": [
+        "Using Scope mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the dictionary code. Try adding a new key-value pair like user[\"city\"] = \"Tokyo\" and print it.",
+      "quiz": [
+        {
+          "q": "Can a variable created inside a function be accessed directly outside of it?",
+          "options": [
+            "Yes, all variables are global",
+            "Only if it is a number",
+            "No, it has local scope inside the function",
+            "Only in Windows"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which keyword allows modifying a global variable from inside a function?",
+          "options": [
+            "public",
+            "outer",
+            "export",
+            "global"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L4_4",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 4,
+      "title": "Scope"
+    },
+    {
+      "objective": "Use lambdas, map, filter, and sorted key functions appropriately.",
+      "why": "You will use lambda & functional tools when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use lambdas, map, filter, and sorted key functions appropriately. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "numbers = [5, 2, 9, 1]\nprint(sorted(numbers, key=lambda n: -n))\nprint(list(filter(lambda n: n % 2 == 0, numbers)))",
+      "code": "numbers = [5, 2, 9, 1]\nprint(sorted(numbers, key=lambda n: -n))\nprint(list(filter(lambda n: n % 2 == 0, numbers)))",
+      "explanation": "Lambdas are small anonymous functions. Use them for short expressions such as sort keys; for complex logic, a named def is clearer.",
+      "mistakes": [
+        "Using Lambda & Functional Tools mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the dictionary loop. Try printing each key and value using a formatted f-string.",
+      "quiz": [
+        {
+          "q": "What is a lambda in Python?",
+          "options": [
+            "A mathematical constant",
+            "A small anonymous function defined on a single line",
+            "A built-in module for networking",
+            "A loop statement"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which function applies a given function to all items in an iterable?",
+          "options": [
+            "each()",
+            "apply()",
+            "map()",
+            "loop()"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L4_5",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 5,
+      "title": "Lambda & Functional Tools"
+    },
+    {
+      "objective": "Understand base cases and recursive calls.",
+      "why": "You will use recursion when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand base cases and recursive calls. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Recursion\n\n# Write the smallest working example first.",
+      "code": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))",
+      "explanation": "Recursion needs a base case and a step that moves toward the base case. Without those, calls never converge.",
+      "mistakes": [
+        "Using Recursion mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the set example. Notice duplicate numbers are automatically removed! Try adding another duplicate.",
+      "quiz": [
+        {
+          "q": "What is recursion in programming?",
+          "options": [
+            "When a function calls itself to solve smaller subproblems",
+            "A loop that cannot stop",
+            "A syntax error",
+            "Importing two modules together"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What is the base case in a recursive function?",
+          "options": [
+            "The very first line of Python",
+            "The condition that stops the recursion from continuing infinitely",
+            "The largest number in a list",
+            "The print statement"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L4_6",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 6,
+      "title": "Recursion"
+    },
+    {
+      "objective": "Write small, testable, single-purpose functions.",
+      "why": "You will use function design when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Write small, testable, single-purpose functions. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def normalize_name(text):\n    return \" \".join(text.strip().title().split())\n\nprint(normalize_name(\"  rohith   kumar \"))",
+      "code": "def normalize_name(text):\n    return \" \".join(text.strip().title().split())\n\nprint(normalize_name(\"  rohith   kumar \"))",
+      "explanation": "Good functions have one clear responsibility, explicit inputs, useful outputs, and predictable behavior. They are easier to test and reuse.",
+      "mistakes": [
+        "Using Function Design mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the nested data structure code. Try accessing one of the nested values and printing it.",
+      "quiz": [
+        {
+          "q": "What is the Single Responsibility Principle for functions?",
+          "options": [
+            "Every file can only have one function",
+            "A function can only take one parameter",
+            "A function must never return a value",
+            "A function should focus on doing one clear task well"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Where should a docstring be placed in a function?",
+          "options": [
+            "Immediately after the def line as a triple-quoted string",
+            "At the very end of the file",
+            "Inside the return statement",
+            "In a separate text file"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L4_7",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 7,
+      "title": "Function Design"
+    },
+    {
+      "objective": "Build a reusable text analysis toolkit.",
+      "why": "You will use functions project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build a reusable text analysis toolkit. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def analyze(text):\n    words = text.split()\n    return {\"words\": len(words), \"chars\": len(text)}\n\nprint(analyze(\"Python makes automation practical\"))",
+      "code": "def analyze(text):\n    words = text.split()\n    return {\"words\": len(words), \"chars\": len(text)}\n\nprint(analyze(\"Python makes automation practical\"))",
+      "explanation": "Design a small toolkit as independent functions. Each function should accept data and return a result that another part can reuse.",
+      "mistakes": [
+        "Using Functions Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the data structures project. Try adding your own entry to the collection and running it.",
+      "quiz": [
+        {
+          "q": "What is the main benefit of modular programming with functions?",
+          "options": [
+            "Faster computer boot times",
+            "Smaller font sizes",
+            "Code reuse, easier debugging, and clear organization",
+            "Automatic cloud synchronization"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How do you write test calls to verify your functions?",
+          "options": [
+            "Assume the function works",
+            "Delete the function after writing",
+            "Never pass arguments",
+            "Call the function with expected arguments and assert or print the result"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L4_8",
+      "level": 4,
+      "levelTitle": "Functions",
+      "order": 8,
+      "title": "Functions Project"
+    },
+    {
+      "objective": "Break larger problems into smaller solvable pieces.",
+      "why": "You will use problem decomposition when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Break larger problems into smaller solvable pieces. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def parse_scores(text):\n    return [int(x) for x in text.split()]\n\ndef average(values):\n    return sum(values) / len(values)\n\nscores = parse_scores(\"80 90 70\")\nprint(average(scores))",
+      "code": "def parse_scores(text):\n    return [int(x) for x in text.split()]\n\ndef average(values):\n    return sum(values) / len(values)\n\nscores = parse_scores(\"80 90 70\")\nprint(average(scores))",
+      "explanation": "Decomposition turns a vague task into named steps. Separate parsing, computation, and presentation so each piece can be tested independently.",
+      "mistakes": [
+        "Using Problem Decomposition mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the linear search code. Try searching for a different number to see if its index is found.",
+      "quiz": [
+        {
+          "q": "What does problem decomposition mean?",
+          "options": [
+            "Deleting old code files",
+            "Breaking down a large, complex problem into smaller manageable parts",
+            "Speeding up internet speeds",
+            "Compiling code to machine language"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why is planning inputs and outputs before coding helpful?",
+          "options": [
+            "It eliminates the need for Python",
+            "It prevents all syntax errors",
+            "It defines what each part must achieve before writing details",
+            "It saves hard drive space"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L5_1",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 1,
+      "title": "Problem Decomposition"
+    },
+    {
+      "objective": "Estimate how algorithms scale.",
+      "why": "You will use time & space complexity when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Estimate how algorithms scale. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Time & Space Complexity\n\n# Write the smallest working example first.",
+      "code": "items = [10, 20, 30, 40]\n# Linear scan: O(n)\ntarget = 30\nfor value in items:\n    if value == target:\n        print(\"found\")\n        break",
+      "explanation": "Big-O describes growth as input size increases. A single full pass is typically O(n); repeatedly halving a search space leads to O(log n).",
+      "mistakes": [
+        "Using Time & Space Complexity mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the binary search code. Try changing the target number to an item at the beginning or end of the list.",
+      "quiz": [
+        {
+          "q": "What does Big O notation describe in computer science?",
+          "options": [
+            "How an algorithm’s runtime or memory scales with input size",
+            "The file size in kilobytes",
+            "The version of Python installed",
+            "The number of comments in code"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What is the time complexity of looking up an item by key in a dictionary?",
+          "options": [
+            "O(N^2) - quadratic",
+            "O(1) - constant time on average",
+            "O(N!) - factorial",
+            "O(log N)"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L5_2",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 2,
+      "title": "Time & Space Complexity"
+    },
+    {
+      "objective": "Search collections one item at a time and understand O(n).",
+      "why": "You will use linear search when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Search collections one item at a time and understand O(n). Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def linear_search(items, target):\n    for index, value in enumerate(items):\n        if value == target:\n            return index\n    return -1\n\nprint(linear_search([9, 4, 2, 8], 2))",
+      "code": "def linear_search(items, target):\n    for index, value in enumerate(items):\n        if value == target:\n            return index\n    return -1\n\nprint(linear_search([9, 4, 2, 8], 2))",
+      "explanation": "Linear search checks elements one by one and stops at the first match. Its worst-case time grows linearly with the collection size.",
+      "mistakes": [
+        "Using Linear Search mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the recursion code. Try calling the function with a smaller number like 3 or 4.",
+      "quiz": [
+        {
+          "q": "How does Linear Search find a target item in a list?",
+          "options": [
+            "Jumps directly to the middle",
+            "Requires the list to be sorted first",
+            "Uses binary division",
+            "Checks each item one by one from start to finish"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What is the worst-case time complexity of Linear Search for N items?",
+          "options": [
+            "O(N)",
+            "O(1)",
+            "O(log N)",
+            "O(N^2)"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L5_3",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 3,
+      "title": "Linear Search"
+    },
+    {
+      "objective": "Use sorted data for logarithmic search.",
+      "why": "You will use binary search when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use sorted data for logarithmic search. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Binary Search\n\n# Write the smallest working example first.",
+      "code": "items = [3, 7, 11, 20, 31, 45]\ntarget = 20\nlo, hi = 0, len(items) - 1\nwhile lo <= hi:\n    mid = (lo + hi) // 2\n    if items[mid] == target:\n        print(\"found at\", mid)\n        break\n    if items[mid] < target:\n        lo = mid + 1\n    else:\n        hi = mid - 1",
+      "explanation": "Binary search only works when the data is ordered. Each comparison eliminates about half of the remaining candidates.",
+      "mistakes": [
+        "Using Binary Search mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the accumulator pattern. Try changing the numbers in the list to calculate a new total.",
+      "quiz": [
+        {
+          "q": "What requirement must a list satisfy before you can use Binary Search?",
+          "options": [
+            "The list must contain only words",
+            "The list must have an odd length",
+            "The list must already be sorted",
+            "The list cannot have numbers"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the time complexity of Binary Search?",
+          "options": [
+            "O(N)",
+            "O(N^2)",
+            "O(1)",
+            "O(log N)"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L5_4",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 4,
+      "title": "Binary Search"
+    },
+    {
+      "objective": "Understand simple sorting strategies and when to use built-ins.",
+      "why": "You will use sorting concepts when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand simple sorting strategies and when to use built-ins. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "values = [5, 1, 4, 2]\nprint(sorted(values))\nprint(sorted(values, reverse=True))",
+      "code": "values = [5, 1, 4, 2]\nprint(sorted(values))\nprint(sorted(values, reverse=True))",
+      "explanation": "Python’s built-in sorted is optimized and usually preferable for application code. Learning sorting algorithms helps you understand trade-offs even when you use the built-in.",
+      "mistakes": [
+        "Using Sorting Concepts mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the sorting code. Try passing reverse=True to sort the numbers in descending order.",
+      "quiz": [
+        {
+          "q": "Which built-in function returns a new sorted list in Python?",
+          "options": [
+            "sort()",
+            "sorted()",
+            "order()",
+            "arrange()"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you sort in descending order using sorted()?",
+          "options": [
+            "sorted(items, down=True)",
+            "reverse(sorted(items))",
+            "sorted(items, reverse=True)",
+            "sorted(items, -1)"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L5_5",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 5,
+      "title": "Sorting Concepts"
+    },
+    {
+      "objective": "Solve sequence problems with coordinated indices.",
+      "why": "You will use two-pointer patterns when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Solve sequence problems with coordinated indices. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "values = [1, 2, 3, 4, 5, 6]\nleft, right = 0, len(values) - 1\nwhile left < right:\n    print(values[left], values[right])\n    left += 1\n    right -= 1",
+      "code": "values = [1, 2, 3, 4, 5, 6]\nleft, right = 0, len(values) - 1\nwhile left < right:\n    print(values[left], values[right])\n    left += 1\n    right -= 1",
+      "explanation": "Two pointers track positions from the same or opposite ends. They often turn nested scans into linear-time solutions.",
+      "mistakes": [
+        "Using Two-Pointer Patterns mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the two-pointer loop. Watch how the pointers step toward each other from both ends.",
+      "quiz": [
+        {
+          "q": "How does the Two-Pointer technique work?",
+          "options": [
+            "Uses two indices (e.g. left and right) that move toward each other or step forward",
+            "Uses two computers simultaneously",
+            "Runs two Python scripts at once",
+            "Creates two identical variables"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "When is the two-pointer technique especially useful?",
+          "options": [
+            "Formatting text strings",
+            "Searching or reversing elements in sorted arrays or palindrome checking",
+            "Printing debug logs",
+            "Importing modules"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L5_6",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 6,
+      "title": "Two-Pointer Patterns"
+    },
+    {
+      "objective": "Use dictionaries and sets to solve counting problems.",
+      "why": "You will use frequency counting when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use dictionaries and sets to solve counting problems. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "from collections import Counter\n\nwords = \"python code python data\".split()\nprint(Counter(words))",
+      "code": "from collections import Counter\n\nwords = \"python code python data\".split()\nprint(Counter(words))",
+      "explanation": "Counting patterns turn repeated observations into a dictionary-like frequency table. Counter is a convenient standard-library tool for this job.",
+      "mistakes": [
+        "Using Frequency Counting mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the frequency counter. Try adding more repeated words to the text to see the count update.",
+      "quiz": [
+        {
+          "q": "Which module provides the Counter class in Python?",
+          "options": [
+            "math",
+            "sys",
+            "itertools",
+            "collections"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What does Counter([\"a\", \"b\", \"a\"]) return?",
+          "options": [
+            "Counter({\"a\": 2, \"b\": 1})",
+            "3",
+            "[\"a\", \"b\"]",
+            "True"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L5_7",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 7,
+      "title": "Frequency Counting"
+    },
+    {
+      "objective": "Build a compact algorithm practice library.",
+      "why": "You will use algorithms project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build a compact algorithm practice library. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def linear_search(items, target):\n    for i, value in enumerate(items):\n        if value == target:\n            return i\n    return -1\n\nprint(linear_search([4, 8, 15, 16, 23, 42], 23))",
+      "code": "def linear_search(items, target):\n    for i, value in enumerate(items):\n        if value == target:\n            return i\n    return -1\n\nprint(linear_search([4, 8, 15, 16, 23, 42], 23))",
+      "explanation": "Build a small algorithm library with clean function interfaces and tests for normal, missing, empty, and boundary cases.",
+      "mistakes": [
+        "Using Algorithms Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the algorithms project. Test it with inputs that are present and inputs that are absent.",
+      "quiz": [
+        {
+          "q": "What is an edge case in algorithm testing?",
+          "options": [
+            "A line of code at the top of a file",
+            "A syntax typo",
+            "An unusual or extreme input (such as an empty list or single item) that tests code resilience",
+            "A variable with two letters"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Why is comparing your algorithm against test cases essential?",
+          "options": [
+            "It makes the code longer",
+            "It is required to run Python",
+            "It compiles the code to C",
+            "It proves your code works across both typical and boundary scenarios"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L5_8",
+      "level": 5,
+      "levelTitle": "Problem Solving & Algorithms",
+      "order": 8,
+      "title": "Algorithms Project"
+    },
+    {
+      "objective": "Handle errors deliberately with try/except/else/finally.",
+      "why": "You will use exceptions when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Handle errors deliberately with try/except/else/finally. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Exceptions\n\n# Write the smallest working example first.",
+      "code": "try:\n    number = int(input(\"Number: \"))\n    print(100 / number)\nexcept ValueError:\n    print(\"Please enter an integer.\")\nexcept ZeroDivisionError:\n    print(\"Number cannot be zero.\")",
+      "explanation": "Exceptions are runtime events. Handle expected failures near the operation that can fail, and avoid catching everything blindly.",
+      "mistakes": [
+        "Using Exceptions mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the exception handling code. Enter a valid number, then run again with 0 to see ZeroDivisionError handled gracefully.",
+      "quiz": [
+        {
+          "q": "Which block handles errors that occur inside a try block?",
+          "options": [
+            "catch",
+            "except",
+            "error",
+            "handle"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which block always runs, whether an error occurred or not?",
+          "options": [
+            "always",
+            "end",
+            "finally",
+            "else"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L6_1",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 1,
+      "title": "Exceptions"
+    },
+    {
+      "objective": "Organize code into modules and packages.",
+      "why": "You will use modules & imports when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Organize code into modules and packages. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# math_tools.py\n# def add(a, b):\n#     return a + b\n\nimport math\nprint(math.sqrt(81))",
+      "code": "# math_tools.py\n# def add(a, b):\n#     return a + b\n\nimport math\nprint(math.sqrt(81))",
+      "explanation": "Modules separate responsibilities and make code reusable. Imports bring names from another module into the current namespace.",
+      "mistakes": [
+        "Using Modules & Imports mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the code to see math module imports. Try computing math.pow(2, 5) or math.floor(4.7).",
+      "quiz": [
+        {
+          "q": "Which keyword brings in code from another Python file or library?",
+          "options": [
+            "import",
+            "include",
+            "require",
+            "using"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How do you import only the sqrt function from the math module?",
+          "options": [
+            "import sqrt in math",
+            "from math import sqrt",
+            "math.import(sqrt)",
+            "include math::sqrt"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L6_2",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 2,
+      "title": "Modules & Imports"
+    },
+    {
+      "objective": "Read, write, and manage text files using pathlib.",
+      "why": "You will use files & paths when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Read, write, and manage text files using pathlib. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Files & Paths\n\n# Write the smallest working example first.",
+      "code": "from pathlib import Path\n\npath = Path(\"notes.txt\")\npath.write_text(\"Python is practical!\", encoding=\"utf-8\")\nprint(path.read_text(encoding=\"utf-8\"))",
+      "explanation": "pathlib gives a clear object-oriented interface for filesystem paths. Specify encoding for predictable text handling.",
+      "mistakes": [
+        "Using Files & Paths mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the file writing and reading code. Try changing the text written to notes.txt.",
+      "quiz": [
+        {
+          "q": "Which modern standard library module is recommended for working with file paths?",
+          "options": [
+            "os.disk",
+            "file_tools",
+            "directory",
+            "pathlib"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "How do you quickly read text from a Path object in Python 3?",
+          "options": [
+            "path.read_text()",
+            "path.load()",
+            "path.getText()",
+            "read(path)"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L6_3",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 3,
+      "title": "Files & Paths"
+    },
+    {
+      "objective": "Store structured data in JSON.",
+      "why": "You will use json & serialization when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Store structured data in JSON. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# JSON & Serialization\n\n# Write the smallest working example first.",
+      "code": "import json\n\ndata = {\"name\": \"Rohith\", \"score\": 95}\ntext = json.dumps(data, indent=2)\nprint(text)\nprint(json.loads(text)[\"score\"])",
+      "explanation": "JSON maps common Python data structures to text so programs can save or exchange structured information.",
+      "mistakes": [
+        "Using JSON & Serialization mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the JSON serialization code. Try adding a new field like \"role\": \"developer\" to the data dictionary.",
+      "quiz": [
+        {
+          "q": "Which method converts a Python dictionary into a JSON string?",
+          "options": [
+            "json.loads()",
+            "json.stringify()",
+            "json.dumps()",
+            "json.encode()"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which method parses a JSON string back into a Python dictionary?",
+          "options": [
+            "json.dumps()",
+            "json.parse()",
+            "json.decode()",
+            "json.loads()"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L6_4",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 4,
+      "title": "JSON & Serialization"
+    },
+    {
+      "objective": "Work with datetime and common date calculations.",
+      "why": "You will use dates & time when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Work with datetime and common date calculations. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "from datetime import date, timedelta\n\ntoday = date.today()\nprint(today)\nprint(today + timedelta(days=7))",
+      "code": "from datetime import date, timedelta\n\ntoday = date.today()\nprint(today)\nprint(today + timedelta(days=7))",
+      "explanation": "datetime provides dedicated types for dates and times. Use timedelta for durations instead of manually adding numbers to calendar fields.",
+      "mistakes": [
+        "Using Dates & Time mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the date/time code. Try calculating the date 30 days into the future using timedelta(days=30).",
+      "quiz": [
+        {
+          "q": "Which module handles dates and times in Python?",
+          "options": [
+            "time_tools",
+            "datetime",
+            "calendar_os",
+            "clock"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What object represents a duration or difference between two dates?",
+          "options": [
+            "timespan",
+            "duration",
+            "timedelta",
+            "diff"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L6_5",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 5,
+      "title": "Dates & Time"
+    },
+    {
+      "objective": "Understand lazy iteration and yield.",
+      "why": "You will use iterators & generators when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand lazy iteration and yield. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def squares(limit):\n    for n in range(limit):\n        yield n * n\n\nfor value in squares(4):\n    print(value)",
+      "code": "def squares(limit):\n    for n in range(limit):\n        yield n * n\n\nfor value in squares(4):\n    print(value)",
+      "explanation": "A generator yields one value at a time instead of building the entire result in memory. This is useful for large or streaming data.",
+      "mistakes": [
+        "Using Iterators & Generators mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the generator function. Try changing the limit to generate squares up to 6.",
+      "quiz": [
+        {
+          "q": "Which keyword turns a regular function into a generator?",
+          "options": [
+            "yield",
+            "generate",
+            "return_stream",
+            "emit"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What is a key benefit of using a generator over creating a huge list?",
+          "options": [
+            "Generators run in C++",
+            "Generators produce values one by one in memory on demand (lazy evaluation)",
+            "Generators cannot have loops",
+            "Generators require no syntax"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L6_6",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 6,
+      "title": "Iterators & Generators"
+    },
+    {
+      "objective": "Understand reusable behavior wrappers and resource management.",
+      "why": "You will use decorators & context managers when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand reusable behavior wrappers and resource management. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "from contextlib import contextmanager\n\n@contextmanager\ndef label(name):\n    print(\"start\", name)\n    try:\n        yield\n    finally:\n        print(\"end\", name)\n\nwith label(\"demo\"):\n    print(\"inside\")",
+      "code": "from contextlib import contextmanager\n\n@contextmanager\ndef label(name):\n    print(\"start\", name)\n    try:\n        yield\n    finally:\n        print(\"end\", name)\n\nwith label(\"demo\"):\n    print(\"inside\")",
+      "explanation": "Decorators wrap behavior around functions; context managers wrap setup and cleanup around a with block. Both help make resource-handling patterns reusable.",
+      "mistakes": [
+        "Using Decorators & Context Managers mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the context manager code. Try changing the label text to see how enter and exit messages print.",
+      "quiz": [
+        {
+          "q": "What symbol is used to apply a decorator to a function?",
+          "options": [
+            "#",
+            "$",
+            "&",
+            "@"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Which statement ensures clean setup and teardown (like closing files) using context managers?",
+          "options": [
+            "with",
+            "using",
+            "open_block",
+            "manage"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L6_7",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 7,
+      "title": "Decorators & Context Managers"
+    },
+    {
+      "objective": "Build a local expense tracker with JSON persistence.",
+      "why": "You will use intermediate project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build a local expense tracker with JSON persistence. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "import json\nfrom pathlib import Path\n\npath = Path(\"expenses.json\")\nexpenses = [{\"name\":\"books\", \"amount\":500}]\npath.write_text(json.dumps(expenses), encoding=\"utf-8\")\nprint(json.loads(path.read_text(encoding=\"utf-8\")))",
+      "code": "import json\nfrom pathlib import Path\n\npath = Path(\"expenses.json\")\nexpenses = [{\"name\":\"books\", \"amount\":500}]\npath.write_text(json.dumps(expenses), encoding=\"utf-8\")\nprint(json.loads(path.read_text(encoding=\"utf-8\")))",
+      "explanation": "Combine files, JSON, exceptions, and functions into a small persistence-based application.",
+      "mistakes": [
+        "Using Intermediate Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the intermediate project. Try adding an extra expense item to the saved data.",
+      "quiz": [
+        {
+          "q": "Why is persistent storage (like saving to JSON files) useful in applications?",
+          "options": [
+            "It makes the program look cooler",
+            "It makes loops run faster",
+            "It keeps user data and progress saved even after the program closes",
+            "It prevents syntax errors"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How do you ensure files are saved with universal character encoding?",
+          "options": [
+            "mode=\"ascii\"",
+            "charset=\"default\"",
+            "format=\"raw\"",
+            "encoding=\"utf-8\""
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L6_8",
+      "level": 6,
+      "levelTitle": "Intermediate Python",
+      "order": 8,
+      "title": "Intermediate Project"
+    },
+    {
+      "objective": "Model data and behavior with classes.",
+      "why": "You will use classes & objects when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Model data and behavior with classes. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Classes & Objects\n\n# Write the smallest working example first.",
+      "code": "class Student:\n    def __init__(self, name):\n        self.name = name\n\n    def greet(self):\n        return f\"Hi, I am {self.name}\"\n\nstudent = Student(\"Rohith\")\nprint(student.greet())",
+      "explanation": "A class defines a blueprint for objects. Each object can hold state and expose behaviors through methods.",
+      "mistakes": [
+        "Using Classes & Objects mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the class and object code. Try creating a second student object like s2 = Student(\"Maya\") and call greet()!",
+      "quiz": [
+        {
+          "q": "What is a class in Python?",
+          "options": [
+            "A collection of comments",
+            "A blueprint for creating objects with shared attributes and behaviors",
+            "A list of numbers",
+            "A type of for loop"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What is an instance of a class called?",
+          "options": [
+            "A method",
+            "A module",
+            "An object",
+            "A package"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L7_1",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 1,
+      "title": "Classes & Objects"
+    },
+    {
+      "objective": "Initialize objects and manage instance state.",
+      "why": "You will use constructors & attributes when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Initialize objects and manage instance state. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "class Course:\n    def __init__(self, title, lessons):\n        self.title = title\n        self.lessons = lessons\n\ncourse = Course(\"Python\", 88)\nprint(course.title, course.lessons)",
+      "code": "class Course:\n    def __init__(self, title, lessons):\n        self.title = title\n        self.lessons = lessons\n\ncourse = Course(\"Python\", 88)\nprint(course.title, course.lessons)",
+      "explanation": "__init__ initializes each new object. Instance attributes store state specific to that object.",
+      "mistakes": [
+        "Using Constructors & Attributes mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the constructor example. Try creating a new Course object with your own title and lesson count.",
+      "quiz": [
+        {
+          "q": "What is the name of Python’s constructor method called when an object is created?",
+          "options": [
+            "__init__",
+            "__new__",
+            "__construct__",
+            "__start__"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What does the first parameter self represent in class methods?",
+          "options": [
+            "The parent class",
+            "The specific instance of the object being worked on",
+            "The operating system",
+            "A global variable"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L7_2",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 2,
+      "title": "Constructors & Attributes"
+    },
+    {
+      "objective": "Design behavior around object responsibilities.",
+      "why": "You will use methods & encapsulation when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Design behavior around object responsibilities. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "class Counter:\n    def __init__(self):\n        self._value = 0\n\n    def increment(self):\n        self._value += 1\n\n    def value(self):\n        return self._value\n\nc = Counter(); c.increment(); print(c.value())",
+      "code": "class Counter:\n    def __init__(self):\n        self._value = 0\n\n    def increment(self):\n        self._value += 1\n\n    def value(self):\n        return self._value\n\nc = Counter(); c.increment(); print(c.value())",
+      "explanation": "Methods keep behavior close to the state it manages. A leading underscore communicates that an attribute is an internal implementation detail.",
+      "mistakes": [
+        "Using Methods & Encapsulation mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the counter class methods. Try calling increment() multiple times and printing the final value.",
+      "quiz": [
+        {
+          "q": "What is encapsulation in OOP?",
+          "options": [
+            "Writing all code on one line",
+            "Creating infinite objects",
+            "Importing libraries",
+            "Bundling data and the methods that operate on that data inside a class"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "By convention, how do Python developers indicate an internal/private attribute?",
+          "options": [
+            "With a leading underscore like _value",
+            "With the private keyword",
+            "With uppercase letters",
+            "With exclamation marks"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L7_3",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 3,
+      "title": "Methods & Encapsulation"
+    },
+    {
+      "objective": "Reuse and specialize behavior through inheritance.",
+      "why": "You will use inheritance when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Reuse and specialize behavior through inheritance. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "class Animal:\n    def speak(self):\n        return \"sound\"\n\nclass Dog(Animal):\n    def speak(self):\n        return \"woof\"\n\nprint(Dog().speak())",
+      "code": "class Animal:\n    def speak(self):\n        return \"sound\"\n\nclass Dog(Animal):\n    def speak(self):\n        return \"woof\"\n\nprint(Dog().speak())",
+      "explanation": "Inheritance lets a subclass reuse and specialize a parent class. Use it when the relationship is genuinely “is-a”; otherwise composition is often clearer.",
+      "mistakes": [
+        "Using Inheritance mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the inheritance code. Try creating another child class like Cat(Animal) that speaks \"meow\".",
+      "quiz": [
+        {
+          "q": "How does a child class inherit from a parent class in Python?",
+          "options": [
+            "class Child inherits Parent:",
+            "class Child extends Parent:",
+            "class Child(Parent):",
+            "class Child <- Parent:"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which function allows a child class to call methods from its parent class?",
+          "options": [
+            "parent()",
+            "base()",
+            "upper()",
+            "super()"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L7_4",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 4,
+      "title": "Inheritance"
+    },
+    {
+      "objective": "Write code that works with different object types.",
+      "why": "You will use polymorphism when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Write code that works with different object types. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "class Cat:\n    def speak(self): return \"meow\"\nclass Dog:\n    def speak(self): return \"woof\"\n\nfor animal in [Cat(), Dog()]:\n    print(animal.speak())",
+      "code": "class Cat:\n    def speak(self): return \"meow\"\nclass Dog:\n    def speak(self): return \"woof\"\n\nfor animal in [Cat(), Dog()]:\n    print(animal.speak())",
+      "explanation": "Polymorphism means different objects can respond to the same operation. Client code can depend on behavior rather than a specific concrete class.",
+      "mistakes": [
+        "Using Polymorphism mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the polymorphism loop. Try adding a new animal class with a speak() method to the list.",
+      "quiz": [
+        {
+          "q": "What is polymorphism in object-oriented programming?",
+          "options": [
+            "An object with many names",
+            "Different classes can define methods with the same name, allowing them to be used interchangeably",
+            "A loop that changes shape",
+            "Multiple inheritance errors"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "If Cat and Dog both define speak(), what does [Cat(), Dog()] allow you to do?",
+          "options": [
+            "Merge the animals into one object",
+            "Cause a Python error",
+            "Call .speak() on each animal in a single loop without caring about its exact class",
+            "Delete both animals"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L7_5",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 5,
+      "title": "Polymorphism"
+    },
+    {
+      "objective": "Represent data-focused objects cleanly.",
+      "why": "You will use dataclasses when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Represent data-focused objects cleanly. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Dataclasses\n\n# Write the smallest working example first.",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Product:\n    name: str\n    price: float\n\nitem = Product(\"Keyboard\", 999.0)\nprint(item)",
+      "explanation": "dataclasses reduce boilerplate for data-focused classes and provide useful generated methods such as __init__ and __repr__.",
+      "mistakes": [
+        "Using Dataclasses mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the dataclass code. Try instantiating another Product with your own name and price.",
+      "quiz": [
+        {
+          "q": "Which decorator simplifies creating classes that primarily store data?",
+          "options": [
+            "@dataclass",
+            "@schema",
+            "@model",
+            "@struct"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What does @dataclass automatically generate for you?",
+          "options": [
+            "Database tables",
+            "__init__, __repr__, and equality comparison methods",
+            "User interface buttons",
+            "Network connections"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L7_6",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 6,
+      "title": "Dataclasses"
+    },
+    {
+      "objective": "Prefer clear object relationships over unnecessary inheritance.",
+      "why": "You will use composition & design when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Prefer clear object relationships over unnecessary inheritance. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "class Engine:\n    def start(self): return \"engine on\"\n\nclass Car:\n    def __init__(self):\n        self.engine = Engine()\n\nprint(Car().engine.start())",
+      "code": "class Engine:\n    def start(self): return \"engine on\"\n\nclass Car:\n    def __init__(self):\n        self.engine = Engine()\n\nprint(Car().engine.start())",
+      "explanation": "Composition models “has-a” relationships by assembling smaller objects. It often reduces coupling compared with deep inheritance hierarchies.",
+      "mistakes": [
+        "Using Composition & Design mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the composition example. Notice how Car contains an Engine object. Try calling the engine start method.",
+      "quiz": [
+        {
+          "q": "What is composition in software design?",
+          "options": [
+            "Writing music in Python",
+            "Inheriting from 10 classes",
+            "Deleting old code",
+            "Building complex classes by combining simpler objects (\"has-a\" relationship)"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Why is \"favor composition over inheritance\" common design advice?",
+          "options": [
+            "It creates flexible, loosely-coupled components that are easier to test and change",
+            "Inheritance is deprecated in Python 3",
+            "Composition makes code run twice as fast",
+            "Inheritance requires internet access"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L7_7",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 7,
+      "title": "Composition & Design"
+    },
+    {
+      "objective": "Build a library management domain model.",
+      "why": "You will use oop project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build a library management domain model. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "class Book:\n    def __init__(self, title):\n        self.title = title\n        self.available = True\n    def borrow(self):\n        if not self.available:\n            return False\n        self.available = False\n        return True\n\nb = Book(\"Python\")\nprint(b.borrow(), b.available)",
+      "code": "class Book:\n    def __init__(self, title):\n        self.title = title\n        self.available = True\n    def borrow(self):\n        if not self.available:\n            return False\n        self.available = False\n        return True\n\nb = Book(\"Python\")\nprint(b.borrow(), b.available)",
+      "explanation": "Model a domain with objects that own their state and behavior. Start with a small set of responsibilities and grow only when needed.",
+      "mistakes": [
+        "Using OOP Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the OOP project. Try borrowing a book twice to verify that the second attempt returns False.",
+      "quiz": [
+        {
+          "q": "In an OOP project, how do objects communicate with each other?",
+          "options": [
+            "Through global text files",
+            "By changing monitor colors",
+            "By calling each other’s methods and passing data as arguments",
+            "Through internet downloads"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is a good sign that your OOP design is clean?",
+          "options": [
+            "Everything is written in one huge function",
+            "No classes have attributes",
+            "There are no methods",
+            "Each class has a clear responsibility and methods operate on object state"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L7_8",
+      "level": 7,
+      "levelTitle": "Object-Oriented Python",
+      "order": 8,
+      "title": "OOP Project"
+    },
+    {
+      "objective": "Make code intentions explicit with modern annotations.",
+      "why": "You will use type hints when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Make code intentions explicit with modern annotations. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Type Hints\n\n# Write the smallest working example first.",
+      "code": "def total(price: float, tax: float) -> float:\n    return price + tax\n\nprint(total(100.0, 18.0))",
+      "explanation": "Type hints document intent and help editors and type checkers catch mistakes. Python normally does not enforce them at runtime.",
+      "mistakes": [
+        "Using Type Hints mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the type-annotated function. Try passing different floating point numbers and observe the result.",
+      "quiz": [
+        {
+          "q": "What do Python type hints (like name: str) provide?",
+          "options": [
+            "Strict compilation like C++",
+            "Clarity for developers and static analysis tools without breaking runtime behavior",
+            "Faster CPU speeds",
+            "Automatic encryption"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you indicate that a function returns a float?",
+          "options": [
+            "def get_total(): float",
+            "return: float",
+            "def get_total() -> float:",
+            "def float get_total():"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L8_1",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 1,
+      "title": "Type Hints"
+    },
+    {
+      "objective": "Use expressions for concise transformations without sacrificing readability.",
+      "why": "You will use advanced comprehensions when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use expressions for concise transformations without sacrificing readability. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "matrix = [[1, 2], [3, 4]]\nflat = [value for row in matrix for value in row]\nprint(flat)",
+      "code": "matrix = [[1, 2], [3, 4]]\nflat = [value for row in matrix for value in row]\nprint(flat)",
+      "explanation": "Nested comprehensions can flatten or transform structured data, but readability comes first. Split a complex expression into loops when needed.",
+      "mistakes": [
+        "Using Advanced Comprehensions mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the list comprehension. Try modifying the condition or creating your own comprehension for squared numbers.",
+      "quiz": [
+        {
+          "q": "What does [x for row in matrix for x in row] accomplish?",
+          "options": [
+            "Flattens a 2D matrix into a 1D list",
+            "Multiplies the matrix by 2",
+            "Reverses the matrix",
+            "Counts the rows"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Can you use conditional if filtering inside a list comprehension?",
+          "options": [
+            "No, comprehensions cannot have if",
+            "Yes, like [x for x in items if x > 0]",
+            "Only in Python 2",
+            "Only with numbers"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L8_2",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 2,
+      "title": "Advanced Comprehensions"
+    },
+    {
+      "objective": "Compose transformations with higher-order functions.",
+      "why": "You will use functional programming when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Compose transformations with higher-order functions. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "values = [1, 2, 3, 4]\ndoubled = list(map(lambda x: x * 2, values))\nprint(doubled)",
+      "code": "values = [1, 2, 3, 4]\ndoubled = list(map(lambda x: x * 2, values))\nprint(doubled)",
+      "explanation": "Functional style emphasizes transformations and functions as values. Use it where it makes a data pipeline clearer, not merely shorter.",
+      "mistakes": [
+        "Using Functional Programming mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the map() and lambda function. Try using filter() to only keep numbers greater than 2.",
+      "quiz": [
+        {
+          "q": "Which function filters items from an iterable based on a condition?",
+          "options": [
+            "clean()",
+            "remove_if()",
+            "strip()",
+            "filter()"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What does map(lambda x: x + 1, [1, 2, 3]) return?",
+          "options": [
+            "An iterator that yields [2, 3, 4]",
+            "The number 6",
+            "A syntax error",
+            "[1, 2, 3]"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L8_3",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 3,
+      "title": "Functional Programming"
+    },
+    {
+      "objective": "Search and transform structured text with re.",
+      "why": "You will use regular expressions when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Search and transform structured text with re. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Regular Expressions\n\n# Write the smallest working example first.",
+      "code": "import re\n\ntext = \"Order IDs: A12 B77 C03\"\nids = re.findall(r\"[A-Z]\\d+\", text)\nprint(ids)",
+      "explanation": "Regular expressions describe patterns in text. Keep patterns readable and use them when ordinary string methods are not enough.",
+      "mistakes": [
+        "Using Regular Expressions mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the regular expression search. Try matching different patterns or adding more IDs to the text.",
+      "quiz": [
+        {
+          "q": "Which module handles regular expressions in Python?",
+          "options": [
+            "regex_tools",
+            "pattern",
+            "re",
+            "text_search"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What does re.findall(r\"\\d+\", text) extract from a string?",
+          "options": [
+            "All uppercase words",
+            "All spaces",
+            "All punctuation",
+            "All sequences of digits (numbers)"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L8_4",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 4,
+      "title": "Regular Expressions"
+    },
+    {
+      "objective": "Understand threads, processes, and when concurrency helps.",
+      "why": "You will use concurrency concepts when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand threads, processes, and when concurrency helps. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "from concurrent.futures import ThreadPoolExecutor\n\ndef square(n): return n * n\n\nwith ThreadPoolExecutor(max_workers=2) as pool:\n    print(list(pool.map(square, [1, 2, 3, 4])))",
+      "code": "from concurrent.futures import ThreadPoolExecutor\n\ndef square(n): return n * n\n\nwith ThreadPoolExecutor(max_workers=2) as pool:\n    print(list(pool.map(square, [1, 2, 3, 4])))",
+      "explanation": "Threads can overlap I/O-bound work; processes can use multiple CPU cores for CPU-bound work. Concurrency adds coordination costs, so measure and choose deliberately.",
+      "mistakes": [
+        "Using Concurrency Concepts mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the thread pool executor. Try adding more numbers to the map list to see concurrent processing.",
+      "quiz": [
+        {
+          "q": "What does ThreadPoolExecutor allow you to do?",
+          "options": [
+            "Stop the CPU",
+            "Run multiple independent tasks concurrently across worker threads",
+            "Create a new terminal",
+            "Compile Python to machine code"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "When is multithreading in Python most effective?",
+          "options": [
+            "For heavy pure CPU math calculations",
+            "For simple print statements",
+            "For I/O-bound tasks like downloading web pages or reading files",
+            "For writing comments"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L8_5",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 5,
+      "title": "Concurrency Concepts"
+    },
+    {
+      "objective": "Understand async/await and cooperative concurrency.",
+      "why": "You will use asyncio basics when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand async/await and cooperative concurrency. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# asyncio Basics\n\n# Write the smallest working example first.",
+      "code": "import asyncio\n\nasync def greet():\n    await asyncio.sleep(0.1)\n    print(\"done\")\n\nasyncio.run(greet())",
+      "explanation": "async/await lets a program pause one task while another ready task can make progress. It is useful for I/O-heavy concurrency.",
+      "mistakes": [
+        "Using asyncio Basics mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the asyncio task. Try scheduling a second async greeting with a different sleep time.",
+      "quiz": [
+        {
+          "q": "Which keyword defines an asynchronous coroutine in Python?",
+          "options": [
+            "async def",
+            "coroutine def",
+            "thread def",
+            "await def"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which keyword is used to pause execution until an async task finishes?",
+          "options": [
+            "pause",
+            "await",
+            "wait_for",
+            "sleep"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L8_6",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 6,
+      "title": "asyncio Basics"
+    },
+    {
+      "objective": "Measure before optimizing and choose data structures wisely.",
+      "why": "You will use performance & profiling when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Measure before optimizing and choose data structures wisely. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "import time\n\nstart = time.perf_counter()\nresult = sum(i*i for i in range(100000))\nelapsed = time.perf_counter() - start\nprint(result, f\"{elapsed:.5f}s\")",
+      "code": "import time\n\nstart = time.perf_counter()\nresult = sum(i*i for i in range(100000))\nelapsed = time.perf_counter() - start\nprint(result, f\"{elapsed:.5f}s\")",
+      "explanation": "Measure runtime with tools such as perf_counter before optimizing. Profile real workloads and improve the dominant cost instead of guessing.",
+      "mistakes": [
+        "Using Performance & Profiling mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the performance timer. Try running the loop with 200,000 items to see how elapsed time scales.",
+      "quiz": [
+        {
+          "q": "Which function from the time module provides high-precision performance timing?",
+          "options": [
+            "time.clock_now()",
+            "time.get_ms()",
+            "time.current()",
+            "time.perf_counter()"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Why is profiling code before optimizing it important?",
+          "options": [
+            "It reveals the true bottlenecks so you only optimize what matters",
+            "It makes code shorter",
+            "It compiles the script",
+            "It is required to run tests"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L8_7",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 7,
+      "title": "Performance & Profiling"
+    },
+    {
+      "objective": "Build a log analyzer with parsing, typing, and performance awareness.",
+      "why": "You will use advanced project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build a log analyzer with parsing, typing, and performance awareness. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "import re\nfrom collections import Counter\n\nlog = \"ERROR E12 ERROR E12 INFO I2\"\ncodes = re.findall(r\"E\\d+\", log)\nprint(Counter(codes))",
+      "code": "import re\nfrom collections import Counter\n\nlog = \"ERROR E12 ERROR E12 INFO I2\"\ncodes = re.findall(r\"E\\d+\", log)\nprint(Counter(codes))",
+      "explanation": "Use parsing, regular expressions, collections, and measured processing to turn messy log text into useful structured information.",
+      "mistakes": [
+        "Using Advanced Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the advanced project. Try parsing different log message samples to check the frequency counts.",
+      "quiz": [
+        {
+          "q": "What is the benefit of combining regular expressions and Counter in log analysis?",
+          "options": [
+            "Decreases file download time",
+            "Prevents web crashes",
+            "Quickly parses structured patterns and counts occurrences of error codes or IPs",
+            "Replaces operating system logging"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How should robust data pipelines handle missing or malformed log lines?",
+          "options": [
+            "Crash immediately",
+            "Delete the server",
+            "Restart the computer",
+            "Gracefully ignore or log the faulty line without crashing the entire batch"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L8_8",
+      "level": 8,
+      "levelTitle": "Advanced Python",
+      "order": 8,
+      "title": "Advanced Project"
+    },
+    {
+      "objective": "Build useful command-line interfaces.",
+      "why": "You will use cli applications when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build useful command-line interfaces. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "import argparse\n\nparser = argparse.ArgumentParser()\nparser.add_argument(\"name\")\n# Example command: python app.py Rohith\n# args = parser.parse_args()\n# print(f\"Hello {args.name}\")",
+      "code": "import argparse\n\nparser = argparse.ArgumentParser()\nparser.add_argument(\"name\")\n# Example command: python app.py Rohith\n# args = parser.parse_args()\n# print(f\"Hello {args.name}\")",
+      "explanation": "argparse turns command-line arguments into structured program input. A good CLI documents commands, validates inputs, and returns useful exit behavior.",
+      "mistakes": [
+        "Using CLI Applications mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the CLI argument script. Observe how argument parsing is configured in standard Python apps.",
+      "quiz": [
+        {
+          "q": "Which standard library module is built specifically for command-line arguments?",
+          "options": [
+            "cli_parser",
+            "argparse",
+            "terminal",
+            "cmdline"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What helpful feature does argparse generate automatically?",
+          "options": [
+            "A website",
+            "A desktop icon",
+            "A standardized --help command with usage instructions",
+            "A sound effect"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L9_1",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 1,
+      "title": "CLI Applications"
+    },
+    {
+      "objective": "Separate configuration from code and manage secrets safely.",
+      "why": "You will use environment & configuration when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Separate configuration from code and manage secrets safely. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "import os\n\nmode = os.getenv(\"APP_MODE\", \"development\")\nprint(\"Running in\", mode)",
+      "code": "import os\n\nmode = os.getenv(\"APP_MODE\", \"development\")\nprint(\"Running in\", mode)",
+      "explanation": "Configuration should be changeable without editing source. Environment variables are commonly used for deployment settings and secrets; never hard-code credentials.",
+      "mistakes": [
+        "Using Environment & Configuration mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the environment variable check. Try changing the default fallback value in os.getenv().",
+      "quiz": [
+        {
+          "q": "How do you read an environment variable in Python?",
+          "options": [
+            "os.getenv(\"VARIABLE_NAME\")",
+            "sys.env(\"VARIABLE_NAME\")",
+            "env[\"VARIABLE_NAME\"]",
+            "get_var(\"VARIABLE_NAME\")"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Why are environment variables preferred for API keys and database passwords?",
+          "options": [
+            "They make the code run twice as fast",
+            "They keep secrets out of source code and version control repositories",
+            "They encrypt the file system",
+            "They are required by Python"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L9_2",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 2,
+      "title": "Environment & Configuration"
+    },
+    {
+      "objective": "Write repeatable tests with unittest or pytest-style thinking.",
+      "why": "You will use testing fundamentals when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Write repeatable tests with unittest or pytest-style thinking. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Testing Fundamentals\n\n# Write the smallest working example first.",
+      "code": "import unittest\n\ndef add(a, b):\n    return a + b\n\nclass TestAdd(unittest.TestCase):\n    def test_basic(self):\n        self.assertEqual(add(2, 3), 5)\n\n# Run with: unittest.main()",
+      "explanation": "A test states an expected behavior and checks it repeatedly. Good tests are focused, deterministic, and easy to diagnose when they fail.",
+      "mistakes": [
+        "Using Testing Fundamentals mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the unit test code. Try adding a second test method that checks negative numbers like add(-2, 3) == 1.",
+      "quiz": [
+        {
+          "q": "Which built-in module provides a unit testing framework in Python?",
+          "options": [
+            "pytest_builtin",
+            "assert_framework",
+            "tester",
+            "unittest"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Which method asserts that two values are equal in a TestCase?",
+          "options": [
+            "self.assertEqual(a, b)",
+            "self.assertMatch(a, b)",
+            "self.isSame(a, b)",
+            "self.check(a == b)"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L9_3",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 3,
+      "title": "Testing Fundamentals"
+    },
+    {
+      "objective": "Create useful diagnostic logs.",
+      "why": "You will use logging when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Create useful diagnostic logs. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Logging\n\n# Write the smallest working example first.",
+      "code": "import logging\n\nlogging.basicConfig(level=logging.INFO)\nlogging.info(\"Application started\")\nlogging.warning(\"Demo warning\")",
+      "explanation": "Logging records diagnostic information without mixing it into normal user output. Levels let you control verbosity.",
+      "mistakes": [
+        "Using Logging mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the logging code. Try adding an error log using logging.error(\"Sample error message\").",
+      "quiz": [
+        {
+          "q": "Why is the logging module preferred over print() statements in production?",
+          "options": [
+            "print() is deprecated in Python",
+            "logging runs in C++",
+            "It provides severity levels (INFO, WARNING, ERROR), timestamps, and file routing",
+            "logging makes text bold"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which log level is typically used for critical errors that require immediate attention?",
+          "options": [
+            "DEBUG",
+            "INFO",
+            "TRACE",
+            "ERROR or CRITICAL"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L9_4",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 4,
+      "title": "Logging"
+    },
+    {
+      "objective": "Understand requests, responses, JSON, and API workflows; use urllib in the standard library.",
+      "why": "You will use http & apis when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Understand requests, responses, JSON, and API workflows; use urllib in the standard library. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# HTTP & APIs\n\n# Write the smallest working example first.",
+      "code": "from urllib.request import urlopen\n\n# Example only: requires internet access\n# with urlopen(\"https://example.com\", timeout=5) as response:\n#     body = response.read().decode(\"utf-8\")\n#     print(response.status, len(body))",
+      "explanation": "HTTP APIs expose resources over requests and responses. In Python’s standard library, urllib can make basic HTTP requests; production apps often use a third-party client.",
+      "mistakes": [
+        "Using HTTP & APIs mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the HTTP API demonstration. Review the structure used to fetch and read web responses.",
+      "quiz": [
+        {
+          "q": "What does an HTTP status code of 200 mean from a web API?",
+          "options": [
+            "Not Found",
+            "OK (request succeeded)",
+            "Internal Server Error",
+            "Redirect"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What data format is most commonly exchanged when calling REST APIs?",
+          "options": [
+            "Plain binary",
+            "Word documents",
+            "JSON",
+            "Excel sheets"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L9_5",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 5,
+      "title": "HTTP & APIs"
+    },
+    {
+      "objective": "Clean, aggregate, validate, and summarize tabular-like data.",
+      "why": "You will use data processing when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Clean, aggregate, validate, and summarize tabular-like data. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "rows = [{\"name\":\"Asha\", \"score\":\"90\"}, {\"name\":\"Ravi\", \"score\":\"75\"}]\nclean = [{\"name\":r[\"name\"], \"score\":int(r[\"score\"])} for r in rows if r[\"score\"].isdigit()]\nprint(sum(r[\"score\"] for r in clean) / len(clean))",
+      "code": "rows = [{\"name\":\"Asha\", \"score\":\"90\"}, {\"name\":\"Ravi\", \"score\":\"75\"}]\nclean = [{\"name\":r[\"name\"], \"score\":int(r[\"score\"])} for r in rows if r[\"score\"].isdigit()]\nprint(sum(r[\"score\"] for r in clean) / len(clean))",
+      "explanation": "Real data often arrives as text and may contain invalid rows. Clean, validate, transform, aggregate, then present the result.",
+      "mistakes": [
+        "Using Data Processing mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the data cleaning pipeline. Try adding another score record to calculate the updated average.",
+      "quiz": [
+        {
+          "q": "What is data cleaning in a data processing pipeline?",
+          "options": [
+            "Filtering invalid rows, converting types, and handling missing values",
+            "Wiping the hard drive",
+            "Formatting Python indentation",
+            "Deleting variable names"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which string method checks if a string consists entirely of digits?",
+          "options": [
+            ".isnumber()",
+            ".isdigit()",
+            ".isint()",
+            ".valid_number()"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L9_6",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 6,
+      "title": "Data Processing"
+    },
+    {
+      "objective": "Organize a Python project for sharing and maintenance.",
+      "why": "You will use packaging & project structure when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Organize a Python project for sharing and maintenance. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "project = {\n    \"app/\": [\"__init__.py\", \"main.py\"],\n    \"tests/\": [\"test_main.py\"],\n    \"README.md\": \"usage + setup\",\n}\nfor path, items in project.items():\n    print(path, items)",
+      "code": "project = {\n    \"app/\": [\"__init__.py\", \"main.py\"],\n    \"tests/\": [\"test_main.py\"],\n    \"README.md\": \"usage + setup\",\n}\nfor path, items in project.items():\n    print(path, items)",
+      "explanation": "A maintainable project separates application code, tests, documentation, and configuration. Consistent structure makes onboarding and packaging easier.",
+      "mistakes": [
+        "Using Packaging & Project Structure mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the package structure viewer. Try adding a \"docs/\" folder entry to the project dictionary.",
+      "quiz": [
+        {
+          "q": "What file in a directory tells Python that the folder can be treated as a package?",
+          "options": [
+            "main.py",
+            "package.json",
+            "setup.cfg",
+            "__init__.py"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What is the purpose of a README.md file in a project?",
+          "options": [
+            "Explaining what the project does, how to set it up, and how to run it",
+            "Storing compiled bytecode",
+            "Configuring the operating system",
+            "Storing user passwords"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L9_7",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 7,
+      "title": "Packaging & Project Structure"
+    },
+    {
+      "objective": "Build a production-style CLI productivity tracker.",
+      "why": "You will use real-world project when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Build a production-style CLI productivity tracker. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "from datetime import date\n\ntasks = [{\"title\":\"Study Python\", \"done\":False}]\ntasks[0][\"done\"] = True\nprint(date.today(), tasks)",
+      "code": "from datetime import date\n\ntasks = [{\"title\":\"Study Python\", \"done\":False}]\ntasks[0][\"done\"] = True\nprint(date.today(), tasks)",
+      "explanation": "Bring together validation, persistence, structured data, testing, logging, and a clear command-line workflow into one maintainable application.",
+      "mistakes": [
+        "Using Real-World Project mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the real-world task manager project. Try toggling the task status and printing the updated list.",
+      "quiz": [
+        {
+          "q": "Why is keeping state cleanly separated from presentation logic a best practice?",
+          "options": [
+            "It reduces the number of files to 1",
+            "It compiles Python faster",
+            "It makes data easy to save, test, and update without touching the UI",
+            "It prevents all syntax errors"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "How can you persist project data between application runs?",
+          "options": [
+            "Leaving the computer on forever",
+            "Writing comments",
+            "Printing output to the screen",
+            "Saving to a file (like JSON, CSV, or SQLite)"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L9_8",
+      "level": 9,
+      "levelTitle": "Real-World Python",
+      "order": 8,
+      "title": "Real-World Project"
+    },
+    {
+      "objective": "Turn requirements into milestones, interfaces, and testable outcomes.",
+      "why": "You will use project planning when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Turn requirements into milestones, interfaces, and testable outcomes. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "milestones = [\"requirements\", \"prototype\", \"tests\", \"release\"]\nfor i, milestone in enumerate(milestones, 1):\n    print(i, milestone)",
+      "code": "milestones = [\"requirements\", \"prototype\", \"tests\", \"release\"]\nfor i, milestone in enumerate(milestones, 1):\n    print(i, milestone)",
+      "explanation": "Plan around outcomes and milestones. Define the smallest useful version first, then add complexity only when it serves a clear requirement.",
+      "mistakes": [
+        "Using Project Planning mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the milestone pipeline. Try adding a new milestone like \"beta testing\" to the roadmap list.",
+      "quiz": [
+        {
+          "q": "What is the first step in successful software project planning?",
+          "options": [
+            "Writing code immediately",
+            "Defining requirements and understanding what problem you are solving",
+            "Deploying to the cloud",
+            "Buying server hosting"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Why is building a small prototype first helpful?",
+          "options": [
+            "It eliminates the need for testing",
+            "It is required by Git",
+            "It validates your core idea and discovers unknowns early",
+            "It makes the project finish automatically"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L10_1",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 1,
+      "title": "Project Planning"
+    },
+    {
+      "objective": "Use naming, small functions, documentation, and refactoring habits.",
+      "why": "You will use clean code when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use naming, small functions, documentation, and refactoring habits. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def calculate_total(prices):\n    \"\"\"Return the sum of non-negative prices.\"\"\"\n    return sum(price for price in prices if price >= 0)\n\nprint(calculate_total([100, 50, -1]))",
+      "code": "def calculate_total(prices):\n    \"\"\"Return the sum of non-negative prices.\"\"\"\n    return sum(price for price in prices if price >= 0)\n\nprint(calculate_total([100, 50, -1]))",
+      "explanation": "Clean code favors clear names, small functions, consistent conventions, and documentation where it reduces ambiguity.",
+      "mistakes": [
+        "Using Clean Code mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the clean code example. Try passing a list with both positive and negative values to verify filtering.",
+      "quiz": [
+        {
+          "q": "What is a core principle of clean code?",
+          "options": [
+            "Clear, descriptive naming and functions that are easy to read and understand",
+            "Writing code in as few characters as possible",
+            "Avoiding comments entirely",
+            "Using single-letter variable names"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What does DRY stand for in software engineering?",
+          "options": [
+            "Do Run Yearly",
+            "Don't Repeat Yourself (avoid code duplication)",
+            "Deploy Real Yield",
+            "Data Routing Yield"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L10_2",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 2,
+      "title": "Clean Code"
+    },
+    {
+      "objective": "Separate UI, domain logic, data access, and utilities.",
+      "why": "You will use architecture basics when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Separate UI, domain logic, data access, and utilities. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def validate(value): return value.strip()\ndef save(value): print(\"SAVE\", value)\ndef run(raw):\n    value = validate(raw)\n    save(value)\n\nrun(\" task \")",
+      "code": "def validate(value): return value.strip()\ndef save(value): print(\"SAVE\", value)\ndef run(raw):\n    value = validate(raw)\n    save(value)\n\nrun(\" task \")",
+      "explanation": "Architecture separates responsibilities so changes remain local. Keep user interface, business rules, persistence, and utilities from becoming one large function.",
+      "mistakes": [
+        "Using Architecture Basics mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the architecture pipeline (validate -> run -> save). Try passing a string with leading whitespace.",
+      "quiz": [
+        {
+          "q": "What is separation of concerns in software architecture?",
+          "options": [
+            "Separating computers from the network",
+            "Writing only one line per file",
+            "Deleting old functions",
+            "Dividing an application into distinct sections that each handle a specific responsibility"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "In a 3-layer architecture, what does the business logic layer do?",
+          "options": [
+            "Executes the core application rules and workflows",
+            "Draws pixels on the screen",
+            "Controls the operating system power",
+            "Routes network cables"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L10_3",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 3,
+      "title": "Architecture Basics"
+    },
+    {
+      "objective": "Combine unit, integration, edge-case, and regression testing.",
+      "why": "You will use testing strategy when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Combine unit, integration, edge-case, and regression testing. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "def clamp(value, low, high):\n    return max(low, min(value, high))\n\nassert clamp(5, 0, 10) == 5\nassert clamp(-1, 0, 10) == 0\nassert clamp(99, 0, 10) == 10\nprint(\"tests passed\")",
+      "code": "def clamp(value, low, high):\n    return max(low, min(value, high))\n\nassert clamp(5, 0, 10) == 5\nassert clamp(-1, 0, 10) == 0\nassert clamp(99, 0, 10) == 10\nprint(\"tests passed\")",
+      "explanation": "A testing strategy covers normal behavior, boundaries, invalid data, and regressions. Edge cases often reveal more defects than happy-path tests alone.",
+      "mistakes": [
+        "Using Testing Strategy mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the test assertion suite. Try adding a 4th assert clamp(50, 0, 100) == 50 to confirm it passes.",
+      "quiz": [
+        {
+          "q": "What is an assert statement used for in Python?",
+          "options": [
+            "Declaring a variable",
+            "Importing a module",
+            "Testing that a condition holds True, raising an AssertionError if it fails",
+            "Printing colored text"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Why is automated testing essential for maintaining software over time?",
+          "options": [
+            "It replaces the need for a CPU",
+            "It makes Python files smaller",
+            "It writes code for you",
+            "It catches regressions and bugs immediately when you make changes or add features"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L10_4",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 4,
+      "title": "Testing Strategy"
+    },
+    {
+      "objective": "Validate input, protect secrets, and avoid unsafe dynamic execution.",
+      "why": "You will use security basics when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Validate input, protect secrets, and avoid unsafe dynamic execution. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Security Basics\n\n# Write the smallest working example first.",
+      "code": "def safe_username(value):\n    value = value.strip()\n    if not value or len(value) > 30:\n        raise ValueError(\"Invalid username\")\n    return value\n\nprint(safe_username(\"Rohith\"))",
+      "explanation": "Treat input as untrusted. Validate data, avoid dynamic execution such as eval on user text, and keep secrets outside source code.",
+      "mistakes": [
+        "Using Security Basics mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the input sanitization function. Try passing valid and invalid usernames to verify validation.",
+      "quiz": [
+        {
+          "q": "Why must you always sanitize and validate user input?",
+          "options": [
+            "To make typing faster",
+            "To prevent crashes, injection attacks, and invalid state from corrupting data",
+            "To change user passwords",
+            "To compress text files"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "What should a secure function do when given invalid input?",
+          "options": [
+            "Ignore it and continue silently",
+            "Crash the computer",
+            "Raise a clear exception or reject the input safely",
+            "Print the user’s password"
+          ],
+          "answer": 2
+        }
+      ],
+      "id": "L10_5",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 5,
+      "title": "Security Basics"
+    },
+    {
+      "objective": "Use version control concepts and collaborative workflow habits.",
+      "why": "You will use git & collaboration when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Use version control concepts and collaborative workflow habits. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "workflow = [\"branch\", \"change\", \"test\", \"commit\", \"review\", \"merge\"]\nprint(\" -> \".join(workflow))",
+      "code": "workflow = [\"branch\", \"change\", \"test\", \"commit\", \"review\", \"merge\"]\nprint(\" -> \".join(workflow))",
+      "explanation": "Version control gives you a history of changes and enables parallel work. Small focused commits and readable messages make collaboration easier.",
+      "mistakes": [
+        "Using Git & Collaboration mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the Git workflow chain. Observe each stage of a professional software release pipeline.",
+      "quiz": [
+        {
+          "q": "What is Git used for in software development?",
+          "options": [
+            "Tracking changes to source code and collaborating with teammates",
+            "Compiling Python to C",
+            "Formatting text files",
+            "Running tests automatically"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "What does creating a Git branch allow you to do?",
+          "options": [
+            "Delete the repository",
+            "Work on a new feature or experiment safely without affecting the main codebase",
+            "Turn off version control",
+            "Speed up download speeds"
+          ],
+          "answer": 1
+        }
+      ],
+      "id": "L10_6",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 6,
+      "title": "Git & Collaboration"
+    },
+    {
+      "objective": "Prepare configuration, dependencies, documentation, and releases.",
+      "why": "You will use deployment thinking when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Prepare configuration, dependencies, documentation, and releases. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "release = {\"version\":\"1.0.0\", \"tests\":\"pass\", \"docs\":\"ready\", \"config\":\"externalized\"}\nfor k,v in release.items(): print(k, v)",
+      "code": "release = {\"version\":\"1.0.0\", \"tests\":\"pass\", \"docs\":\"ready\", \"config\":\"externalized\"}\nfor k,v in release.items(): print(k, v)",
+      "explanation": "Deployment preparation includes reproducible setup, configuration handling, tests, documentation, and a clear release version.",
+      "mistakes": [
+        "Using Deployment Thinking mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the deployment configuration dictionary. Try adding an \"environment\": \"production\" key.",
+      "quiz": [
+        {
+          "q": "What is the purpose of externalizing configuration (like database URLs)?",
+          "options": [
+            "Hiding code from users",
+            "Making the file size smaller",
+            "Preventing all bugs permanently",
+            "Allowing the app to run in development, testing, and production without changing code"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "What should always be verified before deploying software to users?",
+          "options": [
+            "All tests pass, documentation is up to date, and configurations are verified",
+            "The code is deleted",
+            "The database is wiped clean",
+            "All comments are removed"
+          ],
+          "answer": 0
+        }
+      ],
+      "id": "L10_7",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 7,
+      "title": "Deployment Thinking"
+    },
+    {
+      "objective": "Plan and ship a complete Python portfolio project.",
+      "why": "You will use capstone portfolio when writing real Python. Learning it now makes later topics easier to reason about.",
+      "concept": "Plan and ship a complete Python portfolio project. Focus on understanding why the feature works, not only memorizing syntax.",
+      "syntax": "# Typical pattern\n# Capstone Portfolio\n\n# Write the smallest working example first.",
+      "code": "# Capstone checklist\nproject = {\n    \"problem\": \"A real user problem\",\n    \"features\": [\"core feature\", \"validation\", \"persistence\"],\n    \"tests\": [\"happy path\", \"edge case\"],\n}\nprint(project)",
+      "explanation": "A portfolio project should demonstrate problem solving, readable code, validation, testing, documentation, and a clear user outcome—not just a large amount of code.",
+      "mistakes": [
+        "Using Capstone Portfolio mechanically without checking the data types involved.",
+        "Trying to solve the entire problem in one large block instead of testing small pieces.",
+        "Ignoring the exact error message and guessing at the cause."
+      ],
+      "practice": "Run the capstone project checklist. Review the foundational architecture components of a complete Python application.",
+      "quiz": [
+        {
+          "q": "What makes a capstone project stand out in a programming portfolio?",
+          "options": [
+            "Having over 100,000 lines of messy code",
+            "Using 50 different libraries for no reason",
+            "Solving a real problem with clean architecture, tests, documentation, and user focus",
+            "Having no README or instructions"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "What is the most effective way to continue growing as a Python developer?",
+          "options": [
+            "Memorize syntax without building anything",
+            "Stop practicing once you finish a tutorial",
+            "Copy code without understanding it",
+            "Build real projects, read documentation, write tests, and solve practical challenges"
+          ],
+          "answer": 3
+        }
+      ],
+      "id": "L10_8",
+      "level": 10,
+      "levelTitle": "Professional Projects",
+      "order": 8,
+      "title": "Capstone Portfolio"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "C1",
+      "level": 0,
+      "title": "Even Number Checker",
+      "description": "Read an integer and print exactly Even for an even number, otherwise Odd.",
+      "hint": "Use the remainder operator %.",
+      "tests": [
+        {
+          "input": "8",
+          "expected": "Even"
+        },
+        {
+          "input": "7",
+          "expected": "Odd"
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "level": 1,
+      "title": "Score Classifier",
+      "description": "Read a score and print Pass when it is at least 50, otherwise Fail.",
+      "hint": "Compare the score with 50.",
+      "tests": [
+        {
+          "input": "70",
+          "expected": "Pass"
+        },
+        {
+          "input": "40",
+          "expected": "Fail"
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "level": 2,
+      "title": "Sum to N",
+      "description": "Read n and print the sum of integers from 1 through n.",
+      "hint": "Use a loop and an accumulator.",
+      "tests": [
+        {
+          "input": "5",
+          "expected": "15"
+        },
+        {
+          "input": "1",
+          "expected": "1"
+        }
+      ]
+    },
+    {
+      "id": "C4",
+      "level": 3,
+      "title": "List Maximum",
+      "description": "Read space-separated integers and print the largest value.",
+      "hint": "Convert the split text to integers, then inspect the values.",
+      "tests": [
+        {
+          "input": "1 9 3",
+          "expected": "9"
+        },
+        {
+          "input": "-5 -2 -8",
+          "expected": "-2"
+        }
+      ]
+    },
+    {
+      "id": "C5",
+      "level": 4,
+      "title": "Word Counter",
+      "description": "Read a sentence and print how many words it contains.",
+      "hint": "strip() and split() are useful here.",
+      "tests": [
+        {
+          "input": "python is very useful",
+          "expected": "4"
+        },
+        {
+          "input": "hello",
+          "expected": "1"
+        }
+      ]
+    },
+    {
+      "id": "C6",
+      "level": 5,
+      "title": "Linear Search",
+      "description": "Read a target on the first line and a space-separated list on the second line. Print the zero-based index or -1.",
+      "hint": "Scan from left to right and stop at the first match.",
+      "tests": [
+        {
+          "input": "2\n9 4 2 8",
+          "expected": "2"
+        },
+        {
+          "input": "7\n1 3 5",
+          "expected": "-1"
+        }
+      ]
+    },
+    {
+      "id": "C7",
+      "level": 6,
+      "title": "Safe Division",
+      "description": "Read a and b on one line. Print a/b. If b is zero, print Cannot divide by zero.",
+      "hint": "Handle ZeroDivisionError or check b before dividing.",
+      "tests": [
+        {
+          "input": "10 2",
+          "expected": "5.0"
+        },
+        {
+          "input": "10 0",
+          "expected": "Cannot divide by zero"
+        }
+      ]
+    },
+    {
+      "id": "C8",
+      "level": 7,
+      "title": "Book Status",
+      "description": "Read a book title and a status (yes/no). Print Available when the status is yes, otherwise Borrowed.",
+      "hint": "Model the status with a boolean or a simple comparison.",
+      "tests": [
+        {
+          "input": "Python Basics\nyes",
+          "expected": "Available"
+        },
+        {
+          "input": "Python Basics\nno",
+          "expected": "Borrowed"
+        }
+      ]
+    },
+    {
+      "id": "C9",
+      "level": 8,
+      "title": "Error Code Extractor",
+      "description": "Read a line of text and print ERROR codes such as E12 separated by spaces.",
+      "hint": "A regular expression like r\"E\\d+\" matches this pattern.",
+      "tests": [
+        {
+          "input": "OK E12 warning E7",
+          "expected": "E12 E7"
+        },
+        {
+          "input": "all good",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "id": "C10",
+      "level": 9,
+      "title": "Command Router",
+      "description": "Read a command. Print Run when it is run, Help when it is help, otherwise Unknown command.",
+      "hint": "Keep command handling explicit and predictable.",
+      "tests": [
+        {
+          "input": "run",
+          "expected": "Run"
+        },
+        {
+          "input": "delete",
+          "expected": "Unknown command"
+        }
+      ]
+    },
+    {
+      "id": "C11",
+      "level": 10,
+      "title": "Expense Summary",
+      "description": "Read space-separated amounts. Print count, a slash, and total (example: 3 / 600).",
+      "hint": "Convert to integers, count them, and sum them.",
+      "tests": [
+        {
+          "input": "100 200 300",
+          "expected": "3 / 600"
+        },
+        {
+          "input": "",
+          "expected": "0 / 0"
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "level": 0,
+      "title": "First Mini Program",
+      "name": "Level 0: Programming Foundations Project",
+      "brief": "Create a useful project that demonstrates the concepts in Programming Foundations.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 1,
+      "title": "Fundamentals Project",
+      "name": "Level 1: Python Fundamentals Project",
+      "brief": "Create a useful project that demonstrates the concepts in Python Fundamentals.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 2,
+      "title": "Control Flow Project",
+      "name": "Level 2: Control Flow Project",
+      "brief": "Create a useful project that demonstrates the concepts in Control Flow.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 3,
+      "title": "Data Structures Project",
+      "name": "Level 3: Data Structures Project",
+      "brief": "Create a useful project that demonstrates the concepts in Data Structures.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 4,
+      "title": "Functions Project",
+      "name": "Level 4: Functions Project",
+      "brief": "Create a useful project that demonstrates the concepts in Functions.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 5,
+      "title": "Algorithms Project",
+      "name": "Level 5: Problem Solving & Algorithms Project",
+      "brief": "Create a useful project that demonstrates the concepts in Problem Solving & Algorithms.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 6,
+      "title": "Intermediate Project",
+      "name": "Level 6: Intermediate Python Project",
+      "brief": "Create a useful project that demonstrates the concepts in Intermediate Python.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 7,
+      "title": "OOP Project",
+      "name": "Level 7: Object-Oriented Python Project",
+      "brief": "Create a useful project that demonstrates the concepts in Object-Oriented Python.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 8,
+      "title": "Advanced Project",
+      "name": "Level 8: Advanced Python Project",
+      "brief": "Create a useful project that demonstrates the concepts in Advanced Python.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 9,
+      "title": "Real-World Project",
+      "name": "Level 9: Real-World Python Project",
+      "brief": "Create a useful project that demonstrates the concepts in Real-World Python.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    },
+    {
+      "level": 10,
+      "title": "Python Capstone Portfolio",
+      "name": "Level 10: Professional Projects Project",
+      "brief": "Create a useful project that demonstrates the concepts in Professional Projects.",
+      "requirements": [
+        "Clear problem statement",
+        "Readable modular code",
+        "Input validation",
+        "At least 3 edge cases",
+        "Short README with usage and lessons learned"
+      ]
+    }
+  ]
+}
