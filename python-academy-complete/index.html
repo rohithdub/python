@@ -763,11 +763,8 @@ function updateCloudUI() {
 // --- Cloud Backend Configuration Helpers ---
 
 // --- Admin Dashboard & Student Management Engine ---
-let adminPasskey = (localStorage.getItem('py_academy_admin_key') || '');
-if (adminPasskey === 'admin123') {
-  adminPasskey = '';
-  localStorage.removeItem('py_academy_admin_key');
-}
+let adminPasskey = '';
+try { localStorage.removeItem('py_academy_admin_key'); } catch(e) {}
 let adminCachedData = null;
 let adminSearchTerm = '';
 
@@ -780,17 +777,16 @@ function openAdminModal() {
     document.body.appendChild(modal);
   }
   modal.style.display = 'flex';
-
-  if (!adminPasskey) {
-    renderAdminLoginPrompt();
-  } else {
-    fetchAdminData();
-  }
+  // Always require password on click - never bypass or auto-login
+  renderAdminLoginPrompt();
 }
 
 function closeAdminModal() {
   const m = document.getElementById('admin-modal');
   if (m) m.style.display = 'none';
+  adminPasskey = '';
+  adminCachedData = null;
+  try { localStorage.removeItem('py_academy_admin_key'); } catch(e) {}
 }
 
 function renderAdminLoginPrompt(errMsg = '') {
@@ -803,7 +799,7 @@ function renderAdminLoginPrompt(errMsg = '') {
       <p style="margin:0 0 20px;font-size:13.5px;color:#94a3b8">Enter your administrator passkey to inspect registered accounts, email addresses, and student learning progress.</p>
       <div style="margin-bottom:16px;text-align:left">
         <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#cbd5e1">Administrator Passkey</label>
-        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="king 55666" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
+        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="" autocomplete="new-password" onkeydown="if(event.key==='Enter')submitAdminPasskey()" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
       </div>
       ${errMsg ? `<div style="color:#f87171;font-size:13px;margin-bottom:14px">${esc(errMsg)}</div>` : ''}
       <div style="display:flex;gap:10px;justify-content:center">
@@ -812,13 +808,17 @@ function renderAdminLoginPrompt(errMsg = '') {
       </div>
     </div>
   `;
+  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) el.focus(); }, 60);
 }
 
 async function submitAdminPasskey() {
   const input = document.getElementById('admin-pass-input');
   if (!input) return;
   adminPasskey = input.value.trim();
-  localStorage.setItem('py_academy_admin_key', adminPasskey);
+  if (!adminPasskey) {
+    renderAdminLoginPrompt('Please enter the administrator passkey.');
+    return;
+  }
   await fetchAdminData();
 }
 
@@ -841,8 +841,8 @@ async function fetchAdminData() {
     });
 
     if (res.status === 403 || res.status === 401) {
-      localStorage.removeItem('py_academy_admin_key');
       adminPasskey = '';
+      adminCachedData = null;
       renderAdminLoginPrompt('Access denied: Invalid administrator passkey.');
       return;
     }
@@ -897,7 +897,7 @@ function renderAdminDashboard() {
         <div style="display:flex;gap:8px;align-items:center">
           <button class="ghost small-btn" onclick="exportAdminUsersCsv()">📥 Export CSV</button>
           <button class="ghost small-btn" onclick="fetchAdminData()">🔄 Refresh</button>
-          <button class="ghost small-btn" onclick="closeAdminModal()">✕ Close</button>
+          <button class="ghost small-btn" onclick="closeAdminModal()">🔒 Lock & Exit</button>
         </div>
       </div>
 
