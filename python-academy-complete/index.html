@@ -862,7 +862,7 @@ function renderAdminLoginPrompt(errMsg = '') {
       <p style="margin:0 0 20px;font-size:13.5px;color:#94a3b8">Enter your administrator passkey to inspect registered accounts, email addresses, and student learning progress.</p>
       <div style="margin-bottom:16px;text-align:left">
         <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#cbd5e1">Administrator Passkey</label>
-        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="" autocomplete="off" onkeydown="if(event.key==='Enter')submitAdminPasskey()" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
+        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')" onkeydown="if(event.key==='Enter')submitAdminPasskey()" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
       </div>
       ${errMsg ? `<div style="color:#f87171;font-size:13px;margin-bottom:14px">${esc(errMsg)}</div>` : ''}
       <div style="display:flex;gap:10px;justify-content:center">
@@ -871,7 +871,8 @@ function renderAdminLoginPrompt(errMsg = '') {
       </div>
     </div>
   `;
-  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) { el.value = ''; el.focus(); } }, 60);
+  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) { el.value = ''; } }, 40);
+  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) { el.value = ''; el.removeAttribute('readonly'); } }, 200);
 }
 
 async function submitAdminPasskey() {
@@ -1452,25 +1453,25 @@ function renderAuthModal() {
       <button class="${authTab === 'register' ? 'active' : ''}" onclick="switchAuthTab('register')">Custom Email Sign Up</button>
     </div>
     <div id="authAlert" style="display:none;margin-bottom:12px"></div>
-    <form onsubmit="handleAuthSubmit(event)">
+    <form onsubmit="handleAuthSubmit(event)" autocomplete="off">
       ${authTab === 'register' ? `
         <div class="form-group">
           <label>Choose Username</label>
-          <input id="authUsername" type="text" required placeholder="Choose a username" minlength="2">
+          <input id="authUsername" type="text" required placeholder="Choose a username" minlength="2" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
         </div>
         <div class="form-group">
           <label>Email Address (Optional)</label>
-          <input id="authIdentifier" type="text" placeholder="you@example.com (or leave blank)">
+          <input id="authIdentifier" type="text" placeholder="you@example.com (or leave blank)" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
         </div>
       ` : `
         <div class="form-group">
           <label>Student Name, Username, or Email</label>
-          <input id="authIdentifier" type="text" required placeholder="Enter your name or email">
+          <input id="authIdentifier" type="text" required placeholder="Enter your name or email" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
         </div>
       `}
       <div class="form-group">
         <label>Password</label>
-        <input id="authPassword" type="password" required placeholder="Enter password (min 4 chars)" minlength="4">
+        <input id="authPassword" type="password" required placeholder="Enter password (min 4 chars)" minlength="4" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')">
       </div>
       <button type="submit" class="primary" style="width:100%;margin-top:10px;justify-content:center;font-size:14px;padding:12px">
         ${authTab === 'login' ? 'Start Learning & Sync Progress ➔' : 'Create Account & Sync Progress ➔'}
@@ -1486,6 +1487,22 @@ function renderAuthModal() {
       ${isCloudOnline ? '🟢 Connected to 24/7 Cloud Backend' : '🟡 Cloud backend online (ready to sync)'}
     </div>
   `;
+  setTimeout(() => {
+    const idEl = document.getElementById('authIdentifier');
+    const pwEl = document.getElementById('authPassword');
+    const uEl = document.getElementById('authUsername');
+    if (idEl) { idEl.value = ''; }
+    if (pwEl) { pwEl.value = ''; }
+    if (uEl) { uEl.value = ''; }
+  }, 40);
+  setTimeout(() => {
+    const idEl = document.getElementById('authIdentifier');
+    const pwEl = document.getElementById('authPassword');
+    const uEl = document.getElementById('authUsername');
+    if (idEl && (idEl.value.toLowerCase() === 'admin' || idEl.value.toLowerCase() === 'rohithdub')) { idEl.value = ''; }
+    if (pwEl && (pwEl.value === 'king 55666' || pwEl.value === 'king55666')) { pwEl.value = ''; }
+    if (uEl && (uEl.value.toLowerCase() === 'admin' || uEl.value.toLowerCase() === 'rohithdub')) { uEl.value = ''; }
+  }, 180);
 }
 
 async function handleAuthSubmit(e) {
