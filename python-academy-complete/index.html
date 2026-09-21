@@ -1656,8 +1656,105 @@ function go(view, extra=''){location.hash=extra?`#${view}/${extra}`:`#${view}`;}
 function parseRoute(){const [v,id]=(location.hash.replace(/^#/,'')||'dashboard').split('/'); return {view:['dashboard','learn','lesson','lab','challenges','profile','search'].includes(v)?v:'dashboard',id}}
 function navRender(){for(const id of ['sideNav','mobileNav']){const el=document.getElementById(id); el.innerHTML=navItems.map(([k,ic,t])=>`<button data-view="${k}" class="${parseRoute().view===k?'active':''}"><span>${ic}</span>${t}</button>`).join(''); el.querySelectorAll('button').forEach(b=>b.onclick=()=>go(b.dataset.view));}}
 function renderAll(){recordActivity(); const r=parseRoute(); document.querySelectorAll('.view').forEach(x=>x.classList.remove('active')); document.getElementById('view-'+r.view).classList.add('active'); navRender(); document.getElementById('pageTitle').textContent={dashboard:'Dashboard',learn:'Curriculum',lesson:'Lesson',lab:'Code Lab',challenges:'Challenges',profile:'Profile',search:'Search'}[r.view]; renderDashboard();renderLearn();renderLesson(r.id);renderLab();renderChallenges();renderProfile();renderSearch();}
-function renderDashboard(){const done=state.completedLessons.length,total=LESSONS.length,ch=state.completedChallenges.length; const next=firstIncomplete(); const heroSubtitle=currentUser?`Welcome back, <strong>${esc(currentUser.username)}</strong>! Your progress and achievements are backed up to your cloud account.`:(isCloudOnline?'Learn the idea, see it in code, practice it, and prove mastery. Cloud sync is online — sign in to sync across devices.':'Learn the idea, see it in code, predict what happens, practice it, and prove mastery. Progress stored locally.'); document.getElementById('view-dashboard').innerHTML=`
+async function loadAdminDashboardWidgetData() {
+  if (!currentUser || !currentUser.isAdmin) return;
+  try {
+    const res = await fetch((API_BASE || '') + '/api/admin/users?key=' + encodeURIComponent(adminPasskey || 'king 55666'), {
+      headers: {
+        ...(authToken ? { 'Authorization': 'Bearer ' + authToken } : {}),
+        'x-admin-key': adminPasskey || 'king 55666'
+      }
+    });
+    if (res.ok) {
+      adminCachedData = await res.json();
+      const el = document.getElementById('admin-dashboard-student-list');
+      if (el) el.innerHTML = renderDashboardStudentListHtml();
+    }
+  } catch (err) {
+    console.warn('Could not load admin dashboard widget:', err);
+  }
+}
+
+async function refreshAdminDashboardWidget() {
+  const el = document.getElementById('admin-dashboard-student-list');
+  if (el) el.innerHTML = '<div style="text-align:center;padding:24px;color:#94a3b8">⏳ Refreshing live student activity from Render…</div>';
+  await loadAdminDashboardWidgetData();
+}
+
+function renderDashboardStudentListHtml() {
+  if (!adminCachedData || !adminCachedData.users) {
+    setTimeout(loadAdminDashboardWidgetData, 80);
+    return '<div style="text-align:center;padding:24px;color:#94a3b8">⏳ Loading registered students from Render backend…</div>';
+  }
+  const users = adminCachedData.users || [];
+  const students = users.filter(u => !u.isAdmin && (u.username || '').toLowerCase() !== 'rohithdub');
+  if (students.length === 0) {
+    return `
+      <div style="text-align:center;padding:28px 16px;color:#94a3b8;background:rgba(255,255,255,0.02);border-radius:12px">
+        <div style="font-size:32px;margin-bottom:8px">👥</div>
+        <div style="font-weight:600;color:#fff;margin-bottom:4px">No other student accounts yet</div>
+        <p style="margin:0;font-size:12.5px">As soon as students open your link and log in, their profiles, XP, and lesson progress will automatically appear here.</p>
+      </div>
+    `;
+  }
+  return `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(290px, 1fr));gap:12px">
+      ${students.map(s => `
+        <div style="background:#090e18;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div style="display:flex;align-items:center;gap:12px;min-width:0">
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#7c5cff,#38bdf8);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff;flex-shrink:0">
+              ${esc((s.username || 'S').slice(0, 2).toUpperCase())}
+            </div>
+            <div style="min-width:0">
+              <div style="font-weight:700;font-size:14px;color:#fff;display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                ${esc(s.username)}
+                <span style="font-size:10.5px;padding:1px 6px;background:rgba(255,255,255,0.06);color:#94a3b8;border-radius:4px;font-weight:normal">#${s.id}</span>
+              </div>
+              <div style="font-size:12px;color:#38bdf8;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.email)}</div>
+              <div style="font-size:12px;color:#94a3b8;margin-top:4px">
+                <span style="color:#a855f7;font-weight:700">${s.xp} XP</span> · 📚 ${s.completedCount || 0}/88 · ${s.streak > 0 ? `🔥 ${s.streak}d` : '0d streak'}
+              </div>
+            </div>
+          </div>
+          <button class="primary small-btn" style="background:rgba(124,92,255,0.25);border:1px solid #7c5cff;color:#fff;font-size:12px;padding:6px 12px;flex-shrink:0" onclick="viewUserDetail(${s.id})">Inspect ➔</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderDashboard(){
+  const done=state.completedLessons.length,total=LESSONS.length,ch=state.completedChallenges.length; 
+  const next=firstIncomplete(); 
+  const heroSubtitle=currentUser?`Welcome back, <strong>${esc(currentUser.username)}</strong>! Your progress and achievements are backed up to your cloud account.`:(isCloudOnline?'Learn the idea, see it in code, practice it, and prove mastery. Cloud sync is online — sign in to sync across devices.':'Learn the idea, see it in code, predict what happens, practice it, and prove mastery. Progress stored locally.'); 
+
+  const adminStudentWidget = (currentUser && currentUser.isAdmin) ? `
+    <div class="card" style="margin-top:16px;border:1px solid rgba(245,158,11,0.4);background:#0d1424;border-radius:18px">
+      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:12px;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:24px">👑</span>
+          <div>
+            <h3 style="margin:0;font-size:16px;color:#fff;display:flex;align-items:center;gap:8px">
+              Live Student Roster & Activity Feed
+              <span style="font-size:10px;padding:2px 7px;background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);border-radius:6px;font-weight:700">PRIVATE ADMIN ONLY</span>
+            </h3>
+            <p style="margin:2px 0 0;font-size:12px;color:#94a3b8">Real-time learners registered on Render. Only visible to your primary account.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="ghost small-btn" onclick="refreshAdminDashboardWidget()">🔄 Refresh</button>
+          <button class="primary small-btn" style="background:linear-gradient(135deg,#f59e0b,#ea580c);border:none" onclick="openAdminModal()">Full Admin Panel ➔</button>
+        </div>
+      </div>
+      <div id="admin-dashboard-student-list">
+        ${renderDashboardStudentListHtml()}
+      </div>
+    </div>
+  ` : '';
+
+  document.getElementById('view-dashboard').innerHTML=`
 <div class="hero"><div class="eyebrow">Your Python journey</div><h2>Build Python skills that stay with you.</h2><p>${heroSubtitle}</p><div class="toolbar"><button class="primary" onclick="go('lesson','${next.id}')">${done?'Continue learning':'Start learning'} →</button><button class="ghost" onclick="go('lab')">Open Code Lab</button></div></div>
+${adminStudentWidget}
 <div class="stats"><div class="stat"><div class="n">${state.xp}</div><div class="l">XP earned</div></div><div class="stat"><div class="n">${state.streak} 🔥</div><div class="l">Study streak</div></div><div class="stat"><div class="n">${done} / ${total}</div><div class="l">Lessons mastered</div></div><div class="stat"><div class="n">${ch} / ${CHALLENGES.length}</div><div class="l">Challenges solved</div></div></div>
 <div class="grid grid-2"><div class="card"><div class="eyebrow">Course progress</div><h3>${pct(done,total)}% complete</h3><div class="progress"><span style="width:${pct(done,total)}%"></span></div><p>Level ${Math.min(10,Math.floor(done/8))} of 10. Finish all lessons in a level to unlock the next one.</p></div><div class="card"><div class="eyebrow">Today</div><h3>${new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'})}</h3><p>Keep the session focused: read one lesson, run one experiment, and complete one mastery check.</p></div></div>
 <div class="card" style="margin-top:16px"><div class="eyebrow">Quick access</div><div class="grid grid-3" style="margin-top:12px"><button class="ghost" onclick="go('learn')">Browse roadmap</button><button class="ghost" onclick="go('challenges')">Practice challenges</button><button class="ghost" onclick="go('profile')">Review progress</button></div></div>`}
