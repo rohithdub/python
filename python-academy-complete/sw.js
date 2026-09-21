@@ -1,7 +1,5 @@
-const CACHE = "python-academy-shell-v10";
+const CACHE = "python-academy-shell-v11";
 const APP = [
-  "./",
-  "./index.html",
   "./manifest.json",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
@@ -17,7 +15,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+      Promise.all(keys.map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
 });
@@ -28,21 +26,29 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(req.url);
 
-  // Network-first for HTML pages so changes to index.html reflect immediately
-  if (req.mode === "navigate" || req.headers.get("accept")?.includes("text/html") || url.pathname.endsWith("index.html") || url.pathname === "/") {
+  // Always Network-First for HTML and navigations so code updates take effect immediately
+  const isHtml = req.mode === "navigate" ||
+                 req.destination === "document" ||
+                 url.pathname.endsWith("/") ||
+                 url.pathname.endsWith(".html") ||
+                 (req.headers.get("accept") && req.headers.get("accept").includes("text/html"));
+
+  if (isHtml) {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: "no-store" })
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
+          if (res && res.status === 200) {
+            const copy = res.clone();
+            caches.open(CACHE).then((c) => c.put(req, copy));
+          }
           return res;
         })
-        .catch(() => caches.match(req).then((cached) => cached || caches.match("./index.html")))
+        .catch(() => caches.match(req).then((cached) => cached || caches.match("./index.html") || caches.match("./")))
     );
     return;
   }
 
-  // Cache-first for other assets
+  // Cache-first for static assets (Skulpt JS, icons, manifest)
   event.respondWith(
     caches.match(req).then((cached) =>
       cached ||

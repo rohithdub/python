@@ -678,7 +678,16 @@ const DEFAULT={version:1,xp:0,streak:0,lastStudy:null,completedLessons:[],lesson
 let state=loadState();
 // --- Dual-Mode Cloud Backend Engine ---
 const DEFAULT_CLOUD_API = 'https://python-bdjn.onrender.com';
-let API_BASE = (localStorage.getItem('py_academy_api_url') || (window.location.port === '5000' ? '' : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : DEFAULT_CLOUD_API))).replace(/\/+$/, '');
+let storedApi = null;
+try {
+  localStorage.removeItem('py_academy_admin_key');
+  storedApi = localStorage.getItem('py_academy_api_url');
+  if (storedApi && (storedApi.includes('localhost') || storedApi.includes('127.0.0.1')) && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    localStorage.removeItem('py_academy_api_url');
+    storedApi = null;
+  }
+} catch (e) {}
+let API_BASE = (storedApi || (window.location.port === '5000' ? '' : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : DEFAULT_CLOUD_API))).replace(/\/+$/, '');
 let authToken = localStorage.getItem('py_academy_token') || null;
 let currentUser = null;
 let isCloudOnline = false;
@@ -799,7 +808,7 @@ function renderAdminLoginPrompt(errMsg = '') {
       <p style="margin:0 0 20px;font-size:13.5px;color:#94a3b8">Enter your administrator passkey to inspect registered accounts, email addresses, and student learning progress.</p>
       <div style="margin-bottom:16px;text-align:left">
         <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#cbd5e1">Administrator Passkey</label>
-        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="" autocomplete="new-password" onkeydown="if(event.key==='Enter')submitAdminPasskey()" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
+        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="" autocomplete="off" onkeydown="if(event.key==='Enter')submitAdminPasskey()" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
       </div>
       ${errMsg ? `<div style="color:#f87171;font-size:13px;margin-bottom:14px">${esc(errMsg)}</div>` : ''}
       <div style="display:flex;gap:10px;justify-content:center">
@@ -808,7 +817,7 @@ function renderAdminLoginPrompt(errMsg = '') {
       </div>
     </div>
   `;
-  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) el.focus(); }, 60);
+  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) { el.value = ''; el.focus(); } }, 60);
 }
 
 async function submitAdminPasskey() {
@@ -1798,6 +1807,16 @@ function exportProgress(){const blob=new Blob([JSON.stringify(state,null,2)],{ty
 function importProgress(){const input=document.createElement('input');input.type='file';input.accept='.json';input.onchange=()=>{const file=input.files?.[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{localStorage.setItem(KEY,String(r.result));state=loadState();save();alert('Progress imported successfully.')}catch{alert('Invalid progress file.')}};r.readAsText(file)};input.click();}
 function resetProgress(){if(confirm('Reset all lessons, XP, notes, bookmarks, and challenges?')){localStorage.removeItem(KEY);state=structuredClone(DEFAULT);save();go('dashboard')}}
 document.getElementById('resetBtn').onclick=resetProgress; document.getElementById('globalSearch').addEventListener('input',e=>{if(e.target.value.trim()){go('search');renderSearch();} else if(parseRoute().view==='search')go('dashboard')}); window.addEventListener('hashchange',renderAll); document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('globalSearch').focus()}}); recordActivity(); renderAll(); checkCloudStatus();
-if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{const reg=await navigator.serviceWorker.register('./sw.js');reg.update();}catch{}});}
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    window.location.reload();
+  });
+  window.addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('./sw.js');
+      reg.update();
+    } catch (e) {}
+  });
+}
 </script>
 </body></html>
