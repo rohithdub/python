@@ -1208,8 +1208,11 @@ function renderAuthModal() {
         ${authTab === 'login' ? 'Sign In & Sync' : 'Create Account & Sync Progress'}
       </button>
     </form>
-    <div style="margin-top:16px;text-align:center;font-size:12px" class="muted">
-      ${isCloudOnline ? '🟢 Connected to Python Academy Backend' : '⚪ Offline / GitHub Pages Mode'}
+    <div style="margin-top:12px;text-align:center">
+      <button type="button" class="ghost" style="font-size:12.5px;padding:6px 14px;color:#94a3b8" onclick="closeAuthModal()">Continue as Guest ➔</button>
+    </div>
+    <div style="margin-top:12px;text-align:center;font-size:11.5px" class="muted">
+      ${isCloudOnline ? '🟢 Connected to 24/7 Cloud Backend' : 'Connecting to 24/7 Cloud Backend…'}
     </div>
   `;
 }
@@ -1848,6 +1851,9 @@ function exportProgress(){const blob=new Blob([JSON.stringify(state,null,2)],{ty
 function importProgress(){const input=document.createElement('input');input.type='file';input.accept='.json';input.onchange=()=>{const file=input.files?.[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{localStorage.setItem(KEY,String(r.result));state=loadState();save();alert('Progress imported successfully.')}catch{alert('Invalid progress file.')}};r.readAsText(file)};input.click();}
 function resetProgress(){if(confirm('Reset all lessons, XP, notes, bookmarks, and challenges?')){localStorage.removeItem(KEY);state=structuredClone(DEFAULT);save();go('dashboard')}}
 document.getElementById('resetBtn').onclick=resetProgress; document.getElementById('globalSearch').addEventListener('input',e=>{if(e.target.value.trim()){go('search');renderSearch();} else if(parseRoute().view==='search')go('dashboard')}); window.addEventListener('hashchange',renderAll); document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('globalSearch').focus()}}); recordActivity(); renderAll(); checkCloudStatus();
+if (!authToken && !currentUser) {
+  setTimeout(() => { openAuthModal(); }, 350);
+}
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     window.location.reload();
