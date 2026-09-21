@@ -184,7 +184,8 @@ def save_progress(payload: dict, current_user: models.User = Depends(get_current
             state_json=json.dumps(payload),
             xp=xp,
             streak=streak,
-            completed_count=count
+            completed_count=count,
+            updated_at=datetime.utcnow()
         )
         db.add(prog)
     else:
@@ -192,6 +193,7 @@ def save_progress(payload: dict, current_user: models.User = Depends(get_current
         current_user.progress.xp = xp
         current_user.progress.streak = streak
         current_user.progress.completed_count = count
+        current_user.progress.updated_at = datetime.utcnow()
 
     db.commit()
     return {"message": "Progress saved successfully", "result": {"success": True, "xp": xp, "streak": streak}}
@@ -284,9 +286,12 @@ def get_admin_users(
             "completedCount": completed_count,
             "updatedAt": up.updated_at.isoformat() if up and up.updated_at else None,
             "completedLessons": state_data.get("completedLessons", []),
+            "completedChallenges": state_data.get("completedChallenges", []),
             "quizResults": state_data.get("quizResults", {}),
+            "notes": state_data.get("notes", {}),
             "notesCount": len(state_data.get("notes", {})),
-            "challengesCount": len(state_data.get("completedChallenges", []))
+            "challengesCount": len(state_data.get("completedChallenges", [])),
+            "lessonPractice": state_data.get("lessonPractice", {})
         })
 
     stats = {

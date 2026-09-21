@@ -262,9 +262,12 @@ const server = http.createServer(async (req, res) => {
           completedCount: u.completed_count,
           updatedAt: u.updated_at,
           completedLessons: parsedState?.completedLessons || [],
+          completedChallenges: parsedState?.completedChallenges || [],
           quizResults: parsedState?.quizResults || {},
+          notes: parsedState?.notes || {},
           notesCount: parsedState?.notes ? Object.keys(parsedState.notes).length : 0,
-          challengesCount: parsedState?.completedChallenges?.length || 0
+          challengesCount: parsedState?.completedChallenges?.length || 0,
+          lessonPractice: parsedState?.lessonPractice || {}
         };
       });
 

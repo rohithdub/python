@@ -704,7 +704,10 @@ async function checkCloudStatus() {
     const res = await fetch(API_BASE + '/api/health', { method: 'GET', signal: AbortSignal.timeout(10000) });
     if (res.ok) {
       isCloudOnline = true;
-      if (authToken) await fetchCurrentUser();
+      if (authToken) {
+        await fetchCurrentUser();
+        await syncCloudProgress();
+      }
     } else {
       isCloudOnline = false;
     }
@@ -781,6 +784,31 @@ let adminPasskey = '';
 try { localStorage.removeItem('py_academy_admin_key'); } catch(e) {}
 let adminCachedData = null;
 let adminSearchTerm = '';
+let adminActiveDetailTab = 'lessons';
+
+function formatAdminDate(dateStr) {
+  if (!dateStr) return '—';
+  try {
+    const s = String(dateStr);
+    const d = new Date(s.endsWith('Z') || s.includes('+') ? s : s + 'Z');
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleDateString(undefined, {
+        month: 'short', day: 'numeric', year: 'numeric'
+      }) + ', ' + d.toLocaleTimeString(undefined, {
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+    const d2 = new Date(s);
+    if (!isNaN(d2.getTime())) {
+      return d2.toLocaleDateString(undefined, {
+        month: 'short', day: 'numeric', year: 'numeric'
+      }) + ', ' + d2.toLocaleTimeString(undefined, {
+        hour: '2-digit', minute: '2-digit'
+      });
+    }
+  } catch (e) {}
+  return String(dateStr).slice(0, 16);
+}
 
 function openAdminModal() {
   let modal = document.getElementById('admin-modal');
@@ -801,6 +829,7 @@ function closeAdminModal() {
   adminPasskey = '';
   adminCachedData = null;
   try { localStorage.removeItem('py_academy_admin_key'); } catch(e) {}
+  closeUserDetailModal();
 }
 
 function renderAdminLoginPrompt(errMsg = '') {
@@ -895,7 +924,7 @@ function renderAdminDashboard() {
   );
 
   modal.innerHTML = `
-    <div style="max-width:1050px;width:95vw;background:#0d1424;border:1px solid rgba(245,158,11,0.4);border-radius:24px;box-shadow:0 25px 60px rgba(0,0,0,0.85);max-height:92vh;display:flex;flex-direction:column;overflow:hidden">
+    <div style="max-width:1100px;width:96vw;background:#0d1424;border:1px solid rgba(245,158,11,0.4);border-radius:24px;box-shadow:0 25px 60px rgba(0,0,0,0.85);max-height:92vh;display:flex;flex-direction:column;overflow:hidden">
       <!-- Header -->
       <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;background:rgba(245,158,11,0.06)">
         <div style="display:flex;align-items:center;gap:12px">
@@ -905,7 +934,7 @@ function renderAdminDashboard() {
               Admin Panel · Student Directory & Progress
               <span style="font-size:11px;padding:2px 8px;background:rgba(0,230,118,0.15);color:#00e676;border-radius:999px;border:1px solid #00e676">Live</span>
             </h2>
-            <p style="margin:2px 0 0;font-size:12px;color:#94a3b8">Inspect registered user accounts, emails, XP, and lesson completion status</p>
+            <p style="margin:2px 0 0;font-size:12px;color:#94a3b8">Inspect registered user accounts, emails, XP, quizzes, challenges, and lesson completion status</p>
           </div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
@@ -916,7 +945,7 @@ function renderAdminDashboard() {
       </div>
 
       <!-- KPI Stats -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(170px, 1fr));gap:12px;padding:14px 24px;background:#090e18;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:12px;padding:14px 24px;background:#090e18;border-bottom:1px solid rgba(255,255,255,0.06)">
         <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px 14px">
           <div style="font-size:11.5px;color:#94a3b8">Total Learners</div>
           <div style="font-size:22px;font-weight:700;color:#fff">${stats.totalUsers}</div>
@@ -952,6 +981,7 @@ function renderAdminDashboard() {
               <th style="padding:12px 8px">Total XP</th>
               <th style="padding:12px 8px">Streak</th>
               <th style="padding:12px 8px">Lessons Done</th>
+              <th style="padding:12px 8px">Challenges</th>
               <th style="padding:12px 8px">Registered Date</th>
               <th style="padding:12px 8px">Last Active</th>
               <th style="padding:12px 8px;text-align:right">Progress Details</th>
@@ -960,9 +990,11 @@ function renderAdminDashboard() {
           <tbody>
             ${filtered.length === 0 ? `
               <tr>
-                <td colspan="9" style="text-align:center;padding:40px;color:#64748b">No accounts found matching your search.</td>
+                <td colspan="10" style="text-align:center;padding:40px;color:#64748b">No accounts found matching your search.</td>
               </tr>
-            ` : filtered.map(u => `
+            ` : filtered.map(u => {
+              const chCount = (u.completedChallenges || []).length || u.challengesCount || 0;
+              return `
               <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
                 <td style="padding:12px 8px;color:#64748b">#${u.id}</td>
                 <td style="padding:12px 8px;font-weight:600;color:#fff">${esc(u.username)}</td>
@@ -972,18 +1004,19 @@ function renderAdminDashboard() {
                 <td style="padding:12px 8px">
                   <div style="display:flex;align-items:center;gap:8px">
                     <span style="font-weight:600">${u.completedCount || 0} / 88</span>
-                    <div style="width:50px;height:5px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden">
+                    <div style="width:48px;height:5px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden">
                       <div style="width:${Math.min(100, Math.round(((u.completedCount || 0) / 88) * 100))}%;height:100%;background:#00e676"></div>
                     </div>
                   </div>
                 </td>
-                <td style="padding:12px 8px;color:#94a3b8;font-size:12px">${u.createdAt ? u.createdAt.slice(0, 10) : '—'}</td>
-                <td style="padding:12px 8px;color:#94a3b8;font-size:12px">${u.updatedAt ? u.updatedAt.slice(0, 10) : '—'}</td>
+                <td style="padding:12px 8px;color:#38bdf8;font-weight:600">${chCount} / 11</td>
+                <td style="padding:12px 8px;color:#94a3b8;font-size:11.5px;white-space:nowrap">${formatAdminDate(u.createdAt)}</td>
+                <td style="padding:12px 8px;color:#94a3b8;font-size:11.5px;white-space:nowrap">${formatAdminDate(u.updatedAt)}</td>
                 <td style="padding:12px 8px;text-align:right">
-                  <button class="ghost small-btn" onclick="viewUserDetail(${u.id})">Inspect ➔</button>
+                  <button class="primary small-btn" style="background:rgba(124,92,255,0.25);border:1px solid #7c5cff;color:#fff;font-weight:600" onclick="viewUserDetail(${u.id})">Inspect ➔</button>
                 </td>
               </tr>
-            `).join('')}
+            `;}).join('')}
           </tbody>
         </table>
       </div>
@@ -1001,73 +1034,202 @@ function handleAdminSearch(val) {
   }
 }
 
-function viewUserDetail(userId) {
+function viewUserDetail(userId, tab = 'lessons') {
   if (!adminCachedData || !adminCachedData.users) return;
   const u = adminCachedData.users.find(x => x.id === userId);
   if (!u) return;
+
+  adminActiveDetailTab = tab;
 
   let detailModal = document.getElementById('admin-user-detail-modal');
   if (!detailModal) {
     detailModal = document.createElement('div');
     detailModal.id = 'admin-user-detail-modal';
-    detailModal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:9999999;padding:16px';
+    detailModal.style.cssText = 'position:fixed;inset:0;background:rgba(4,8,18,0.88);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:9999999;padding:16px';
+    detailModal.onclick = (e) => {
+      if (e.target === detailModal) closeUserDetailModal();
+    };
     document.body.appendChild(detailModal);
   }
 
   const completedList = (u.completedLessons || []).map(id => {
     const l = typeof LESSONS !== 'undefined' ? LESSONS.find(x => x.id === id) : null;
-    return l ? `Level ${l.level} · ${l.title}` : id;
+    return {
+      id,
+      title: l ? l.title : id,
+      level: l ? l.level : '—',
+      levelTitle: l ? l.levelTitle : '',
+      concept: l ? l.concept : ''
+    };
   });
 
-  detailModal.innerHTML = `
-    <div style="background:#0e1526;border:1px solid rgba(124,92,255,0.4);border-radius:24px;max-width:540px;width:100%;padding:28px;box-shadow:0 25px 60px rgba(0,0,0,0.9);max-height:85vh;display:flex;flex-direction:column">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
-        <div>
-          <h3 style="margin:0;font-size:20px;color:#fff">${esc(u.username)}</h3>
-          <div style="font-size:13px;color:#38bdf8;margin-top:2px">${esc(u.email)} · User #${u.id}</div>
-        </div>
-        <button class="ghost small-btn" onclick="document.getElementById('admin-user-detail-modal').style.display='none'">✕ Close</button>
-      </div>
+  const challengesList = (u.completedChallenges || []).map(id => {
+    const c = typeof CHALLENGES !== 'undefined' ? CHALLENGES.find(x => x.id === id) : null;
+    return {
+      id,
+      title: c ? c.title : id,
+      level: c ? c.level : '—',
+      description: c ? c.description : ''
+    };
+  });
 
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px">
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center">
-          <div style="font-size:11px;color:#94a3b8">XP Earned</div>
-          <div style="font-size:18px;font-weight:700;color:#7c5cff">${u.xp}</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center">
-          <div style="font-size:11px;color:#94a3b8">Study Streak</div>
-          <div style="font-size:18px;font-weight:700;color:#f59e0b">🔥 ${u.streak}d</div>
-        </div>
-        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center">
-          <div style="font-size:11px;color:#94a3b8">Completed</div>
-          <div style="font-size:18px;font-weight:700;color:#00e676">${u.completedCount} / 88</div>
-        </div>
-      </div>
+  const quizEntries = Object.entries(u.quizResults || {}).map(([lessonId, score]) => {
+    const l = typeof LESSONS !== 'undefined' ? LESSONS.find(x => x.id === lessonId) : null;
+    const maxScore = l && l.quiz ? l.quiz.length : 2;
+    return {
+      lessonId,
+      score,
+      maxScore,
+      title: l ? `Level ${l.level} · ${l.title}` : lessonId,
+      passed: score >= maxScore
+    };
+  });
 
-      <h4 style="margin:0 0 8px;font-size:14px;color:#cbd5e1">Mastered Lessons (${completedList.length})</h4>
-      <div style="flex:1;overflow-y:auto;background:#090e18;border:1px solid var(--border);border-radius:12px;padding:12px;max-height:220px">
-        ${completedList.length === 0 ? '<div style="color:#64748b;font-size:13px;text-align:center;padding:20px">No lessons completed yet.</div>' : completedList.map(item => `
-          <div style="padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12.5px;color:#e2e8f0;display:flex;align-items:center;gap:8px">
-            <span style="color:#00e676">✓</span> ${esc(item)}
+  const notesEntries = Object.entries(u.notes || {})
+    .filter(([_, note]) => note && String(note).trim())
+    .map(([lessonId, note]) => {
+      const l = typeof LESSONS !== 'undefined' ? LESSONS.find(x => x.id === lessonId) : null;
+      return {
+        lessonId,
+        title: l ? `Level ${l.level} · ${l.title}` : lessonId,
+        note: String(note).trim()
+      };
+    });
+
+  let tabContentHtml = '';
+
+  if (adminActiveDetailTab === 'lessons') {
+    if (completedList.length === 0) {
+      tabContentHtml = `<div style="text-align:center;padding:36px;color:#64748b;font-size:13.5px">No lessons mastered yet by this learner.</div>`;
+    } else {
+      tabContentHtml = completedList.map(item => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#090e18;border:1px solid rgba(255,255,255,0.06);border-radius:10px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="color:#00e676;font-size:16px">✓</span>
+            <div>
+              <div style="font-weight:600;font-size:13.5px;color:#fff">${esc(item.title)}</div>
+              <div style="font-size:11.5px;color:#94a3b8">Level ${item.level} · ${esc(item.levelTitle || item.id)}</div>
+            </div>
           </div>
-        `).join('')}
+          <span class="pill" style="color:#00e676;border-color:rgba(0,230,118,0.3);background:rgba(0,230,118,0.08);font-size:11.5px">+10 XP</span>
+        </div>
+      `).join('');
+    }
+  } else if (adminActiveDetailTab === 'challenges') {
+    if (challengesList.length === 0) {
+      tabContentHtml = `<div style="text-align:center;padding:36px;color:#64748b;font-size:13.5px">No practice challenges solved yet.</div>`;
+    } else {
+      tabContentHtml = challengesList.map(c => `
+        <div style="padding:12px 14px;background:#090e18;border:1px solid rgba(255,255,255,0.06);border-radius:10px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="font-weight:600;font-size:13.5px;color:#fff">🏆 ${esc(c.title)}</div>
+            <span class="pill" style="color:#38bdf8;border-color:rgba(56,189,248,0.3);background:rgba(56,189,248,0.08);font-size:11.5px">Level ${c.level} · Solved</span>
+          </div>
+          ${c.description ? `<p style="margin:6px 0 0;font-size:12px;color:#94a3b8">${esc(c.description)}</p>` : ''}
+        </div>
+      `).join('');
+    }
+  } else if (adminActiveDetailTab === 'quizzes') {
+    if (quizEntries.length === 0) {
+      tabContentHtml = `<div style="text-align:center;padding:36px;color:#64748b;font-size:13.5px">No mastery check quizzes taken yet.</div>`;
+    } else {
+      tabContentHtml = quizEntries.map(q => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#090e18;border:1px solid rgba(255,255,255,0.06);border-radius:10px;margin-bottom:8px">
+          <div>
+            <div style="font-weight:600;font-size:13.5px;color:#fff">${esc(q.title)}</div>
+            <div style="font-size:11.5px;color:#94a3b8">Lesson ID: ${esc(q.lessonId)}</div>
+          </div>
+          <span class="pill" style="color:${q.passed ? '#00e676' : '#f59e0b'};border-color:${q.passed ? 'rgba(0,230,118,0.3)' : 'rgba(245,158,11,0.3)'};background:${q.passed ? 'rgba(0,230,118,0.08)' : 'rgba(245,158,11,0.08)'};font-size:12px">
+            ${q.passed ? '✓ 100% Passed' : 'Score: ' + q.score + '/' + q.maxScore}
+          </span>
+        </div>
+      `).join('');
+    }
+  } else if (adminActiveDetailTab === 'notes') {
+    if (notesEntries.length === 0) {
+      tabContentHtml = `<div style="text-align:center;padding:36px;color:#64748b;font-size:13.5px">No personal study notes written yet by this learner.</div>`;
+    } else {
+      tabContentHtml = notesEntries.map(n => `
+        <div style="padding:12px 14px;background:#090e18;border:1px solid rgba(255,255,255,0.06);border-radius:10px;margin-bottom:8px">
+          <div style="font-size:12px;font-weight:600;color:#cbd5e1;margin-bottom:6px">📝 ${esc(n.title)}</div>
+          <div style="font-size:13px;color:#e2e8f0;white-space:pre-wrap;background:rgba(255,255,255,0.02);padding:8px 10px;border-radius:6px;border-left:3px solid #7c5cff">${esc(n.note)}</div>
+        </div>
+      `).join('');
+    }
+  }
+
+  detailModal.innerHTML = `
+    <div style="background:#0e1526;border:1px solid rgba(124,92,255,0.4);border-radius:22px;max-width:640px;width:100%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 25px 60px rgba(0,0,0,0.9);overflow:hidden">
+      <!-- Modal Header -->
+      <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;background:rgba(124,92,255,0.05)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#7c5cff,#38bdf8);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;box-shadow:0 4px 12px rgba(124,92,255,0.3)">
+            ${esc((u.username || 'U').slice(0, 2).toUpperCase())}
+          </div>
+          <div>
+            <h3 style="margin:0;font-size:18px;color:#fff;display:flex;align-items:center;gap:8px">
+              ${esc(u.username)}
+              <span style="font-size:11px;padding:2px 7px;background:rgba(255,255,255,0.08);color:#94a3b8;border-radius:6px">ID #${u.id}</span>
+            </h3>
+            <div style="font-size:12.5px;color:#38bdf8;margin-top:2px;font-family:monospace">${esc(u.email)}</div>
+          </div>
+        </div>
+        <button class="ghost small-btn" onclick="closeUserDetailModal()">✕ Close</button>
       </div>
 
-      <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#94a3b8">
-        <div>Registered: ${u.createdAt ? u.createdAt : '—'}</div>
-        <button class="primary small-btn" onclick="document.getElementById('admin-user-detail-modal').style.display='none'">Done</button>
+      <!-- KPI Metrics Strip -->
+      <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:10px;padding:12px 24px;background:#090e18;border-bottom:1px solid rgba(255,255,255,0.06)">
+        <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;padding:8px 12px;text-align:center">
+          <div style="font-size:11px;color:#94a3b8">XP Earned</div>
+          <div style="font-size:17px;font-weight:700;color:#7c5cff">${u.xp} XP</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;padding:8px 12px;text-align:center">
+          <div style="font-size:11px;color:#94a3b8">Study Streak</div>
+          <div style="font-size:17px;font-weight:700;color:#f59e0b">🔥 ${u.streak}d</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;padding:8px 12px;text-align:center">
+          <div style="font-size:11px;color:#94a3b8">Lessons Mastered</div>
+          <div style="font-size:17px;font-weight:700;color:#00e676">${u.completedCount || 0} / 88</div>
+        </div>
+      </div>
+
+      <!-- Detail Tabs Navigation -->
+      <div style="display:flex;gap:6px;padding:12px 24px 8px;border-bottom:1px solid rgba(255,255,255,0.06);background:#0c1220;overflow-x:auto">
+        <button class="ghost small-btn" style="${adminActiveDetailTab==='lessons'?'background:rgba(124,92,255,0.2);border-color:#7c5cff;color:#fff;font-weight:600':''}" onclick="viewUserDetail(${u.id}, 'lessons')">📚 Lessons (${completedList.length})</button>
+        <button class="ghost small-btn" style="${adminActiveDetailTab==='challenges'?'background:rgba(56,189,248,0.2);border-color:#38bdf8;color:#fff;font-weight:600':''}" onclick="viewUserDetail(${u.id}, 'challenges')">🏆 Challenges (${challengesList.length})</button>
+        <button class="ghost small-btn" style="${adminActiveDetailTab==='quizzes'?'background:rgba(0,230,118,0.2);border-color:#00e676;color:#fff;font-weight:600':''}" onclick="viewUserDetail(${u.id}, 'quizzes')">🧩 Quizzes (${quizEntries.length})</button>
+        <button class="ghost small-btn" style="${adminActiveDetailTab==='notes'?'background:rgba(245,158,11,0.2);border-color:#f59e0b;color:#fff;font-weight:600':''}" onclick="viewUserDetail(${u.id}, 'notes')">📝 Notes (${notesEntries.length})</button>
+      </div>
+
+      <!-- Tab Content Area -->
+      <div style="flex:1;overflow-y:auto;padding:16px 24px;background:#090e18;max-height:280px">
+        ${tabContentHtml}
+      </div>
+
+      <!-- Modal Footer -->
+      <div style="padding:14px 24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;background:#0d1424;font-size:11.5px;color:#94a3b8">
+        <div>
+          <div>Joined: <strong>${formatAdminDate(u.createdAt)}</strong></div>
+          <div style="margin-top:2px">Last Active: <strong>${formatAdminDate(u.updatedAt)}</strong></div>
+        </div>
+        <button class="primary small-btn" onclick="closeUserDetailModal()">Done</button>
       </div>
     </div>
   `;
   detailModal.style.display = 'flex';
 }
 
+function closeUserDetailModal() {
+  const m = document.getElementById('admin-user-detail-modal');
+  if (m) m.style.display = 'none';
+}
+
 function exportAdminUsersCsv() {
   if (!adminCachedData || !adminCachedData.users) return;
   const users = adminCachedData.users;
-  let csv = 'ID,Username,Email,XP,Streak,CompletedLessons,RegisteredDate,LastActiveDate\n';
+  let csv = 'ID,Username,Email,XP,Streak,CompletedLessons,CompletedChallenges,QuizzesTaken,NotesCount,RegisteredDate,LastActiveDate\n';
   users.forEach(u => {
-    csv += `"${u.id}","${(u.username||'').replace(/"/g, '""')}","${(u.email||'').replace(/"/g, '""')}",${u.xp},${u.streak},${u.completedCount},"${u.createdAt||''}","${u.updatedAt||''}"\n`;
+    csv += `"${u.id}","${(u.username||'').replace(/"/g, '""')}","${(u.email||'').replace(/"/g, '""')}",${u.xp},${u.streak},${u.completedCount},${(u.completedChallenges||[]).length},${Object.keys(u.quizResults||{}).length},${Object.keys(u.notes||{}).length||u.notesCount||0},"${u.createdAt||''}","${u.updatedAt||''}"\n`;
   });
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const a = document.createElement('a');
@@ -1704,12 +1866,12 @@ async function runPractice(id){
 
   state.practiceCode[id]=code;
   state.practiceInput[id]=input;
-  localStorage.setItem(KEY,JSON.stringify(state));
+  save();
   result.className='status';
   result.textContent='Running your code…';
 
-  try{const out=await executePython(code,input,3000);state.lessonPractice[id]=true;if(!state.practiceAwarded[id]){state.xp+=3;state.practiceAwarded[id]=true;}localStorage.setItem(KEY,JSON.stringify(state));result.className='status ok';result.textContent='Practice completed ✓ Your code ran successfully.'+(out.trim()?` Output: ${out.trim()}`:' No output was produced.'); triggerConfetti(35); showToast('🎉 Practice completed! +3 XP earned!', 'ok');const pills=document.querySelectorAll('#view-lesson .toolbar .pill');pills.forEach(p=>{if(p.textContent.includes('Not completed'))p.textContent='Practice completed ✓';});}catch(err){const errInfo=formatBeginnerError(err);result.className='status bad';result.innerHTML=`<div><strong>Practice Error:</strong> <code>${esc(errInfo.raw)}</code></div>${errInfo.tip?`<div style="margin-top:8px;padding:8px 12px;background:rgba(124,92,255,0.18);border:1px solid rgba(124,92,255,0.4);border-radius:10px;color:#dcd6ff;font-size:13px">💡 <strong>Beginner Tip:</strong> ${esc(errInfo.tip)}</div>`:''}`;}}
-function resetPractice(id){const l=lessonById(id),code=document.getElementById('practice-code-'+id),input=document.getElementById('practice-input-'+id),result=document.getElementById('practice-result-'+id);if(code)code.value=l.code;if(input)input.value='';delete state.practiceCode[id];delete state.practiceInput[id];localStorage.setItem(KEY,JSON.stringify(state));if(result){result.className='status';result.textContent=state.lessonPractice[id]?'Practice was already completed. You can edit and run it again.':'Run your code successfully to record this practice.';}}
+  try{const out=await executePython(code,input,3000);state.lessonPractice[id]=true;if(!state.practiceAwarded[id]){state.xp+=3;state.practiceAwarded[id]=true;}save();result.className='status ok';result.textContent='Practice completed ✓ Your code ran successfully.'+(out.trim()?` Output: ${out.trim()}`:' No output was produced.'); triggerConfetti(35); showToast('🎉 Practice completed! +3 XP earned!', 'ok');const pills=document.querySelectorAll('#view-lesson .toolbar .pill');pills.forEach(p=>{if(p.textContent.includes('Not completed'))p.textContent='Practice completed ✓';});}catch(err){const errInfo=formatBeginnerError(err);result.className='status bad';result.innerHTML=`<div><strong>Practice Error:</strong> <code>${esc(errInfo.raw)}</code></div>${errInfo.tip?`<div style="margin-top:8px;padding:8px 12px;background:rgba(124,92,255,0.18);border:1px solid rgba(124,92,255,0.4);border-radius:10px;color:#dcd6ff;font-size:13px">💡 <strong>Beginner Tip:</strong> ${esc(errInfo.tip)}</div>`:''}`;}}
+function resetPractice(id){const l=lessonById(id),code=document.getElementById('practice-code-'+id),input=document.getElementById('practice-input-'+id),result=document.getElementById('practice-result-'+id);if(code)code.value=l.code;if(input)input.value='';delete state.practiceCode[id];delete state.practiceInput[id];save();if(result){result.className='status';result.textContent=state.lessonPractice[id]?'Practice was already completed. You can edit and run it again.':'Run your code successfully to record this practice.';}}
 function markPractice(id){return runPractice(id);}
 function completeLesson(id){
   const l=lessonById(id);
@@ -1852,12 +2014,14 @@ function importProgress(){const input=document.createElement('input');input.type
 function resetProgress(){if(confirm('Reset all lessons, XP, notes, bookmarks, and challenges?')){localStorage.removeItem(KEY);state=structuredClone(DEFAULT);save();go('dashboard')}}
 document.getElementById('resetBtn').onclick=resetProgress; document.getElementById('globalSearch').addEventListener('input',e=>{if(e.target.value.trim()){go('search');renderSearch();} else if(parseRoute().view==='search')go('dashboard')}); window.addEventListener('hashchange',renderAll); document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('globalSearch').focus()}}); recordActivity(); renderAll(); checkCloudStatus();
 if (!authToken && !currentUser) {
-  setTimeout(() => { openAuthModal(); }, 350);
+  setTimeout(() => {
+    const adminModal = document.getElementById('admin-modal');
+    if (!adminModal || adminModal.style.display !== 'flex') {
+      openAuthModal();
+    }
+  }, 400);
 }
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    window.location.reload();
-  });
   window.addEventListener('load', async () => {
     try {
       const reg = await navigator.serviceWorker.register('./sw.js');
