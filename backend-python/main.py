@@ -493,6 +493,9 @@ def admin_delete_user(
     if is_admin_user(target):
         raise HTTPException(status_code=400, detail="Cannot delete the primary administrator account")
 
+    if target.progress:
+        db.delete(target.progress)
+    db.query(models.CodeRun).filter(models.CodeRun.user_id == target.id).delete()
     db.delete(target)
     db.commit()
     return {"ok": True, "message": f"Successfully deleted user account: {target.username}"}
