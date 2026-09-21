@@ -16,6 +16,7 @@ class UserOut(BaseModel):
     username: str
     email: str
     created_at: Optional[datetime] = None
+    isAdmin: Optional[bool] = False
 
     class Config:
         from_attributes = True
@@ -61,3 +62,6 @@ class LeaderboardItem(BaseModel):
     streak: int
     completed_count: int
     updated_at: Optional[datetime] = None
+
+class AwardXpPayload(BaseModel):
+    xp: int

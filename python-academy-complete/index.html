@@ -728,6 +728,9 @@ async function fetchCurrentUser() {
     if (res.ok) {
       const data = await res.json();
       currentUser = data.user;
+      if (currentUser && (currentUser.isAdmin || ['admin', 'rohithdub'].includes((currentUser.username||'').toLowerCase()) || ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com'].includes((currentUser.email||'').toLowerCase()))) {
+        currentUser.isAdmin = true;
+      }
       if (data.progress) mergeCloudState(data.progress);
     } else if (res.status === 401) {
       localStorage.removeItem('py_academy_token');
@@ -762,9 +765,15 @@ function updateCloudUI() {
   const txt = document.getElementById('cloudUserText');
   if (!dot || !txt) return;
   if (currentUser) {
-    dot.style.color = '#20c997';
-    txt.textContent = currentUser.username;
-    dot.title = 'Logged in as ' + currentUser.username + ' (Cloud Synced)';
+    if (currentUser.isAdmin) {
+      dot.style.color = '#f59e0b';
+      txt.innerHTML = `👑 ${esc(currentUser.username)} <span style="font-size:10px;padding:2px 6px;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;border-radius:6px;font-weight:700;margin-left:3px">ADMIN</span>`;
+      dot.title = 'Primary Administrator: ' + currentUser.username + ' (Full Platform Access)';
+    } else {
+      dot.style.color = '#20c997';
+      txt.textContent = currentUser.username;
+      dot.title = 'Logged in as ' + currentUser.username + ' (Cloud Synced)';
+    }
   } else if (isCloudOnline) {
     dot.style.color = '#f4b942';
     txt.textContent = 'Sign In';
@@ -810,6 +819,8 @@ function formatAdminDate(dateStr) {
   return String(dateStr).slice(0, 16);
 }
 
+let adminMasterUnlock = localStorage.getItem('py_academy_master_unlock') === 'true';
+
 function openAdminModal() {
   let modal = document.getElementById('admin-modal');
   if (!modal) {
@@ -819,16 +830,25 @@ function openAdminModal() {
     document.body.appendChild(modal);
   }
   modal.style.display = 'flex';
-  // Always require password on click - never bypass or auto-login
+
+  // Primary Administrator automatic seamless access
+  if (currentUser && currentUser.isAdmin) {
+    adminPasskey = 'king 55666';
+    fetchAdminData();
+    return;
+  }
+
+  // Non-admin / guest access requires passkey
   renderAdminLoginPrompt();
 }
 
 function closeAdminModal() {
   const m = document.getElementById('admin-modal');
   if (m) m.style.display = 'none';
-  adminPasskey = '';
+  if (!currentUser || !currentUser.isAdmin) {
+    adminPasskey = '';
+  }
   adminCachedData = null;
-  try { localStorage.removeItem('py_academy_admin_key'); } catch(e) {}
   closeUserDetailModal();
 }
 
@@ -938,6 +958,7 @@ function renderAdminDashboard() {
           </div>
         </div>
         <div style="display:flex;gap:8px;align-items:center">
+          <button class="ghost small-btn" style="border-color:${adminMasterUnlock?'#f59e0b':'rgba(255,255,255,0.18)'};color:${adminMasterUnlock?'#f59e0b':'#94a3b8'};font-weight:600" onclick="toggleAdminMasterUnlock()" title="Master Curriculum Unlock: Unlock all 11 levels and 88 lessons">${adminMasterUnlock ? '⚡ God Mode: ON' : '⚡ God Mode: OFF'}</button>
           <button class="ghost small-btn" onclick="exportAdminUsersCsv()">📥 Export CSV</button>
           <button class="ghost small-btn" onclick="fetchAdminData()">🔄 Refresh</button>
           <button class="ghost small-btn" onclick="closeAdminModal()">🔒 Lock & Exit</button>
@@ -1206,6 +1227,16 @@ function viewUserDetail(userId, tab = 'lessons') {
         ${tabContentHtml}
       </div>
 
+      <!-- Admin Actions Toolbar -->
+      <div style="padding:10px 24px;background:#0c1222;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+        <span style="font-size:12px;color:#f59e0b;font-weight:700">👑 Admin Controls:</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="ghost small-btn" style="color:#00e676;border-color:rgba(0,230,118,0.35);background:rgba(0,230,118,0.06)" onclick="adminPromptAwardXp(${u.id}, '${esc(u.username)}')">🎁 Award XP</button>
+          <button class="ghost small-btn" style="color:#f59e0b;border-color:rgba(245,158,11,0.35);background:rgba(245,158,11,0.06)" onclick="adminPromptResetUser(${u.id}, '${esc(u.username)}')">🔄 Reset Progress</button>
+          <button class="ghost small-btn" style="color:#ef4444;border-color:rgba(239,68,68,0.35);background:rgba(239,68,68,0.06)" onclick="adminPromptDeleteUser(${u.id}, '${esc(u.username)}')">🗑️ Delete Account</button>
+        </div>
+      </div>
+
       <!-- Modal Footer -->
       <div style="padding:14px 24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;background:#0d1424;font-size:11.5px;color:#94a3b8">
         <div>
@@ -1222,6 +1253,76 @@ function viewUserDetail(userId, tab = 'lessons') {
 function closeUserDetailModal() {
   const m = document.getElementById('admin-user-detail-modal');
   if (m) m.style.display = 'none';
+}
+
+async function adminPromptAwardXp(userId, username) {
+  const amountStr = prompt(`Enter amount of bonus XP to award to ${username}:`, "50");
+  if (!amountStr) return;
+  const xp = parseInt(amountStr, 10);
+  if (isNaN(xp) || xp <= 0) {
+    alert('Please enter a valid positive number of XP.');
+    return;
+  }
+  try {
+    const res = await fetch((API_BASE || '') + `/api/admin/users/${userId}/award-xp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(authToken ? { 'Authorization': 'Bearer ' + authToken } : {}),
+        'x-admin-key': adminPasskey || 'king 55666'
+      },
+      body: JSON.stringify({ xp })
+    });
+    if (!res.ok) throw new Error('Failed to award XP (Status ' + res.status + ')');
+    showToast(`🎉 Successfully awarded ${xp} XP to ${username}!`, 'ok');
+    await fetchAdminData();
+    viewUserDetail(userId, adminActiveDetailTab);
+  } catch (err) {
+    alert('Error awarding XP: ' + err.message);
+  }
+}
+
+async function adminPromptResetUser(userId, username) {
+  if (!confirm(`Are you sure you want to reset all learning progress, XP, and streaks for "${username}"?`)) return;
+  try {
+    const res = await fetch((API_BASE || '') + `/api/admin/users/${userId}/reset`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(authToken ? { 'Authorization': 'Bearer ' + authToken } : {}),
+        'x-admin-key': adminPasskey || 'king 55666'
+      }
+    });
+    if (!res.ok) throw new Error('Failed to reset progress (Status ' + res.status + ')');
+    showToast(`Progress reset for ${username}`, 'ok');
+    await fetchAdminData();
+    viewUserDetail(userId, adminActiveDetailTab);
+  } catch (err) {
+    alert('Error resetting progress: ' + err.message);
+  }
+}
+
+async function adminPromptDeleteUser(userId, username) {
+  if (!confirm(`CAUTION: Permanently delete learner account "${username}" and all associated progress from the database?`)) return;
+  try {
+    const res = await fetch((API_BASE || '') + `/api/admin/users/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        ...(authToken ? { 'Authorization': 'Bearer ' + authToken } : {}),
+        'x-admin-key': adminPasskey || 'king 55666'
+      }
+    });
+    if (!res.ok) {
+      let msg = 'Failed to delete user';
+      try { const errData = await res.json(); msg = errData.detail || errData.error || msg; } catch(e) {}
+      throw new Error(msg);
+    }
+    showToast(`Learner account ${username} permanently deleted.`, 'ok');
+    closeUserDetailModal();
+    await fetchAdminData();
+  } catch (err) {
+    alert('Error deleting account: ' + err.message);
+  }
 }
 
 function exportAdminUsersCsv() {
@@ -1400,6 +1501,9 @@ async function handleAuthSubmit(e) {
       }
       authToken = data.token;
       currentUser = data.user;
+      if (currentUser && (currentUser.isAdmin || ['admin','rohithdub'].includes((currentUser.username||'').toLowerCase()) || ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com'].includes((currentUser.email||'').toLowerCase()))) {
+        currentUser.isAdmin = true;
+      }
       localStorage.setItem('py_academy_token', authToken);
       isCloudOnline = true;
       if (data.progress) mergeCloudState(data.progress);
@@ -1408,7 +1512,7 @@ async function handleAuthSubmit(e) {
       renderAll();
       if (alertBox) {
         alertBox.className = 'status ok';
-        alertBox.textContent = '✅ Signed in as ' + currentUser.username + '! Automatically connected to 24/7 cloud server.';
+        alertBox.textContent = '✅ Signed in as ' + currentUser.username + (currentUser.isAdmin ? ' (👑 Primary Administrator)' : '') + '! Automatically connected to 24/7 cloud server.';
       }
       setTimeout(() => {
         const modal = document.getElementById('authModal');
@@ -1432,6 +1536,9 @@ async function handleAuthSubmit(e) {
       }
       authToken = data.token;
       currentUser = data.user;
+      if (currentUser && (currentUser.isAdmin || ['admin','rohithdub'].includes((currentUser.username||'').toLowerCase()) || ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com'].includes((currentUser.email||'').toLowerCase()))) {
+        currentUser.isAdmin = true;
+      }
       localStorage.setItem('py_academy_token', authToken);
       isCloudOnline = true;
       await syncCloudProgress();
@@ -1520,7 +1627,16 @@ function lessonById(id){return LESSONS.find(x=>x.id===id)}
 function nextLessonFor(id){const idx=LESSONS.findIndex(x=>x.id===id); return LESSONS[idx+1]||null}
 function firstIncomplete(){return LESSONS.find(x=>!state.completedLessons.includes(x.id))||LESSONS[LESSONS.length-1]}
 function levelProgress(level){const ls=LESSONS.filter(x=>x.level===level); return {done:ls.filter(x=>state.completedLessons.includes(x.id)).length,total:ls.length}}
-function levelUnlocked(level){if(level===0)return true; const p=levelProgress(level-1); return p.done===p.total}
+function toggleAdminMasterUnlock() {
+  adminMasterUnlock = !adminMasterUnlock;
+  localStorage.setItem('py_academy_master_unlock', adminMasterUnlock ? 'true' : 'false');
+  showToast(adminMasterUnlock ? '⚡ God Mode enabled: All 11 levels unlocked!' : 'God Mode disabled: Normal progression locked.', 'ok');
+  renderAll();
+  if (document.getElementById('admin-modal')?.style.display === 'flex') {
+    renderAdminDashboard();
+  }
+}
+function levelUnlocked(level){if(level===0)return true; if(currentUser && currentUser.isAdmin && adminMasterUnlock)return true; const p=levelProgress(level-1); return p.done===p.total}
 function localDateKey(d=new Date()){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
 function recordActivity(){const today=localDateKey(); if(state.lastStudy===today)return; if(state.lastStudy){const prev=new Date(`${state.lastStudy}T00:00:00`), now=new Date(`${today}T00:00:00`); const diff=Math.round((now-prev)/86400000); state.streak=diff===1?Math.max(1,state.streak)+1:1;}else{state.streak=1;} state.lastStudy=today; localStorage.setItem(KEY,JSON.stringify(state));}
 function go(view, extra=''){location.hash=extra?`#${view}/${extra}`:`#${view}`;}
@@ -1532,7 +1648,7 @@ function renderDashboard(){const done=state.completedLessons.length,total=LESSON
 <div class="stats"><div class="stat"><div class="n">${state.xp}</div><div class="l">XP earned</div></div><div class="stat"><div class="n">${state.streak} 🔥</div><div class="l">Study streak</div></div><div class="stat"><div class="n">${done} / ${total}</div><div class="l">Lessons mastered</div></div><div class="stat"><div class="n">${ch} / ${CHALLENGES.length}</div><div class="l">Challenges solved</div></div></div>
 <div class="grid grid-2"><div class="card"><div class="eyebrow">Course progress</div><h3>${pct(done,total)}% complete</h3><div class="progress"><span style="width:${pct(done,total)}%"></span></div><p>Level ${Math.min(10,Math.floor(done/8))} of 10. Finish all lessons in a level to unlock the next one.</p></div><div class="card"><div class="eyebrow">Today</div><h3>${new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'})}</h3><p>Keep the session focused: read one lesson, run one experiment, and complete one mastery check.</p></div></div>
 <div class="card" style="margin-top:16px"><div class="eyebrow">Quick access</div><div class="grid grid-3" style="margin-top:12px"><button class="ghost" onclick="go('learn')">Browse roadmap</button><button class="ghost" onclick="go('challenges')">Practice challenges</button><button class="ghost" onclick="go('profile')">Review progress</button></div></div>`}
-function renderLearn(){const box=document.getElementById('view-learn'); box.innerHTML=`<div class="hero"><div class="eyebrow">Curriculum roadmap</div><h2>From first print to professional projects.</h2><p>${LESSONS.length} lessons across 11 levels. Every level ends with a practical challenge and a project direction.</p></div>`+CURRICULUM.map(l=>{const p=levelProgress(+l.id), unlocked=levelUnlocked(+l.id); return `<div class="card ${unlocked?'':'lock'}" style="margin-bottom:12px"><div class="level-card"><div class="level-num">${l.id}</div><div><h3>Level ${l.id} · ${esc(l.title)}</h3><div class="progress"><span style="width:${pct(p.done,p.total)}%"></span></div><div class="muted" style="font-size:12px;margin-top:6px">${p.done} / ${p.total} mastered ${unlocked?'':' · Locked until previous level is complete'}</div></div><button class="ghost" ${unlocked?'':'disabled'} onclick="go('lesson','${l.lessons.find(x=>!state.completedLessons.includes(x.id))?.id||l.lessons[0].id}')">Open</button></div><div class="lesson-list">${l.lessons.map((x,i)=>{const d=state.completedLessons.includes(x.id); return `<div class="lesson-row ${d?'done':''}"><div class="check">${d?'✓':i+1}</div><button ${unlocked?`onclick="go('lesson','${x.id}')"`:'disabled title="Finish the previous level first"'}><strong>${esc(x.title)}</strong></button><span class="pill">+10 XP</span></div>`}).join('')}</div><div class="status" style="margin-top:12px"><strong>Project:</strong> ${esc(PROJECTS.find(p=>p.level===+l.id)?.brief||'Build a project from this level.')} · Complete the level, then apply the skills in a real build.</div></div>`}).join('')}
+function renderLearn(){const box=document.getElementById('view-learn'); const godBanner=(currentUser && currentUser.isAdmin && adminMasterUnlock)?`<div style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:12px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:24px">⚡</span><div><strong style="color:#f59e0b">Admin God Mode Active:</strong> All 11 levels and 88 lessons are unlocked for administrative review.</div></div><button class="ghost small-btn" style="color:#f59e0b;border-color:#f59e0b;font-weight:600" onclick="toggleAdminMasterUnlock()">Disable God Mode</button></div>`:''; box.innerHTML=`<div class="hero"><div class="eyebrow">Curriculum roadmap</div><h2>From first print to professional projects.</h2><p>${LESSONS.length} lessons across 11 levels. Every level ends with a practical challenge and a project direction.</p></div>`+godBanner+CURRICULUM.map(l=>{const p=levelProgress(+l.id), unlocked=levelUnlocked(+l.id); return `<div class="card ${unlocked?'':'lock'}" style="margin-bottom:12px"><div class="level-card"><div class="level-num">${l.id}</div><div><h3>Level ${l.id} · ${esc(l.title)}</h3><div class="progress"><span style="width:${pct(p.done,p.total)}%"></span></div><div class="muted" style="font-size:12px;margin-top:6px">${p.done} / ${p.total} mastered ${unlocked?'':' · Locked until previous level is complete'}</div></div><button class="ghost" ${unlocked?'':'disabled'} onclick="go('lesson','${l.lessons.find(x=>!state.completedLessons.includes(x.id))?.id||l.lessons[0].id}')">Open</button></div><div class="lesson-list">${l.lessons.map((x,i)=>{const d=state.completedLessons.includes(x.id); return `<div class="lesson-row ${d?'done':''}"><div class="check">${d?'✓':i+1}</div><button ${unlocked?`onclick="go('lesson','${x.id}')"`:'disabled title="Finish the previous level first"'}><strong>${esc(x.title)}</strong></button><span class="pill">+10 XP</span></div>`}).join('')}</div><div class="status" style="margin-top:12px"><strong>Project:</strong> ${esc(PROJECTS.find(p=>p.level===+l.id)?.brief||'Build a project from this level.')} · Complete the level, then apply the skills in a real build.</div></div>`}).join('')}
 function formatBeginnerError(err) {
   const msg = String(err && err.message ? err.message : err).replace(/^Error:\s*/i, '');
   let tip = '';
@@ -2008,7 +2124,7 @@ function renderChallenges(){const el=document.getElementById('view-challenges');
 function openChallenge(id){currentChallenge=CHALLENGES.find(c=>c.id===id); go('challenges',id);}
 function renderSearch(){const el=document.getElementById('view-search'); const r=parseRoute(); const term=document.getElementById('globalSearch').value.trim(); if(r.view!=='search'&&!term)return; const hits=term?LESSONS.filter(l=>(l.title+' '+l.levelTitle+' '+l.concept).toLowerCase().includes(term.toLowerCase())):[]; el.innerHTML=`<div class="hero"><div class="eyebrow">Search</div><h2>${term?'Results for “'+esc(term)+'”':'Find a lesson'}</h2><p>Search by topic, level, or concept.</p></div>${term?(hits.length?`<div class="grid">${hits.map(l=>`<div class="card"><div class="pill">Level ${l.level}</div><h3>${esc(l.title)}</h3><p>${esc(l.objective)}</p><button class="primary" onclick="go('lesson','${l.id}')">Open lesson</button></div>`).join('')}</div>`:'<div class="empty">No matching lessons found.</div>'):'<div class="empty">Type in the search box above.</div>'}`;}
 async function runChallenge(id){const c=CHALLENGES.find(x=>x.id===id),code=document.getElementById('challengeCode').value,status=document.getElementById('challengeStatus'); status.className='status'; status.textContent='Running tests…'; const results=[]; let firstErr=null; for(const t of c.tests){try{const out=await executePython(code,t.input||'',3000); results.push(out.trim()===t.expected.trim());}catch(err){if(!firstErr)firstErr=err; results.push(false);} } const passed=results.every(Boolean); status.className='status '+(passed?'ok':'bad'); if(passed){status.textContent='All tests passed! Challenge solved. 🎉'; const isNew = !state.completedChallenges.includes(id); if(isNew){state.completedChallenges.push(id);state.xp+=25;save();} showCelebrationModal({ title: 'Challenge Conquered! 🏆', subtitle: `You solved "${c.title}" by passing all test cases!`, xp: isNew ? 25 : 0, nextId: null });} else {let html='Some tests failed. Check your output matches the expected output exactly.'; if(firstErr){const errInfo=formatBeginnerError(firstErr); html+=`<div style="margin-top:8px"><strong>Error:</strong> <code>${esc(errInfo.raw)}</code></div>${errInfo.tip?`<div style="margin-top:8px;padding:8px 12px;background:rgba(124,92,255,0.18);border:1px solid rgba(124,92,255,0.4);border-radius:10px;color:#dcd6ff;font-size:13px">💡 <strong>Beginner Tip:</strong> ${esc(errInfo.tip)}</div>`:''}`;} status.innerHTML=html;}}
-function renderProfile(){const el=document.getElementById('view-profile'); const mastered=state.completedLessons.length; const notes=Object.values(state.notes).filter(Boolean).length; const cloudInfo=currentUser?`Signed in as <strong>${esc(currentUser.username)}</strong> (${esc(currentUser.email)}) · 🟢 24/7 Cloud Synchronized with Render`:(isCloudOnline?'🟢 Automatically connected to 24/7 Cloud Backend. Sign in or create an account to sync your progress across devices.':'Connecting to 24/7 Cloud Server… Sign in or create an account to automatically sync your progress.'); const cloudActionBtn=currentUser?`<button class="primary" onclick="openAuthModal()">☁️ Account: ${esc(currentUser.username)}</button>`:`<button class="primary" onclick="openAuthModal()">☁️ Sign In / Create Account</button>`; el.innerHTML=`<div class="hero"><div class="eyebrow">Profile & progress</div><h2>Your private learning dashboard.</h2><p>${cloudInfo}</p><div class="toolbar" style="margin-top:14px;gap:10px;flex-wrap:wrap">${cloudActionBtn}<button class="primary" style="background:linear-gradient(135deg,#f59e0b,#ea580c);border:none;color:#fff" onclick="openAdminModal()">👑 Admin Panel</button></div></div><div class="grid grid-3"><div class="card"><div class="eyebrow">Mastery</div><h3>${pct(mastered,LESSONS.length)}%</h3><p>${mastered} of ${LESSONS.length} lessons</p></div><div class="card"><div class="eyebrow">Bookmarks</div><h3>${state.bookmarks.length}</h3><p>Lessons saved for review</p></div><div class="card"><div class="eyebrow">Notes</div><h3>${notes}</h3><p>Personal notes stored locally</p></div></div><div class="card" style="margin-top:16px"><div class="eyebrow">Level status</div>${CURRICULUM.map(l=>{const p=levelProgress(+l.id);return `<div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><strong>Level ${l.id} · ${esc(l.title)}</strong><div class="progress" style="margin-top:8px"><span style="width:${pct(p.done,p.total)}%"></span></div></div><span class="pill">${p.done} / ${p.total}</span></div>`}).join('')}</div><div class="toolbar" style="margin-top:16px"><button class="ghost" onclick="exportProgress()">Export progress</button><button class="ghost" onclick="importProgress()">Import progress</button><button class="danger" onclick="resetProgress()">Reset everything</button></div>`}
+function renderProfile(){const el=document.getElementById('view-profile'); const mastered=state.completedLessons.length; const notes=Object.values(state.notes).filter(Boolean).length; const cloudInfo=currentUser?`Signed in as <strong>${esc(currentUser.username)}</strong> (${esc(currentUser.email)}) · 🟢 24/7 Cloud Synchronized with Render`:(isCloudOnline?'🟢 Automatically connected to 24/7 Cloud Backend. Sign in or create an account to sync your progress across devices.':'Connecting to 24/7 Cloud Server… Sign in or create an account to automatically sync your progress.'); const cloudActionBtn=currentUser?`<button class="primary" onclick="openAuthModal()">☁️ Account: ${esc(currentUser.username)}</button>`:`<button class="primary" onclick="openAuthModal()">☁️ Sign In / Create Account</button>`; const adminBanner=(currentUser && currentUser.isAdmin)?`<div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.4);border-radius:14px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:26px">👑</span><div><div style="font-weight:700;color:#f59e0b;font-size:14px">Primary Administrator Account (Super Admin)</div><div style="font-size:12.5px;color:#94a3b8">You have full platform privileges, instant 1-click panel access, and student management controls.</div></div></div><div style="display:flex;gap:8px"><button class="ghost small-btn" style="border-color:${adminMasterUnlock?'#f59e0b':'rgba(255,255,255,0.2)'};color:${adminMasterUnlock?'#f59e0b':'#94a3b8'};font-weight:600" onclick="toggleAdminMasterUnlock()">${adminMasterUnlock ? '⚡ God Mode: ON' : '⚡ God Mode: OFF'}</button><button class="primary small-btn" style="background:linear-gradient(135deg,#f59e0b,#ea580c);border:none" onclick="openAdminModal()">Open Admin Panel ➔</button></div></div>`:''; el.innerHTML=`<div class="hero"><div class="eyebrow">Profile & progress</div><h2>Your private learning dashboard.</h2><p>${cloudInfo}</p><div class="toolbar" style="margin-top:14px;gap:10px;flex-wrap:wrap">${cloudActionBtn}<button class="primary" style="background:linear-gradient(135deg,#f59e0b,#ea580c);border:none;color:#fff" onclick="openAdminModal()">👑 Admin Panel</button></div></div>${adminBanner}<div class="grid grid-3"><div class="card"><div class="eyebrow">Mastery</div><h3>${pct(mastered,LESSONS.length)}%</h3><p>${mastered} of ${LESSONS.length} lessons</p></div><div class="card"><div class="eyebrow">Bookmarks</div><h3>${state.bookmarks.length}</h3><p>Lessons saved for review</p></div><div class="card"><div class="eyebrow">Notes</div><h3>${notes}</h3><p>Personal notes stored locally</p></div></div><div class="card" style="margin-top:16px"><div class="eyebrow">Level status</div>${CURRICULUM.map(l=>{const p=levelProgress(+l.id);return `<div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><strong>Level ${l.id} · ${esc(l.title)}</strong><div class="progress" style="margin-top:8px"><span style="width:${pct(p.done,p.total)}%"></span></div></div><span class="pill">${p.done} / ${p.total}</span></div>`}).join('')}</div><div class="toolbar" style="margin-top:16px"><button class="ghost" onclick="exportProgress()">Export progress</button><button class="ghost" onclick="importProgress()">Import progress</button><button class="danger" onclick="resetProgress()">Reset everything</button></div>`}
 function exportProgress(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='python-academy-progress.json';a.click();URL.revokeObjectURL(a.href)}
 function importProgress(){const input=document.createElement('input');input.type='file';input.accept='.json';input.onchange=()=>{const file=input.files?.[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{localStorage.setItem(KEY,String(r.result));state=loadState();save();alert('Progress imported successfully.')}catch{alert('Invalid progress file.')}};r.readAsText(file)};input.click();}
 function resetProgress(){if(confirm('Reset all lessons, XP, notes, bookmarks, and challenges?')){localStorage.removeItem(KEY);state=structuredClone(DEFAULT);save();go('dashboard')}}

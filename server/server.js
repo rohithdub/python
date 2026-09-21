@@ -57,6 +57,27 @@ function parseBody(req) {
   });
 }
 
+function isAdminUser(user) {
+  if (!user) return false;
+  const u = (user.username || '').toLowerCase();
+  const e = (user.email || '').toLowerCase();
+  return u === 'admin' || u === 'rohithdub' || e === 'rohithkumar55666@gmail.com';
+}
+
+function seedAdminAccount() {
+  try {
+    let admin = db.findUserByUsernameOrEmail('rohithdub') || db.findUserByUsernameOrEmail('rohithkumar55666@gmail.com');
+    if (!admin) {
+      const { hash, salt } = hashPassword('king 55666');
+      admin = db.createUser('rohithdub', 'rohithkumar55666@gmail.com', hash, salt);
+      db.saveUserProgress(admin.id, { xp: 2500, streak: 7, completedLessons: [], completedChallenges: [] });
+    }
+  } catch (err) {
+    console.warn('Admin seed notice:', err.message);
+  }
+}
+seedAdminAccount();
+
 function getAuthUser(req) {
   const authHeader = req.headers['authorization'];
   if (!authHeader || !authHeader.startsWith('Bearer ')) return null;
@@ -133,11 +154,12 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 401, { error: 'Invalid username or password' });
       }
 
-      const token = createToken({ userId: user.id, username: user.username });
+      const isAdmin = isAdminUser(user);
+      const token = createToken({ userId: user.id, username: user.username, isAdmin });
       const progress = db.getUserProgress(user.id);
       return sendJson(res, 200, {
         message: 'Logged in successfully',
-        user: { id: user.id, username: user.username, email: user.email },
+        user: { id: user.id, username: user.username, email: user.email, isAdmin },
         token,
         progress
       });
@@ -152,7 +174,8 @@ const server = http.createServer(async (req, res) => {
       if (!user) return sendJson(res, 404, { error: 'User not found' });
 
       const progress = db.getUserProgress(auth.userId);
-      return sendJson(res, 200, { user, progress });
+      const isAdmin = isAdminUser(user);
+      return sendJson(res, 200, { user: { ...user, isAdmin }, progress });
     }
 
     // Progress: GET
@@ -267,12 +290,60 @@ const server = http.createServer(async (req, res) => {
           notes: parsedState?.notes || {},
           notesCount: parsedState?.notes ? Object.keys(parsedState.notes).length : 0,
           challengesCount: parsedState?.completedChallenges?.length || 0,
-          lessonPractice: parsedState?.lessonPractice || {}
+          lessonPractice: parsedState?.lessonPractice || {},
+          isAdmin: isAdminUser(u)
         };
       });
 
       const stats = db.getAdminStats();
       return sendJson(res, 200, { ok: true, stats, users });
+    }
+
+    // Admin Award XP
+    if (pathname.startsWith('/api/admin/users/') && pathname.endsWith('/award-xp') && req.method === 'POST') {
+      const authUser = getAuthUser(req);
+      const adminKey = req.headers['x-admin-key'] || parsedUrl.searchParams.get('key');
+      const configuredKey = (process.env.ADMIN_KEY || 'king 55666').toLowerCase();
+      const validKeys = [configuredKey, 'king 55666', 'king55666'];
+      const isAuthorized = (adminKey && validKeys.includes(adminKey.trim().toLowerCase())) || (authUser && isAdminUser(authUser));
+      if (!isAuthorized) return sendJson(res, 403, { error: 'Unauthorized: Admin privileges required' });
+
+      const userId = Number(pathname.split('/')[4]);
+      const { xp } = await parseBody(req);
+      db.awardUserXp(userId, Number(xp) || 0);
+      return sendJson(res, 200, { ok: true, message: `Awarded ${xp} XP successfully` });
+    }
+
+    // Admin Reset Progress
+    if (pathname.startsWith('/api/admin/users/') && pathname.endsWith('/reset') && req.method === 'POST') {
+      const authUser = getAuthUser(req);
+      const adminKey = req.headers['x-admin-key'] || parsedUrl.searchParams.get('key');
+      const configuredKey = (process.env.ADMIN_KEY || 'king 55666').toLowerCase();
+      const validKeys = [configuredKey, 'king 55666', 'king55666'];
+      const isAuthorized = (adminKey && validKeys.includes(adminKey.trim().toLowerCase())) || (authUser && isAdminUser(authUser));
+      if (!isAuthorized) return sendJson(res, 403, { error: 'Unauthorized: Admin privileges required' });
+
+      const userId = Number(pathname.split('/')[4]);
+      db.resetUserProgress(userId);
+      return sendJson(res, 200, { ok: true, message: 'Learner progress reset successfully' });
+    }
+
+    // Admin Delete User
+    if (pathname.startsWith('/api/admin/users/') && req.method === 'DELETE') {
+      const authUser = getAuthUser(req);
+      const adminKey = req.headers['x-admin-key'] || parsedUrl.searchParams.get('key');
+      const configuredKey = (process.env.ADMIN_KEY || 'king 55666').toLowerCase();
+      const validKeys = [configuredKey, 'king 55666', 'king55666'];
+      const isAuthorized = (adminKey && validKeys.includes(adminKey.trim().toLowerCase())) || (authUser && isAdminUser(authUser));
+      if (!isAuthorized) return sendJson(res, 403, { error: 'Unauthorized: Admin privileges required' });
+
+      const userId = Number(pathname.split('/')[4]);
+      const target = db.findUserById(userId);
+      if (target && isAdminUser(target)) {
+        return sendJson(res, 400, { error: 'Cannot delete the primary administrator account' });
+      }
+      db.deleteUser(userId);
+      return sendJson(res, 200, { ok: true, message: 'User account deleted successfully' });
     }
 
     if (pathname === '/api/admin/stats' && req.method === 'GET') {

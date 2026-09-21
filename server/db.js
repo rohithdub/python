@@ -164,5 +164,30 @@ module.exports = {
       totalLessonsCompleted: progressStats.total_completed,
       totalCodeRuns: codeRunCount
     };
+  },
+
+  awardUserXp(userId, additionalXp) {
+    const stmt = db.prepare(`
+      UPDATE user_progress 
+      SET xp = MAX(0, xp + ?), updated_at = datetime('now')
+      WHERE user_id = ?
+    `);
+    stmt.run(additionalXp, userId);
+  },
+
+  resetUserProgress(userId) {
+    const emptyState = JSON.stringify({ xp: 0, streak: 0, completedLessons: [], completedChallenges: [], notes: {}, quizResults: {} });
+    const stmt = db.prepare(`
+      UPDATE user_progress 
+      SET xp = 0, streak = 0, completed_count = 0, state_json = ?, updated_at = datetime('now')
+      WHERE user_id = ?
+    `);
+    stmt.run(emptyState, userId);
+  },
+
+  deleteUser(userId) {
+    db.prepare('DELETE FROM user_progress WHERE user_id = ?').run(userId);
+    db.prepare('DELETE FROM code_runs WHERE user_id = ?').run(userId);
+    db.prepare('DELETE FROM users WHERE id = ?').run(userId);
   }
 };

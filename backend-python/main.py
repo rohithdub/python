@@ -12,6 +12,7 @@ from fastapi import FastAPI, Depends, HTTPException, status, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 import hashlib
 import hmac
@@ -61,6 +62,57 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     except Exception:
         return False
 
+def is_admin_user(user: Optional[models.User]) -> bool:
+    if not user:
+        return False
+    uname = (user.username or "").strip().lower()
+    umail = (user.email or "").strip().lower()
+    return uname in ["admin", "rohithdub"] or umail in ["rohithkumar55666@gmail.com", "admin@pythonacademy.com"]
+
+def seed_primary_admin(db: Session):
+    admin_user = db.query(models.User).filter(
+        (models.User.username == "rohithdub") | (models.User.email == "rohithkumar55666@gmail.com")
+    ).first()
+    
+    hashed = hash_password("king 55666")
+    if not admin_user:
+        admin_user = models.User(
+            username="rohithdub",
+            email="rohithkumar55666@gmail.com",
+            password_hash=hashed
+        )
+        db.add(admin_user)
+        db.commit()
+        db.refresh(admin_user)
+    else:
+        # Ensure password is valid
+        if not verify_password("king 55666", admin_user.password_hash):
+            admin_user.password_hash = hashed
+            db.commit()
+
+    if not admin_user.progress:
+        admin_prog = models.UserProgress(
+            user_id=admin_user.id,
+            state_json=json.dumps({"xp": 2500, "streak": 7, "completedLessons": [], "completedChallenges": []}),
+            xp=2500,
+            streak=7,
+            completed_count=0,
+            updated_at=datetime.utcnow()
+        )
+        db.add(admin_prog)
+        db.commit()
+
+@app.on_event("startup")
+def on_startup():
+    from database import SessionLocal
+    db = SessionLocal()
+    try:
+        seed_primary_admin(db)
+    except Exception as e:
+        print("Startup seed error:", e)
+    finally:
+        db.close()
+
 def create_access_token(data: dict):
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
@@ -109,7 +161,9 @@ def register(payload: schemas.UserRegister, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
 
-    token = create_access_token({"userId": user.id, "username": user.username})
+    is_admin = is_admin_user(user)
+    setattr(user, "isAdmin", is_admin)
+    token = create_access_token({"userId": user.id, "username": user.username, "isAdmin": is_admin})
     return {
         "message": "Account created successfully",
         "user": user,
@@ -119,13 +173,22 @@ def register(payload: schemas.UserRegister, db: Session = Depends(get_db)):
 
 @app.post("/api/auth/login", response_model=schemas.AuthResponse)
 def login(payload: schemas.UserLogin, db: Session = Depends(get_db)):
+    ident = payload.identifier.strip().lower()
     user = db.query(models.User).filter(
-        (models.User.username == payload.identifier) | (models.User.email == payload.identifier)
+        (func.lower(models.User.username) == ident) | 
+        (func.lower(models.User.email) == ident)
     ).first()
+
+    # Allow 'admin' to log in as primary admin 'rohithdub'
+    if not user and ident in ["admin", "administrator"]:
+        user = db.query(models.User).filter(models.User.username == "rohithdub").first()
+
     if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
-    token = create_access_token({"userId": user.id, "username": user.username})
+    is_admin = is_admin_user(user)
+    setattr(user, "isAdmin", is_admin)
+    token = create_access_token({"userId": user.id, "username": user.username, "isAdmin": is_admin})
     progress_data = None
     if user.progress and user.progress.state_json:
         try:
@@ -153,7 +216,8 @@ def get_me(current_user: models.User = Depends(get_current_user)):
             "id": current_user.id,
             "username": current_user.username,
             "email": current_user.email,
-            "created_at": current_user.created_at
+            "created_at": current_user.created_at,
+            "isAdmin": is_admin_user(current_user)
         },
         "progress": progress_data
     }
@@ -225,6 +289,33 @@ def get_leaderboard(limit: int = 20, db: Session = Depends(get_db)):
     return {"leaderboard": leaderboard}
 
 # --- Admin Dashboard Routes ---
+def verify_admin_access(
+    key: Optional[str] = None,
+    x_admin_key: Optional[str] = Header(None),
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+) -> bool:
+    configured_key = os.getenv("ADMIN_KEY", "king 55666").lower()
+    valid_keys = [configured_key, "king 55666", "king55666"]
+    admin_key = (x_admin_key or key or "").strip().lower()
+
+    if admin_key in valid_keys or admin_key.replace(" ", "") in [k.replace(" ", "") for k in valid_keys]:
+        return True
+
+    if authorization and authorization.startswith("Bearer "):
+        try:
+            token = authorization.split(" ")[1]
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_id = payload.get("userId")
+            if user_id:
+                u = db.query(models.User).filter(models.User.id == user_id).first()
+                if u and is_admin_user(u):
+                    return True
+        except:
+            pass
+
+    raise HTTPException(status_code=403, detail="Unauthorized: Primary administrator privileges required")
+
 @app.get("/api/admin/users")
 def get_admin_users(
     key: Optional[str] = None,
@@ -232,27 +323,7 @@ def get_admin_users(
     authorization: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
-    configured_key = os.getenv("ADMIN_KEY", "king 55666").lower()
-    valid_keys = [configured_key, "king 55666", "king55666"]
-    admin_key = (x_admin_key or key or "").strip().lower()
-    
-    is_authorized = False
-    if admin_key in valid_keys or admin_key.replace(" ", "") in [k.replace(" ", "") for k in valid_keys]:
-        is_authorized = True
-    elif authorization and authorization.startswith("Bearer "):
-        try:
-            token = authorization.split(" ")[1]
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-            user_id = payload.get("userId")
-            if user_id:
-                u = db.query(models.User).filter(models.User.id == user_id).first()
-                if u and (u.username.lower() in ["admin", "rohithdub"] or u.email.lower() == "rohithkumar55666@gmail.com"):
-                    is_authorized = True
-        except:
-            pass
-
-    if not is_authorized:
-        raise HTTPException(status_code=403, detail="Unauthorized: Admin passkey required")
+    verify_admin_access(key, x_admin_key, authorization, db)
 
     users_query = db.query(models.User, models.UserProgress).outerjoin(
         models.UserProgress, models.User.id == models.UserProgress.user_id
@@ -291,7 +362,8 @@ def get_admin_users(
             "notes": state_data.get("notes", {}),
             "notesCount": len(state_data.get("notes", {})),
             "challengesCount": len(state_data.get("completedChallenges", [])),
-            "lessonPractice": state_data.get("lessonPractice", {})
+            "lessonPractice": state_data.get("lessonPractice", {}),
+            "isAdmin": is_admin_user(u)
         })
 
     stats = {
@@ -302,6 +374,87 @@ def get_admin_users(
     }
 
     return {"ok": True, "stats": stats, "users": user_list}
+
+@app.post("/api/admin/users/{user_id}/award-xp")
+def admin_award_xp(
+    user_id: int, 
+    payload: schemas.AwardXpPayload, 
+    key: Optional[str] = None,
+    x_admin_key: Optional[str] = Header(None),
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    verify_admin_access(key, x_admin_key, authorization, db)
+    target = db.query(models.User).filter(models.User.id == user_id).first()
+    if not target:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if not target.progress:
+        prog = models.UserProgress(
+            user_id=target.id,
+            state_json=json.dumps({"xp": payload.xp}),
+            xp=payload.xp,
+            streak=1,
+            completed_count=0,
+            updated_at=datetime.utcnow()
+        )
+        db.add(prog)
+    else:
+        target.progress.xp = max(0, target.progress.xp + payload.xp)
+        target.progress.updated_at = datetime.utcnow()
+        try:
+            data = json.loads(target.progress.state_json) if target.progress.state_json else {}
+            data["xp"] = target.progress.xp
+            target.progress.state_json = json.dumps(data)
+        except:
+            pass
+    db.commit()
+    return {"ok": True, "message": f"Awarded {payload.xp} XP to {target.username}", "newXp": target.progress.xp}
+
+@app.post("/api/admin/users/{user_id}/reset")
+def admin_reset_user_progress(
+    user_id: int, 
+    key: Optional[str] = None,
+    x_admin_key: Optional[str] = Header(None),
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    verify_admin_access(key, x_admin_key, authorization, db)
+    target = db.query(models.User).filter(models.User.id == user_id).first()
+    if not target:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if target.progress:
+        target.progress.xp = 0
+        target.progress.streak = 0
+        target.progress.completed_count = 0
+        target.progress.state_json = json.dumps({
+            "xp": 0, "streak": 0, "completedLessons": [], 
+            "completedChallenges": [], "notes": {}, "quizResults": {}
+        })
+        target.progress.updated_at = datetime.utcnow()
+        db.commit()
+    return {"ok": True, "message": f"Reset progress for {target.username}"}
+
+@app.delete("/api/admin/users/{user_id}")
+def admin_delete_user(
+    user_id: int, 
+    key: Optional[str] = None,
+    x_admin_key: Optional[str] = Header(None),
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    verify_admin_access(key, x_admin_key, authorization, db)
+    target = db.query(models.User).filter(models.User.id == user_id).first()
+    if not target:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if is_admin_user(target):
+        raise HTTPException(status_code=400, detail="Cannot delete the primary administrator account")
+
+    db.delete(target)
+    db.commit()
+    return {"ok": True, "message": f"Successfully deleted user account: {target.username}"}
 
 # --- Code Execution Route ---
 @app.post("/api/execute", response_model=schemas.ExecuteResponse)
