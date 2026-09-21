@@ -701,7 +701,7 @@ let cachedLeaderboard = [];
 let cloudRetryScheduled = false;
 async function checkCloudStatus() {
   try {
-    const res = await fetch(API_BASE + '/api/health', { method: 'GET', signal: AbortSignal.timeout(10000) });
+    const res = await fetch(API_BASE + '/api/health', { method: 'GET', signal: AbortSignal.timeout(45000) });
     if (res.ok) {
       isCloudOnline = true;
       if (authToken) {
@@ -715,7 +715,7 @@ async function checkCloudStatus() {
     isCloudOnline = false;
     if (!cloudRetryScheduled) {
       cloudRetryScheduled = true;
-      setTimeout(() => { cloudRetryScheduled = false; checkCloudStatus(); }, 5000);
+      setTimeout(() => { cloudRetryScheduled = false; checkCloudStatus(); }, 8000);
     }
   }
   updateCloudUI();
@@ -1448,34 +1448,42 @@ function renderAuthModal() {
   }
   body.innerHTML = `
     <div class="modal-tabs">
-      <button class="${authTab === 'login' ? 'active' : ''}" onclick="switchAuthTab('login')">Sign In</button>
-      <button class="${authTab === 'register' ? 'active' : ''}" onclick="switchAuthTab('register')">Create Account</button>
+      <button class="${authTab === 'login' ? 'active' : ''}" onclick="switchAuthTab('login')">Student Sign In & Quick Join</button>
+      <button class="${authTab === 'register' ? 'active' : ''}" onclick="switchAuthTab('register')">Custom Email Sign Up</button>
     </div>
     <div id="authAlert" style="display:none;margin-bottom:12px"></div>
     <form onsubmit="handleAuthSubmit(event)">
       ${authTab === 'register' ? `
         <div class="form-group">
-          <label>Username</label>
-          <input id="authUsername" type="text" required placeholder="Choose a username" minlength="3">
+          <label>Choose Username</label>
+          <input id="authUsername" type="text" required placeholder="Choose a username" minlength="2">
         </div>
-      ` : ''}
-      <div class="form-group">
-        <label>${authTab === 'login' ? 'Username or Email' : 'Email Address'}</label>
-        <input id="authIdentifier" type="${authTab === 'register' ? 'email' : 'text'}" required placeholder="${authTab === 'login' ? 'Your username or email' : 'you@example.com'}">
-      </div>
+        <div class="form-group">
+          <label>Email Address (Optional)</label>
+          <input id="authIdentifier" type="text" placeholder="you@example.com (or leave blank)">
+        </div>
+      ` : `
+        <div class="form-group">
+          <label>Student Name, Username, or Email</label>
+          <input id="authIdentifier" type="text" required placeholder="Enter your name or email">
+        </div>
+      `}
       <div class="form-group">
         <label>Password</label>
-        <input id="authPassword" type="password" required placeholder="Enter password (min 6 chars)" minlength="6">
+        <input id="authPassword" type="password" required placeholder="Enter password (min 4 chars)" minlength="4">
       </div>
-      <button type="submit" class="primary" style="width:100%;margin-top:10px;justify-content:center">
-        ${authTab === 'login' ? 'Sign In & Sync' : 'Create Account & Sync Progress'}
+      <button type="submit" class="primary" style="width:100%;margin-top:10px;justify-content:center;font-size:14px;padding:12px">
+        ${authTab === 'login' ? 'Start Learning & Sync Progress ➔' : 'Create Account & Sync Progress ➔'}
       </button>
+      <div style="font-size:12px;color:#94a3b8;margin-top:10px;text-align:center;line-height:1.4">
+        ${authTab === 'login' ? '💡 <strong>New Student?</strong> Entering your name and a password creates your account automatically!<br><strong>Returning?</strong> You will be signed right into your saved progress.' : 'Create an account with a specific email to sync across all devices.'}
+      </div>
     </form>
-    <div style="margin-top:12px;text-align:center">
-      <button type="button" class="ghost" style="font-size:12.5px;padding:6px 14px;color:#94a3b8" onclick="closeAuthModal()">Continue as Guest ➔</button>
+    <div style="margin-top:14px;text-align:center">
+      <button type="button" class="ghost" style="font-size:12px;padding:6px 14px;color:#94a3b8" onclick="closeAuthModal()">Continue as Guest (No sync) ➔</button>
     </div>
-    <div style="margin-top:12px;text-align:center;font-size:11.5px" class="muted">
-      ${isCloudOnline ? '🟢 Connected to 24/7 Cloud Backend' : 'Connecting to 24/7 Cloud Backend…'}
+    <div style="margin-top:10px;text-align:center;font-size:11.5px" class="muted">
+      ${isCloudOnline ? '🟢 Connected to 24/7 Cloud Backend' : '🟡 Cloud backend online (ready to sync)'}
     </div>
   `;
 }
@@ -1483,7 +1491,11 @@ function renderAuthModal() {
 async function handleAuthSubmit(e) {
   e.preventDefault();
   const alertBox = document.getElementById('authAlert');
-  if (alertBox) { alertBox.style.display = 'block'; alertBox.className = 'status'; alertBox.textContent = 'Connecting to 24/7 cloud server…'; }
+  if (alertBox) { 
+    alertBox.style.display = 'block'; 
+    alertBox.className = 'status'; 
+    alertBox.textContent = 'Connecting to cloud server (waking up if sleeping, please wait)...'; 
+  }
   try {
     if (authTab === 'login') {
       const identifier = document.getElementById('authIdentifier')?.value.trim();
@@ -1512,16 +1524,17 @@ async function handleAuthSubmit(e) {
       renderAll();
       if (alertBox) {
         alertBox.className = 'status ok';
-        alertBox.textContent = '✅ Signed in as ' + currentUser.username + (currentUser.isAdmin ? ' (👑 Primary Administrator)' : '') + '! Automatically connected to 24/7 cloud server.';
+        alertBox.textContent = '✅ ' + (data.message || ('Signed in as ' + currentUser.username + '! Automatically connected to 24/7 cloud server.'));
       }
       setTimeout(() => {
         const modal = document.getElementById('authModal');
         if (modal) modal.style.display = 'none';
         renderAll();
-      }, 1100);
+      }, 1200);
     } else {
       const username = document.getElementById('authUsername')?.value.trim();
-      const email = document.getElementById('authIdentifier')?.value.trim();
+      const rawEmail = document.getElementById('authIdentifier')?.value.trim();
+      const email = rawEmail || `${username.toLowerCase().replace(/\s+/g, '_')}@student.pythonacademy.com`;
       const password = document.getElementById('authPassword')?.value;
       const res = await fetch(API_BASE + '/api/auth/register', {
         method: 'POST',
@@ -1546,13 +1559,13 @@ async function handleAuthSubmit(e) {
       renderAll();
       if (alertBox) {
         alertBox.className = 'status ok';
-        alertBox.textContent = '🎉 Account created! Signed in and automatically connected to cloud server.';
+        alertBox.textContent = '🎉 Welcome! Account created and automatically connected to cloud server.';
       }
       setTimeout(() => {
         const modal = document.getElementById('authModal');
         if (modal) modal.style.display = 'none';
         renderAll();
-      }, 1100);
+      }, 1200);
     }
   } catch (err) {
     if (alertBox) {

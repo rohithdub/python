@@ -149,14 +149,21 @@ def health_check():
 # --- Auth Routes ---
 @app.post("/api/auth/register", response_model=schemas.AuthResponse, status_code=status.HTTP_201_CREATED)
 def register(payload: schemas.UserRegister, db: Session = Depends(get_db)):
+    uname = payload.username.strip()
+    raw_email = (payload.email or "").strip()
+    if not raw_email or "@" not in raw_email:
+        clean_email = f"{uname.lower().replace(' ', '_')}@student.pythonacademy.com"
+    else:
+        clean_email = raw_email.lower()
+
     existing = db.query(models.User).filter(
-        (models.User.username == payload.username) | (models.User.email == payload.email)
+        (func.lower(models.User.username) == uname.lower()) | (func.lower(models.User.email) == clean_email)
     ).first()
     if existing:
-        raise HTTPException(status_code=409, detail="Username or email already exists")
+        raise HTTPException(status_code=409, detail="A student account with this username or email already exists. Try signing in!")
 
     hashed_pw = hash_password(payload.password)
-    user = models.User(username=payload.username, email=payload.email, password_hash=hashed_pw)
+    user = models.User(username=uname, email=clean_email, password_hash=hashed_pw)
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -173,18 +180,52 @@ def register(payload: schemas.UserRegister, db: Session = Depends(get_db)):
 
 @app.post("/api/auth/login", response_model=schemas.AuthResponse)
 def login(payload: schemas.UserLogin, db: Session = Depends(get_db)):
-    ident = payload.identifier.strip().lower()
+    raw_ident = payload.identifier.strip()
+    ident_lower = raw_ident.lower()
     user = db.query(models.User).filter(
-        (func.lower(models.User.username) == ident) | 
-        (func.lower(models.User.email) == ident)
+        (func.lower(models.User.username) == ident_lower) | 
+        (func.lower(models.User.email) == ident_lower)
     ).first()
 
     # Allow 'admin' to log in as primary admin 'rohithdub'
-    if not user and ident in ["admin", "administrator"]:
+    if not user and ident_lower in ["admin", "administrator"]:
         user = db.query(models.User).filter(models.User.username == "rohithdub").first()
 
-    if not user or not verify_password(payload.password, user.password_hash):
-        raise HTTPException(status_code=401, detail="Invalid username or password")
+    created_new = False
+    if not user:
+        # If trying to access admin account with wrong details, reject
+        if ident_lower in ["admin", "administrator", "rohithdub"]:
+            raise HTTPException(status_code=401, detail="Invalid administrator credentials")
+
+        if len(payload.password) < 4:
+            raise HTTPException(status_code=400, detail="Password must be at least 4 characters")
+
+        # Smart Student Enrollment: Automatically create student account on first sign-in!
+        if "@" in raw_ident:
+            email_val = raw_ident.lower()
+            username_val = raw_ident.split("@")[0].strip()
+        else:
+            username_val = raw_ident
+            email_val = f"{ident_lower.replace(' ', '_')}@student.pythonacademy.com"
+
+        # Check if username exists under different case/email
+        existing_u = db.query(models.User).filter(func.lower(models.User.username) == username_val.lower()).first()
+        if existing_u:
+            raise HTTPException(status_code=401, detail="Incorrect password for this student account. Please enter your existing password.")
+
+        new_user = models.User(
+            username=username_val,
+            email=email_val,
+            password_hash=hash_password(payload.password)
+        )
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        user = new_user
+        created_new = True
+    else:
+        if not verify_password(payload.password, user.password_hash):
+            raise HTTPException(status_code=401, detail="Incorrect password for this student account. Please check and try again.")
 
     is_admin = is_admin_user(user)
     setattr(user, "isAdmin", is_admin)
@@ -197,7 +238,7 @@ def login(payload: schemas.UserLogin, db: Session = Depends(get_db)):
             pass
 
     return {
-        "message": "Logged in successfully",
+        "message": f"🎉 Welcome {user.username}! Student account created & synced." if created_new else "Logged in successfully",
         "user": user,
         "token": token,
         "progress": progress_data

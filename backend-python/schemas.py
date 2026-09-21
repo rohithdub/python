@@ -4,7 +4,7 @@ from datetime import datetime
 
 class UserRegister(BaseModel):
     username: str
-    email: EmailStr
+    email: Optional[str] = None
     password: str
 
 class UserLogin(BaseModel):

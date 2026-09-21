@@ -144,21 +144,33 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: 'Username/email and password are required' });
       }
 
-      const user = db.findUserByUsernameOrEmail(identifier);
+      let user = db.findUserByUsernameOrEmail(identifier);
+      let createdNew = false;
       if (!user) {
-        return sendJson(res, 401, { error: 'Invalid username or password' });
-      }
-
-      const valid = verifyPassword(password, user.salt, user.password_hash);
-      if (!valid) {
-        return sendJson(res, 401, { error: 'Invalid username or password' });
+        const idLower = String(identifier).trim().toLowerCase();
+        if (['admin', 'administrator', 'rohithdub'].includes(idLower)) {
+          return sendJson(res, 401, { error: 'Invalid administrator credentials' });
+        }
+        if (password.length < 4) {
+          return sendJson(res, 400, { error: 'Password must be at least 4 characters' });
+        }
+        const usernameVal = identifier.includes('@') ? identifier.split('@')[0].trim() : String(identifier).trim();
+        const emailVal = identifier.includes('@') ? String(identifier).trim().toLowerCase() : `${idLower.replace(/\s+/g, '_')}@student.pythonacademy.com`;
+        const { hash, salt } = hashPassword(password);
+        user = db.createUser(usernameVal, emailVal, hash, salt);
+        createdNew = true;
+      } else {
+        const valid = verifyPassword(password, user.salt, user.password_hash);
+        if (!valid) {
+          return sendJson(res, 401, { error: 'Incorrect password for this student account' });
+        }
       }
 
       const isAdmin = isAdminUser(user);
       const token = createToken({ userId: user.id, username: user.username, isAdmin });
       const progress = db.getUserProgress(user.id);
       return sendJson(res, 200, {
-        message: 'Logged in successfully',
+        message: createdNew ? `🎉 Welcome ${user.username}! Student account created & synced.` : 'Logged in successfully',
         user: { id: user.id, username: user.username, email: user.email, isAdmin },
         token,
         progress
