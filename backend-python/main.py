@@ -13,7 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
-from passlib.context import CryptContext
+import hashlib
+import hmac
 from jose import JWTError, jwt
 
 from database import engine, get_db, Base
@@ -34,10 +35,31 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = os.getenv("SECRET_KEY", "python-academy-secret-key-super-safe-9821!")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_DAYS = 30
+
+def hash_password(password: str) -> str:
+    salt = os.urandom(16).hex()
+    dk = hashlib.pbkdf2_hmac("sha256", password.encode("utf-8"), salt.encode("utf-8"), 100_000)
+    return f"pbkdf2_sha256${salt}${dk.hex()}"
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    try:
+        if hashed_password.startswith("pbkdf2_sha256$"):
+            parts = hashed_password.split("$")
+            salt = parts[1]
+            dk_hex = parts[2]
+            check = hashlib.pbkdf2_hmac("sha256", plain_password.encode("utf-8"), salt.encode("utf-8"), 100_000).hex()
+            return hmac.compare_digest(check, dk_hex)
+        try:
+            import bcrypt
+            return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
+        except Exception:
+            pass
+        return False
+    except Exception:
+        return False
 
 def create_access_token(data: dict):
     to_encode = data.copy()
@@ -81,7 +103,7 @@ def register(payload: schemas.UserRegister, db: Session = Depends(get_db)):
     if existing:
         raise HTTPException(status_code=409, detail="Username or email already exists")
 
-    hashed_pw = pwd_context.hash(payload.password)
+    hashed_pw = hash_password(payload.password)
     user = models.User(username=payload.username, email=payload.email, password_hash=hashed_pw)
     db.add(user)
     db.commit()
@@ -100,7 +122,7 @@ def login(payload: schemas.UserLogin, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(
         (models.User.username == payload.identifier) | (models.User.email == payload.identifier)
     ).first()
-    if not user or not pwd_context.verify(payload.password, user.password_hash):
+    if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
     token = create_access_token({"userId": user.id, "username": user.username})

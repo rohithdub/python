@@ -698,9 +698,10 @@ if (!executionEngine) executionEngine = window.location.port === '5000' ? 'serve
 let authTab = 'login';
 let cachedLeaderboard = [];
 
+let cloudRetryScheduled = false;
 async function checkCloudStatus() {
   try {
-    const res = await fetch(API_BASE + '/api/health', { method: 'GET', signal: AbortSignal.timeout(6000) });
+    const res = await fetch(API_BASE + '/api/health', { method: 'GET', signal: AbortSignal.timeout(10000) });
     if (res.ok) {
       isCloudOnline = true;
       if (authToken) await fetchCurrentUser();
@@ -709,6 +710,10 @@ async function checkCloudStatus() {
     }
   } catch (e) {
     isCloudOnline = false;
+    if (!cloudRetryScheduled) {
+      cloudRetryScheduled = true;
+      setTimeout(() => { cloudRetryScheduled = false; checkCloudStatus(); }, 5000);
+    }
   }
   updateCloudUI();
 }
@@ -1212,7 +1217,7 @@ function renderAuthModal() {
 async function handleAuthSubmit(e) {
   e.preventDefault();
   const alertBox = document.getElementById('authAlert');
-  if (alertBox) { alertBox.style.display = 'block'; alertBox.className = 'status'; alertBox.textContent = 'Connecting…'; }
+  if (alertBox) { alertBox.style.display = 'block'; alertBox.className = 'status'; alertBox.textContent = 'Connecting to 24/7 cloud server…'; }
   try {
     if (authTab === 'login') {
       const identifier = document.getElementById('authIdentifier')?.value.trim();
@@ -1222,11 +1227,29 @@ async function handleAuthSubmit(e) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ identifier, password })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Login failed');
-      authToken = data.token; currentUser = data.user; localStorage.setItem('py_academy_token', authToken);
+      let data = {};
+      try { data = await res.json(); } catch(jsonErr) {}
+      if (!res.ok) {
+        const errorMsg = data.error || data.detail || (typeof data === 'string' ? data : '') || 'Invalid username or password';
+        throw new Error(errorMsg);
+      }
+      authToken = data.token;
+      currentUser = data.user;
+      localStorage.setItem('py_academy_token', authToken);
+      isCloudOnline = true;
       if (data.progress) mergeCloudState(data.progress);
-      await syncCloudProgress(); updateCloudUI(); renderAll(); renderAuthModal();
+      await syncCloudProgress();
+      updateCloudUI();
+      renderAll();
+      if (alertBox) {
+        alertBox.className = 'status ok';
+        alertBox.textContent = '✅ Signed in as ' + currentUser.username + '! Automatically connected to 24/7 cloud server.';
+      }
+      setTimeout(() => {
+        const modal = document.getElementById('authModal');
+        if (modal) modal.style.display = 'none';
+        renderAll();
+      }, 1100);
     } else {
       const username = document.getElementById('authUsername')?.value.trim();
       const email = document.getElementById('authIdentifier')?.value.trim();
@@ -1236,16 +1259,34 @@ async function handleAuthSubmit(e) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password })
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Registration failed');
-      authToken = data.token; currentUser = data.user; localStorage.setItem('py_academy_token', authToken);
-      await syncCloudProgress(); updateCloudUI(); renderAll(); renderAuthModal();
+      let data = {};
+      try { data = await res.json(); } catch(jsonErr) {}
+      if (!res.ok) {
+        const errorMsg = data.error || data.detail || (typeof data === 'string' ? data : '') || 'Registration failed';
+        throw new Error(errorMsg);
+      }
+      authToken = data.token;
+      currentUser = data.user;
+      localStorage.setItem('py_academy_token', authToken);
+      isCloudOnline = true;
+      await syncCloudProgress();
+      updateCloudUI();
+      renderAll();
+      if (alertBox) {
+        alertBox.className = 'status ok';
+        alertBox.textContent = '🎉 Account created! Signed in and automatically connected to cloud server.';
+      }
+      setTimeout(() => {
+        const modal = document.getElementById('authModal');
+        if (modal) modal.style.display = 'none';
+        renderAll();
+      }, 1100);
     }
   } catch (err) {
     if (alertBox) {
       alertBox.className = 'status bad';
-      const msg = (!navigator.onLine || String(err.message).toLowerCase().includes('fetch'))
-        ? 'Backend server appears unreachable. Make sure the server is running (run_server.bat).'
+      const msg = (!navigator.onLine || String(err.message).toLowerCase().includes('failed to fetch'))
+        ? 'Backend server appears unreachable. If sleeping on Render, please allow 20 seconds for container startup and try again.'
         : (err.message || 'Authentication error');
       alertBox.textContent = msg;
     }
@@ -1802,7 +1843,7 @@ function renderChallenges(){const el=document.getElementById('view-challenges');
 function openChallenge(id){currentChallenge=CHALLENGES.find(c=>c.id===id); go('challenges',id);}
 function renderSearch(){const el=document.getElementById('view-search'); const r=parseRoute(); const term=document.getElementById('globalSearch').value.trim(); if(r.view!=='search'&&!term)return; const hits=term?LESSONS.filter(l=>(l.title+' '+l.levelTitle+' '+l.concept).toLowerCase().includes(term.toLowerCase())):[]; el.innerHTML=`<div class="hero"><div class="eyebrow">Search</div><h2>${term?'Results for “'+esc(term)+'”':'Find a lesson'}</h2><p>Search by topic, level, or concept.</p></div>${term?(hits.length?`<div class="grid">${hits.map(l=>`<div class="card"><div class="pill">Level ${l.level}</div><h3>${esc(l.title)}</h3><p>${esc(l.objective)}</p><button class="primary" onclick="go('lesson','${l.id}')">Open lesson</button></div>`).join('')}</div>`:'<div class="empty">No matching lessons found.</div>'):'<div class="empty">Type in the search box above.</div>'}`;}
 async function runChallenge(id){const c=CHALLENGES.find(x=>x.id===id),code=document.getElementById('challengeCode').value,status=document.getElementById('challengeStatus'); status.className='status'; status.textContent='Running tests…'; const results=[]; let firstErr=null; for(const t of c.tests){try{const out=await executePython(code,t.input||'',3000); results.push(out.trim()===t.expected.trim());}catch(err){if(!firstErr)firstErr=err; results.push(false);} } const passed=results.every(Boolean); status.className='status '+(passed?'ok':'bad'); if(passed){status.textContent='All tests passed! Challenge solved. 🎉'; const isNew = !state.completedChallenges.includes(id); if(isNew){state.completedChallenges.push(id);state.xp+=25;save();} showCelebrationModal({ title: 'Challenge Conquered! 🏆', subtitle: `You solved "${c.title}" by passing all test cases!`, xp: isNew ? 25 : 0, nextId: null });} else {let html='Some tests failed. Check your output matches the expected output exactly.'; if(firstErr){const errInfo=formatBeginnerError(firstErr); html+=`<div style="margin-top:8px"><strong>Error:</strong> <code>${esc(errInfo.raw)}</code></div>${errInfo.tip?`<div style="margin-top:8px;padding:8px 12px;background:rgba(124,92,255,0.18);border:1px solid rgba(124,92,255,0.4);border-radius:10px;color:#dcd6ff;font-size:13px">💡 <strong>Beginner Tip:</strong> ${esc(errInfo.tip)}</div>`:''}`;} status.innerHTML=html;}}
-function renderProfile(){const el=document.getElementById('view-profile'); const mastered=state.completedLessons.length; const notes=Object.values(state.notes).filter(Boolean).length; const cloudInfo=currentUser?`Signed in as <strong>${esc(currentUser.username)}</strong> (${esc(currentUser.email)}) · Cloud Synchronized`:(isCloudOnline?'Running in local mode. Sign in to sync your study progress across devices.':'Offline mode. All progress is safely stored in this browser.'); const cloudActionBtn=currentUser?`<button class="primary" onclick="openAuthModal()">☁️ Account: ${esc(currentUser.username)}</button>`:`<button class="primary" onclick="openAuthModal()">☁️ Sign In / Create Account</button>`; el.innerHTML=`<div class="hero"><div class="eyebrow">Profile & progress</div><h2>Your private learning dashboard.</h2><p>${cloudInfo}</p><div class="toolbar" style="margin-top:14px;gap:10px;flex-wrap:wrap">${cloudActionBtn}<button class="ghost" onclick="openServerConfigModal()">☁️ Cloud Backend Server</button><button class="primary" style="background:linear-gradient(135deg,#f59e0b,#ea580c);border:none;color:#fff" onclick="openAdminModal()">👑 Admin Panel</button></div></div><div class="grid grid-3"><div class="card"><div class="eyebrow">Mastery</div><h3>${pct(mastered,LESSONS.length)}%</h3><p>${mastered} of ${LESSONS.length} lessons</p></div><div class="card"><div class="eyebrow">Bookmarks</div><h3>${state.bookmarks.length}</h3><p>Lessons saved for review</p></div><div class="card"><div class="eyebrow">Notes</div><h3>${notes}</h3><p>Personal notes stored locally</p></div></div><div class="card" style="margin-top:16px"><div class="eyebrow">Level status</div>${CURRICULUM.map(l=>{const p=levelProgress(+l.id);return `<div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><strong>Level ${l.id} · ${esc(l.title)}</strong><div class="progress" style="margin-top:8px"><span style="width:${pct(p.done,p.total)}%"></span></div></div><span class="pill">${p.done} / ${p.total}</span></div>`}).join('')}</div><div class="toolbar" style="margin-top:16px"><button class="ghost" onclick="exportProgress()">Export progress</button><button class="ghost" onclick="importProgress()">Import progress</button><button class="danger" onclick="resetProgress()">Reset everything</button></div>`}
+function renderProfile(){const el=document.getElementById('view-profile'); const mastered=state.completedLessons.length; const notes=Object.values(state.notes).filter(Boolean).length; const cloudInfo=currentUser?`Signed in as <strong>${esc(currentUser.username)}</strong> (${esc(currentUser.email)}) · 🟢 24/7 Cloud Synchronized with Render`:(isCloudOnline?'🟢 Automatically connected to 24/7 Cloud Backend. Sign in or create an account to sync your progress across devices.':'Connecting to 24/7 Cloud Server… Sign in or create an account to automatically sync your progress.'); const cloudActionBtn=currentUser?`<button class="primary" onclick="openAuthModal()">☁️ Account: ${esc(currentUser.username)}</button>`:`<button class="primary" onclick="openAuthModal()">☁️ Sign In / Create Account</button>`; el.innerHTML=`<div class="hero"><div class="eyebrow">Profile & progress</div><h2>Your private learning dashboard.</h2><p>${cloudInfo}</p><div class="toolbar" style="margin-top:14px;gap:10px;flex-wrap:wrap">${cloudActionBtn}<button class="primary" style="background:linear-gradient(135deg,#f59e0b,#ea580c);border:none;color:#fff" onclick="openAdminModal()">👑 Admin Panel</button></div></div><div class="grid grid-3"><div class="card"><div class="eyebrow">Mastery</div><h3>${pct(mastered,LESSONS.length)}%</h3><p>${mastered} of ${LESSONS.length} lessons</p></div><div class="card"><div class="eyebrow">Bookmarks</div><h3>${state.bookmarks.length}</h3><p>Lessons saved for review</p></div><div class="card"><div class="eyebrow">Notes</div><h3>${notes}</h3><p>Personal notes stored locally</p></div></div><div class="card" style="margin-top:16px"><div class="eyebrow">Level status</div>${CURRICULUM.map(l=>{const p=levelProgress(+l.id);return `<div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)"><div><strong>Level ${l.id} · ${esc(l.title)}</strong><div class="progress" style="margin-top:8px"><span style="width:${pct(p.done,p.total)}%"></span></div></div><span class="pill">${p.done} / ${p.total}</span></div>`}).join('')}</div><div class="toolbar" style="margin-top:16px"><button class="ghost" onclick="exportProgress()">Export progress</button><button class="ghost" onclick="importProgress()">Import progress</button><button class="danger" onclick="resetProgress()">Reset everything</button></div>`}
 function exportProgress(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='python-academy-progress.json';a.click();URL.revokeObjectURL(a.href)}
 function importProgress(){const input=document.createElement('input');input.type='file';input.accept='.json';input.onchange=()=>{const file=input.files?.[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{localStorage.setItem(KEY,String(r.result));state=loadState();save();alert('Progress imported successfully.')}catch{alert('Invalid progress file.')}};r.readAsText(file)};input.click();}
 function resetProgress(){if(confirm('Reset all lessons, XP, notes, bookmarks, and challenges?')){localStorage.removeItem(KEY);state=structuredClone(DEFAULT);save();go('dashboard')}}
