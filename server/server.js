@@ -59,9 +59,12 @@ function parseBody(req) {
 
 function isAdminUser(user) {
   if (!user) return false;
-  const u = (user.username || '').toLowerCase();
-  const e = (user.email || '').toLowerCase();
-  return u === 'admin' || u === 'rohithdub' || e === 'rohithkumar55666@gmail.com';
+  if (user.isAdmin === true) return true;
+  const u = (user.username || '').toLowerCase().trim();
+  const e = (user.email || '').toLowerCase().trim();
+  const adminUsernames = ['admin', 'rohithdub', 'rohi', 'rohith', 'administrator'];
+  const adminEmails = ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com', 'king@gmail.com'];
+  return adminUsernames.includes(u) || adminEmails.includes(e);
 }
 
 function seedAdminAccount() {
@@ -129,10 +132,11 @@ const server = http.createServer(async (req, res) => {
 
       const { hash, salt } = hashPassword(password);
       const user = db.createUser(username.trim(), email.trim(), hash, salt);
-      const token = createToken({ userId: user.id, username: user.username });
+      const isAdmin = isAdminUser(user);
+      const token = createToken({ userId: user.id, username: user.username, email: user.email, isAdmin });
       return sendJson(res, 201, {
         message: 'Account created successfully',
-        user: { id: user.id, username: user.username, email: user.email },
+        user: { id: user.id, username: user.username, email: user.email, isAdmin },
         token
       });
     }
@@ -166,8 +170,11 @@ const server = http.createServer(async (req, res) => {
         }
       }
 
+      // Record immediate login activity in database
+      db.touchUserActivity(user.id);
+
       const isAdmin = isAdminUser(user);
-      const token = createToken({ userId: user.id, username: user.username, isAdmin });
+      const token = createToken({ userId: user.id, username: user.username, email: user.email, isAdmin });
       const progress = db.getUserProgress(user.id);
       return sendJson(res, 200, {
         message: createdNew ? `🎉 Welcome ${user.username}! Student account created & synced.` : 'Logged in successfully',
@@ -184,6 +191,9 @@ const server = http.createServer(async (req, res) => {
 
       const user = db.findUserById(auth.userId);
       if (!user) return sendJson(res, 404, { error: 'User not found' });
+
+      // Update active heartbeat
+      db.touchUserActivity(user.id);
 
       const progress = db.getUserProgress(auth.userId);
       const isAdmin = isAdminUser(user);
@@ -267,16 +277,14 @@ const server = http.createServer(async (req, res) => {
       const configuredKey = (process.env.ADMIN_KEY || 'king 55666').toLowerCase();
       const validKeys = [configuredKey, 'king 55666', 'king55666'];
       
-      const isAuthorized = 
-        (adminKey && (
+      const hasValidKey = Boolean(
+        adminKey && (
           validKeys.includes(adminKey.trim().toLowerCase()) || 
           validKeys.includes(adminKey.replace(/\s+/g, '').toLowerCase())
-        )) ||
-        (authUser && (
-          authUser.username.toLowerCase() === 'admin' || 
-          authUser.username.toLowerCase() === 'rohithdub' || 
-          authUser.email.toLowerCase() === 'rohithkumar55666@gmail.com'
-        ));
+        )
+      );
+      const hasAdminAuth = Boolean(authUser && isAdminUser(authUser));
+      const isAuthorized = hasValidKey || hasAdminAuth;
 
       if (!isAuthorized) {
         return sendJson(res, 403, { error: 'Unauthorized: Admin passkey required' });
@@ -287,6 +295,8 @@ const server = http.createServer(async (req, res) => {
         try {
           if (u.state_json) parsedState = JSON.parse(u.state_json);
         } catch {}
+        const completedLessons = parsedState?.completedLessons || [];
+        const completedChallenges = parsedState?.completedChallenges || [];
         return {
           id: u.id,
           username: u.username,
@@ -294,14 +304,14 @@ const server = http.createServer(async (req, res) => {
           createdAt: u.created_at,
           xp: u.xp,
           streak: u.streak,
-          completedCount: u.completed_count,
-          updatedAt: u.updated_at,
-          completedLessons: parsedState?.completedLessons || [],
-          completedChallenges: parsedState?.completedChallenges || [],
+          completedCount: completedLessons.length || u.completed_count || 0,
+          updatedAt: u.updated_at || u.created_at,
+          completedLessons,
+          completedChallenges,
           quizResults: parsedState?.quizResults || {},
           notes: parsedState?.notes || {},
           notesCount: parsedState?.notes ? Object.keys(parsedState.notes).length : 0,
-          challengesCount: parsedState?.completedChallenges?.length || 0,
+          challengesCount: completedChallenges.length,
           lessonPractice: parsedState?.lessonPractice || {},
           isAdmin: isAdminUser(u)
         };
@@ -317,7 +327,7 @@ const server = http.createServer(async (req, res) => {
       const adminKey = req.headers['x-admin-key'] || parsedUrl.searchParams.get('key');
       const configuredKey = (process.env.ADMIN_KEY || 'king 55666').toLowerCase();
       const validKeys = [configuredKey, 'king 55666', 'king55666'];
-      const isAuthorized = (adminKey && validKeys.includes(adminKey.trim().toLowerCase())) || (authUser && isAdminUser(authUser));
+      const isAuthorized = (adminKey && (validKeys.includes(adminKey.trim().toLowerCase()) || validKeys.includes(adminKey.replace(/\s+/g, '').toLowerCase()))) || (authUser && isAdminUser(authUser));
       if (!isAuthorized) return sendJson(res, 403, { error: 'Unauthorized: Admin privileges required' });
 
       const userId = Number(pathname.split('/')[4]);
@@ -332,7 +342,7 @@ const server = http.createServer(async (req, res) => {
       const adminKey = req.headers['x-admin-key'] || parsedUrl.searchParams.get('key');
       const configuredKey = (process.env.ADMIN_KEY || 'king 55666').toLowerCase();
       const validKeys = [configuredKey, 'king 55666', 'king55666'];
-      const isAuthorized = (adminKey && validKeys.includes(adminKey.trim().toLowerCase())) || (authUser && isAdminUser(authUser));
+      const isAuthorized = (adminKey && (validKeys.includes(adminKey.trim().toLowerCase()) || validKeys.includes(adminKey.replace(/\s+/g, '').toLowerCase()))) || (authUser && isAdminUser(authUser));
       if (!isAuthorized) return sendJson(res, 403, { error: 'Unauthorized: Admin privileges required' });
 
       const userId = Number(pathname.split('/')[4]);
@@ -346,7 +356,7 @@ const server = http.createServer(async (req, res) => {
       const adminKey = req.headers['x-admin-key'] || parsedUrl.searchParams.get('key');
       const configuredKey = (process.env.ADMIN_KEY || 'king 55666').toLowerCase();
       const validKeys = [configuredKey, 'king 55666', 'king55666'];
-      const isAuthorized = (adminKey && validKeys.includes(adminKey.trim().toLowerCase())) || (authUser && isAdminUser(authUser));
+      const isAuthorized = (adminKey && (validKeys.includes(adminKey.trim().toLowerCase()) || validKeys.includes(adminKey.replace(/\s+/g, '').toLowerCase()))) || (authUser && isAdminUser(authUser));
       if (!isAuthorized) return sendJson(res, 403, { error: 'Unauthorized: Admin privileges required' });
 
       const userId = Number(pathname.split('/')[4]);

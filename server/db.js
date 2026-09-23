@@ -59,7 +59,24 @@ module.exports = {
       VALUES (?, ?, ?, ?, datetime('now'))
     `);
     const result = stmt.run(username, email, passwordHash, salt);
-    return { id: Number(result.lastInsertRowid), username, email };
+    const userId = Number(result.lastInsertRowid);
+    // Initialize default progress row so updated_at is always tracked
+    const emptyState = JSON.stringify({ xp: 0, streak: 0, completedLessons: [], completedChallenges: [], notes: {}, quizResults: {} });
+    db.prepare(`
+      INSERT OR IGNORE INTO user_progress (user_id, state_json, xp, streak, completed_count, updated_at)
+      VALUES (?, ?, 0, 0, 0, datetime('now'))
+    `).run(userId, emptyState);
+    return { id: userId, username, email };
+  },
+
+  touchUserActivity(userId) {
+    const emptyState = JSON.stringify({ xp: 0, streak: 0, completedLessons: [], completedChallenges: [], notes: {}, quizResults: {} });
+    const stmt = db.prepare(`
+      INSERT INTO user_progress (user_id, state_json, xp, streak, completed_count, updated_at)
+      VALUES (?, ?, 0, 0, 0, datetime('now'))
+      ON CONFLICT(user_id) DO UPDATE SET updated_at = datetime('now')
+    `);
+    stmt.run(userId, emptyState);
   },
 
   findUserByUsernameOrEmail(identifier) {
@@ -149,7 +166,7 @@ module.exports = {
         up.state_json
       FROM users u
       LEFT JOIN user_progress up ON u.id = up.user_id
-      ORDER BY u.created_at DESC
+      ORDER BY COALESCE(up.updated_at, u.created_at) DESC
     `);
     return stmt.all();
   },

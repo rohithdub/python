@@ -65,9 +65,31 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 def is_admin_user(user: Optional[models.User]) -> bool:
     if not user:
         return False
+    if getattr(user, "isAdmin", False) is True:
+        return True
     uname = (user.username or "").strip().lower()
     umail = (user.email or "").strip().lower()
-    return uname in ["admin", "rohithdub"] or umail in ["rohithkumar55666@gmail.com", "admin@pythonacademy.com"]
+    admin_usernames = ["admin", "rohithdub", "rohi", "rohith", "administrator"]
+    admin_emails = ["rohithkumar55666@gmail.com", "admin@pythonacademy.com", "king@gmail.com"]
+    return uname in admin_usernames or umail in admin_emails
+
+def touch_user_activity(user: models.User, db: Session):
+    if not user:
+        return
+    if not user.progress:
+        default_state = json.dumps({"xp": 0, "streak": 0, "completedLessons": [], "completedChallenges": [], "notes": {}, "quizResults": {}})
+        user.progress = models.UserProgress(
+            user_id=user.id,
+            state_json=default_state,
+            xp=0,
+            streak=0,
+            completed_count=0,
+            updated_at=datetime.utcnow()
+        )
+        db.add(user.progress)
+    else:
+        user.progress.updated_at = datetime.utcnow()
+    db.commit()
 
 def seed_primary_admin(db: Session):
     admin_user = db.query(models.User).filter(
@@ -168,9 +190,10 @@ def register(payload: schemas.UserRegister, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
 
+    touch_user_activity(user, db)
     is_admin = is_admin_user(user)
     setattr(user, "isAdmin", is_admin)
-    token = create_access_token({"userId": user.id, "username": user.username, "isAdmin": is_admin})
+    token = create_access_token({"userId": user.id, "username": user.username, "email": user.email, "isAdmin": is_admin})
     return {
         "message": "Account created successfully",
         "user": user,
@@ -227,9 +250,10 @@ def login(payload: schemas.UserLogin, db: Session = Depends(get_db)):
         if not verify_password(payload.password, user.password_hash):
             raise HTTPException(status_code=401, detail="Incorrect password for this student account. Please check and try again.")
 
+    touch_user_activity(user, db)
     is_admin = is_admin_user(user)
     setattr(user, "isAdmin", is_admin)
-    token = create_access_token({"userId": user.id, "username": user.username, "isAdmin": is_admin})
+    token = create_access_token({"userId": user.id, "username": user.username, "email": user.email, "isAdmin": is_admin})
     progress_data = None
     if user.progress and user.progress.state_json:
         try:
@@ -245,7 +269,8 @@ def login(payload: schemas.UserLogin, db: Session = Depends(get_db)):
     }
 
 @app.get("/api/auth/me")
-def get_me(current_user: models.User = Depends(get_current_user)):
+def get_me(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    touch_user_activity(current_user, db)
     progress_data = None
     if current_user.progress and current_user.progress.state_json:
         try:
@@ -368,7 +393,7 @@ def get_admin_users(
 
     users_query = db.query(models.User, models.UserProgress).outerjoin(
         models.UserProgress, models.User.id == models.UserProgress.user_id
-    ).order_by(models.User.created_at.desc()).all()
+    ).order_by(func.coalesce(models.UserProgress.updated_at, models.User.created_at).desc()).all()
 
     user_list = []
     total_xp = 0
@@ -388,6 +413,10 @@ def get_admin_users(
             except:
                 pass
 
+        completed_lessons = state_data.get("completedLessons", [])
+        completed_challenges = state_data.get("completedChallenges", [])
+        updated_dt = (up.updated_at if up and up.updated_at else u.created_at)
+
         user_list.append({
             "id": u.id,
             "username": u.username,
@@ -395,14 +424,14 @@ def get_admin_users(
             "createdAt": u.created_at.isoformat() if u.created_at else None,
             "xp": xp,
             "streak": streak,
-            "completedCount": completed_count,
-            "updatedAt": up.updated_at.isoformat() if up and up.updated_at else None,
-            "completedLessons": state_data.get("completedLessons", []),
-            "completedChallenges": state_data.get("completedChallenges", []),
+            "completedCount": len(completed_lessons) or completed_count,
+            "updatedAt": updated_dt.isoformat() if updated_dt else None,
+            "completedLessons": completed_lessons,
+            "completedChallenges": completed_challenges,
             "quizResults": state_data.get("quizResults", {}),
             "notes": state_data.get("notes", {}),
             "notesCount": len(state_data.get("notes", {})),
-            "challengesCount": len(state_data.get("completedChallenges", [])),
+            "challengesCount": len(completed_challenges),
             "lessonPractice": state_data.get("lessonPractice", {}),
             "isAdmin": is_admin_user(u)
         })

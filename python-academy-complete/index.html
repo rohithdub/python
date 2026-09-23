@@ -728,7 +728,7 @@ async function fetchCurrentUser() {
     if (res.ok) {
       const data = await res.json();
       currentUser = data.user;
-      if (currentUser && (currentUser.isAdmin || ['admin', 'rohithdub'].includes((currentUser.username||'').toLowerCase()) || ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com'].includes((currentUser.email||'').toLowerCase()))) {
+      if (currentUser && isUserAdmin(currentUser)) {
         currentUser.isAdmin = true;
       }
       if (data.progress) mergeCloudState(data.progress);
@@ -794,12 +794,26 @@ try { localStorage.removeItem('py_academy_admin_key'); } catch(e) {}
 let adminCachedData = null;
 let adminSearchTerm = '';
 let adminActiveDetailTab = 'lessons';
+let adminAutoRefreshTimer = null;
+let adminAutoRefreshEnabled = true;
+let adminSortBy = 'active'; // 'active' | 'newest' | 'xp' | 'lessons'
+
+function isUserAdmin(u) {
+  if (!u) return false;
+  if (u.isAdmin === true) return true;
+  const uname = (u.username || '').toLowerCase().trim();
+  const uemail = (u.email || '').toLowerCase().trim();
+  const adminNames = ['admin', 'rohithdub', 'rohi', 'rohith', 'administrator'];
+  const adminEmails = ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com', 'king@gmail.com'];
+  return adminNames.includes(uname) || adminEmails.includes(uemail);
+}
 
 function formatAdminDate(dateStr) {
   if (!dateStr) return '—';
   try {
-    const s = String(dateStr);
-    const d = new Date(s.endsWith('Z') || s.includes('+') ? s : s + 'Z');
+    const s = String(dateStr).trim();
+    const iso = s.endsWith('Z') || s.includes('+') ? s : s.replace(' ', 'T') + 'Z';
+    const d = new Date(iso);
     if (!isNaN(d.getTime())) {
       return d.toLocaleDateString(undefined, {
         month: 'short', day: 'numeric', year: 'numeric'
@@ -807,16 +821,60 @@ function formatAdminDate(dateStr) {
         hour: '2-digit', minute: '2-digit'
       });
     }
-    const d2 = new Date(s);
-    if (!isNaN(d2.getTime())) {
-      return d2.toLocaleDateString(undefined, {
-        month: 'short', day: 'numeric', year: 'numeric'
-      }) + ', ' + d2.toLocaleTimeString(undefined, {
-        hour: '2-digit', minute: '2-digit'
-      });
-    }
   } catch (e) {}
   return String(dateStr).slice(0, 16);
+}
+
+function getAdminUserTimeAgo(dateStr) {
+  if (!dateStr) return '—';
+  try {
+    const s = String(dateStr).trim();
+    const iso = s.endsWith('Z') || s.includes('+') ? s : s.replace(' ', 'T') + 'Z';
+    const ms = new Date(iso).getTime();
+    if (isNaN(ms)) return formatAdminDate(dateStr);
+    const diff = Math.max(0, Date.now() - ms);
+    const sec = Math.floor(diff / 1000);
+    if (sec < 60) return 'Just now';
+    const min = Math.floor(sec / 60);
+    if (min < 60) return min + 'm ago';
+    const hr = Math.floor(min / 60);
+    if (hr < 24) return hr + 'h ago';
+    const days = Math.floor(hr / 24);
+    if (days < 7) return days + 'd ago';
+    return new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  } catch (e) {
+    return '—';
+  }
+}
+
+function getAdminUserStatusBadge(dateStr, isCurrentUser) {
+  if (isCurrentUser) {
+    return '<span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#00e676;background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.4);padding:2px 8px;border-radius:999px"><span style="width:6px;height:6px;border-radius:50%;background:#00e676;display:inline-block;box-shadow:0 0 8px #00e676"></span>🟢 Online Now</span>';
+  }
+  if (!dateStr) {
+    return '<span style="font-size:11px;color:#64748b">Offline</span>';
+  }
+  try {
+    const s = String(dateStr).trim();
+    const iso = s.endsWith('Z') || s.includes('+') ? s : s.replace(' ', 'T') + 'Z';
+    const ms = new Date(iso).getTime();
+    if (isNaN(ms)) return '<span style="font-size:11px;color:#64748b">Offline</span>';
+    const diff = Math.max(0, Date.now() - ms);
+    if (diff < 10 * 60 * 1000) { // within 10 min
+      return '<span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#00e676;background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.4);padding:2px 8px;border-radius:999px"><span style="width:6px;height:6px;border-radius:50%;background:#00e676;display:inline-block;box-shadow:0 0 8px #00e676"></span>🟢 Online</span>';
+    }
+    if (diff < 60 * 60 * 1000) { // within 1 hour
+      const mins = Math.max(1, Math.floor(diff / 60000));
+      return `<span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#38bdf8;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);padding:2px 8px;border-radius:999px">Active ${mins}m ago</span>`;
+    }
+    if (diff < 24 * 60 * 60 * 1000) {
+      const hrs = Math.floor(diff / 3600000);
+      return `<span style="font-size:11px;color:#cbd5e1">Active ${hrs}h ago</span>`;
+    }
+    return '<span style="font-size:11px;color:#64748b">Offline</span>';
+  } catch (e) {
+    return '<span style="font-size:11px;color:#64748b">Offline</span>';
+  }
 }
 
 let adminMasterUnlock = localStorage.getItem('py_academy_master_unlock') === 'true';
@@ -832,7 +890,7 @@ function openAdminModal() {
   modal.style.display = 'flex';
 
   // Primary Administrator automatic seamless access
-  if (currentUser && currentUser.isAdmin) {
+  if (currentUser && isUserAdmin(currentUser)) {
     adminPasskey = 'king 55666';
     fetchAdminData();
     return;
@@ -845,7 +903,11 @@ function openAdminModal() {
 function closeAdminModal() {
   const m = document.getElementById('admin-modal');
   if (m) m.style.display = 'none';
-  if (!currentUser || !currentUser.isAdmin) {
+  if (adminAutoRefreshTimer) {
+    clearTimeout(adminAutoRefreshTimer);
+    adminAutoRefreshTimer = null;
+  }
+  if (!currentUser || !isUserAdmin(currentUser)) {
     adminPasskey = '';
   }
   adminCachedData = null;
@@ -862,7 +924,7 @@ function renderAdminLoginPrompt(errMsg = '') {
       <p style="margin:0 0 20px;font-size:13.5px;color:#94a3b8">Enter your administrator passkey to inspect registered accounts, email addresses, and student learning progress.</p>
       <div style="margin-bottom:16px;text-align:left">
         <label style="display:block;font-size:12px;font-weight:600;margin-bottom:6px;color:#cbd5e1">Administrator Passkey</label>
-        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')" onkeydown="if(event.key==='Enter')submitAdminPasskey()" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
+        <input id="admin-pass-input" type="password" placeholder="Enter admin passkey..." value="" onkeydown="if(event.key==='Enter')submitAdminPasskey()" style="width:100%;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;box-sizing:border-box">
       </div>
       ${errMsg ? `<div style="color:#f87171;font-size:13px;margin-bottom:14px">${esc(errMsg)}</div>` : ''}
       <div style="display:flex;gap:10px;justify-content:center">
@@ -871,8 +933,7 @@ function renderAdminLoginPrompt(errMsg = '') {
       </div>
     </div>
   `;
-  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) { el.value = ''; } }, 40);
-  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) { el.value = ''; el.removeAttribute('readonly'); } }, 200);
+  setTimeout(() => { const el = document.getElementById('admin-pass-input'); if (el) el.focus(); }, 80);
 }
 
 async function submitAdminPasskey() {
@@ -917,6 +978,11 @@ async function fetchAdminData() {
 
     adminCachedData = await res.json();
     renderAdminDashboard();
+
+    if (adminAutoRefreshEnabled) {
+      if (adminAutoRefreshTimer) clearTimeout(adminAutoRefreshTimer);
+      adminAutoRefreshTimer = setTimeout(fetchAdminDataSilently, 10000);
+    }
   } catch (err) {
     modal.innerHTML = `
       <div style="background:#0e1526;border:1px solid rgba(239,68,68,0.4);border-radius:20px;max-width:440px;padding:28px;text-align:center;color:#fff">
@@ -932,6 +998,54 @@ async function fetchAdminData() {
   }
 }
 
+async function fetchAdminDataSilently() {
+  if (adminAutoRefreshTimer) {
+    clearTimeout(adminAutoRefreshTimer);
+    adminAutoRefreshTimer = null;
+  }
+  const modal = document.getElementById('admin-modal');
+  if (!modal || modal.style.display !== 'flex') return;
+
+  try {
+    const res = await fetch((API_BASE || '') + '/api/admin/users?key=' + encodeURIComponent(adminPasskey || 'king 55666'), {
+      headers: {
+        ...(authToken ? { 'Authorization': 'Bearer ' + authToken } : {}),
+        'x-admin-key': adminPasskey || 'king 55666'
+      }
+    });
+    if (res.ok) {
+      adminCachedData = await res.json();
+      const searchInp = document.getElementById('admin-search-input');
+      const isTyping = searchInp && document.activeElement === searchInp;
+      if (!isTyping) {
+        renderAdminDashboard();
+      }
+    }
+  } catch (err) {
+    console.warn('Silent admin refresh:', err);
+  } finally {
+    if (adminAutoRefreshEnabled && modal && modal.style.display === 'flex') {
+      adminAutoRefreshTimer = setTimeout(fetchAdminDataSilently, 10000);
+    }
+  }
+}
+
+function toggleAdminAutoRefresh() {
+  adminAutoRefreshEnabled = !adminAutoRefreshEnabled;
+  if (!adminAutoRefreshEnabled && adminAutoRefreshTimer) {
+    clearTimeout(adminAutoRefreshTimer);
+    adminAutoRefreshTimer = null;
+  } else if (adminAutoRefreshEnabled) {
+    fetchAdminDataSilently();
+  }
+  renderAdminDashboard();
+}
+
+function setAdminSort(sortBy) {
+  adminSortBy = sortBy;
+  renderAdminDashboard();
+}
+
 function renderAdminDashboard() {
   const modal = document.getElementById('admin-modal');
   if (!modal || !adminCachedData) return;
@@ -939,26 +1053,58 @@ function renderAdminDashboard() {
   const users = adminCachedData.users || [];
   const stats = adminCachedData.stats || { totalUsers: users.length, totalXp: 0, totalLessonsCompleted: 0 };
   const term = adminSearchTerm.toLowerCase();
-  const filtered = users.filter(u => 
+
+  // Sorting
+  let sortedUsers = [...users];
+  if (adminSortBy === 'active') {
+    sortedUsers.sort((a, b) => {
+      const ta = new Date((a.updatedAt || a.createdAt || '').replace(' ', 'T')).getTime() || 0;
+      const tb = new Date((b.updatedAt || b.createdAt || '').replace(' ', 'T')).getTime() || 0;
+      return tb - ta;
+    });
+  } else if (adminSortBy === 'newest') {
+    sortedUsers.sort((a, b) => {
+      const ta = new Date((a.createdAt || '').replace(' ', 'T')).getTime() || 0;
+      const tb = new Date((b.createdAt || '').replace(' ', 'T')).getTime() || 0;
+      return tb - ta;
+    });
+  } else if (adminSortBy === 'xp') {
+    sortedUsers.sort((a, b) => (b.xp || 0) - (a.xp || 0));
+  } else if (adminSortBy === 'lessons') {
+    sortedUsers.sort((a, b) => (b.completedCount || 0) - (a.completedCount || 0));
+  }
+
+  const filtered = sortedUsers.filter(u => 
     (u.username || '').toLowerCase().includes(term) || 
     (u.email || '').toLowerCase().includes(term)
   );
 
+  const onlineCount = users.filter(u => {
+    if (currentUser && (currentUser.id === u.id || (currentUser.username && currentUser.username.toLowerCase() === (u.username||'').toLowerCase()))) return true;
+    const s = u.updatedAt || u.createdAt;
+    if (!s) return false;
+    const iso = s.endsWith('Z') || s.includes('+') ? s : s.replace(' ', 'T') + 'Z';
+    return (Date.now() - new Date(iso).getTime()) < 10 * 60 * 1000;
+  }).length;
+
   modal.innerHTML = `
-    <div style="max-width:1100px;width:96vw;background:#0d1424;border:1px solid rgba(245,158,11,0.4);border-radius:24px;box-shadow:0 25px 60px rgba(0,0,0,0.85);max-height:92vh;display:flex;flex-direction:column;overflow:hidden">
+    <div style="max-width:1160px;width:96vw;background:#0d1424;border:1px solid rgba(245,158,11,0.4);border-radius:24px;box-shadow:0 25px 60px rgba(0,0,0,0.85);max-height:92vh;display:flex;flex-direction:column;overflow:hidden">
       <!-- Header -->
-      <div style="padding:18px 24px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;background:rgba(245,158,11,0.06)">
+      <div style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;background:rgba(245,158,11,0.06);flex-wrap:wrap;gap:10px">
         <div style="display:flex;align-items:center;gap:12px">
-          <span style="font-size:30px">👑</span>
+          <span style="font-size:32px">👑</span>
           <div>
             <h2 style="margin:0;font-size:19px;color:#fff;display:flex;align-items:center;gap:8px">
-              Admin Panel · Student Directory & Progress
+              Admin Panel · Student Directory & Live Activity
               <span style="font-size:11px;padding:2px 8px;background:rgba(0,230,118,0.15);color:#00e676;border-radius:999px;border:1px solid #00e676">Live</span>
             </h2>
-            <p style="margin:2px 0 0;font-size:12px;color:#94a3b8">Inspect registered user accounts, emails, XP, quizzes, challenges, and lesson completion status</p>
+            <p style="margin:2px 0 0;font-size:12px;color:#94a3b8">Real-time student accounts, login presence, XP, challenges, and lesson mastery</p>
           </div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <button class="ghost small-btn" style="border-color:${adminAutoRefreshEnabled?'#00e676':'rgba(255,255,255,0.2)'};color:${adminAutoRefreshEnabled?'#00e676':'#94a3b8'};font-weight:600" onclick="toggleAdminAutoRefresh()" title="Toggle automatic background data refresh every 10s">
+            ${adminAutoRefreshEnabled ? '🟢 Live Auto-Sync: ON' : '⚪ Auto-Sync: OFF'}
+          </button>
           <button class="ghost small-btn" style="border-color:${adminMasterUnlock?'#f59e0b':'rgba(255,255,255,0.18)'};color:${adminMasterUnlock?'#f59e0b':'#94a3b8'};font-weight:600" onclick="toggleAdminMasterUnlock()" title="Master Curriculum Unlock: Unlock all 11 levels and 88 lessons">${adminMasterUnlock ? '⚡ God Mode: ON' : '⚡ God Mode: OFF'}</button>
           <button class="ghost small-btn" onclick="exportAdminUsersCsv()">📥 Export CSV</button>
           <button class="ghost small-btn" onclick="fetchAdminData()">🔄 Refresh</button>
@@ -967,10 +1113,14 @@ function renderAdminDashboard() {
       </div>
 
       <!-- KPI Stats -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));gap:12px;padding:14px 24px;background:#090e18;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:10px;padding:12px 24px;background:#090e18;border-bottom:1px solid rgba(255,255,255,0.06)">
         <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px 14px">
           <div style="font-size:11.5px;color:#94a3b8">Total Learners</div>
           <div style="font-size:22px;font-weight:700;color:#fff">${stats.totalUsers}</div>
+        </div>
+        <div style="background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.3);border-radius:12px;padding:10px 14px">
+          <div style="font-size:11.5px;color:#00e676;font-weight:600">Active / Online Now</div>
+          <div style="font-size:22px;font-weight:700;color:#00e676">🟢 ${onlineCount}</div>
         </div>
         <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px 14px">
           <div style="font-size:11.5px;color:#94a3b8">Total Community XP</div>
@@ -986,9 +1136,15 @@ function renderAdminDashboard() {
         </div>
       </div>
 
-      <!-- Filter Bar -->
-      <div style="padding:12px 24px;display:flex;gap:12px;align-items:center;background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.04)">
-        <input id="admin-search-input" type="text" placeholder="🔍 Search learners by username or email address..." value="${esc(adminSearchTerm)}" oninput="handleAdminSearch(this.value)" style="flex:1;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13.5px">
+      <!-- Filter & Sort Bar -->
+      <div style="padding:10px 24px;display:flex;gap:12px;align-items:center;background:#0d1424;border-bottom:1px solid rgba(255,255,255,0.04);flex-wrap:wrap">
+        <input id="admin-search-input" type="text" placeholder="🔍 Search learners by username or email address..." value="${esc(adminSearchTerm)}" oninput="handleAdminSearch(this.value)" style="flex:1;min-width:240px;background:#090e18;color:#fff;border:1px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13.5px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#94a3b8">
+          <span>Sort:</span>
+          <button class="ghost small-btn" style="padding:4px 9px;font-size:11.5px;border-color:${adminSortBy==='active'?'#7c5cff':'rgba(255,255,255,0.1)'};color:${adminSortBy==='active'?'#fff':'#94a3b8'};background:${adminSortBy==='active'?'rgba(124,92,255,0.2)':'transparent'}" onclick="setAdminSort('active')">⚡ Recently Active</button>
+          <button class="ghost small-btn" style="padding:4px 9px;font-size:11.5px;border-color:${adminSortBy==='newest'?'#7c5cff':'rgba(255,255,255,0.1)'};color:${adminSortBy==='newest'?'#fff':'#94a3b8'};background:${adminSortBy==='newest'?'rgba(124,92,255,0.2)':'transparent'}" onclick="setAdminSort('newest')">🆕 Newest</button>
+          <button class="ghost small-btn" style="padding:4px 9px;font-size:11.5px;border-color:${adminSortBy==='xp'?'#7c5cff':'rgba(255,255,255,0.1)'};color:${adminSortBy==='xp'?'#fff':'#94a3b8'};background:${adminSortBy==='xp'?'rgba(124,92,255,0.2)':'transparent'}" onclick="setAdminSort('xp')">🏆 Top XP</button>
+        </div>
         <span style="font-size:12.5px;color:#94a3b8">${filtered.length} of ${users.length} accounts</span>
       </div>
 
@@ -1000,27 +1156,37 @@ function renderAdminDashboard() {
               <th style="padding:12px 8px">ID</th>
               <th style="padding:12px 8px">Learner Name</th>
               <th style="padding:12px 8px">Email Address</th>
+              <th style="padding:12px 8px">Live Presence</th>
               <th style="padding:12px 8px">Total XP</th>
               <th style="padding:12px 8px">Streak</th>
               <th style="padding:12px 8px">Lessons Done</th>
               <th style="padding:12px 8px">Challenges</th>
-              <th style="padding:12px 8px">Registered Date</th>
               <th style="padding:12px 8px">Last Active</th>
+              <th style="padding:12px 8px">Registered Date</th>
               <th style="padding:12px 8px;text-align:right">Progress Details</th>
             </tr>
           </thead>
           <tbody>
             ${filtered.length === 0 ? `
               <tr>
-                <td colspan="10" style="text-align:center;padding:40px;color:#64748b">No accounts found matching your search.</td>
+                <td colspan="11" style="text-align:center;padding:40px;color:#64748b">No accounts found matching your search.</td>
               </tr>
             ` : filtered.map(u => {
               const chCount = (u.completedChallenges || []).length || u.challengesCount || 0;
+              const isCurr = currentUser && (currentUser.id === u.id || (currentUser.username && currentUser.username.toLowerCase() === (u.username||'').toLowerCase()));
+              const isAdmin = isUserAdmin(u);
               return `
-              <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.04);background:${isCurr?'rgba(124,92,255,0.04)':'transparent'}">
                 <td style="padding:12px 8px;color:#64748b">#${u.id}</td>
-                <td style="padding:12px 8px;font-weight:600;color:#fff">${esc(u.username)}</td>
+                <td style="padding:12px 8px;font-weight:600;color:#fff">
+                  <div style="display:flex;align-items:center;gap:6px">
+                    <span>${esc(u.username)}</span>
+                    ${isAdmin ? `<span style="font-size:10px;padding:1px 6px;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;border-radius:6px;font-weight:700">👑 Admin</span>` : ''}
+                    ${isCurr ? `<span style="font-size:10px;padding:1px 6px;background:rgba(56,189,248,0.2);color:#38bdf8;border-radius:6px;font-weight:600">You</span>` : ''}
+                  </div>
+                </td>
                 <td style="padding:12px 8px;color:#38bdf8;font-family:monospace;font-size:12.5px">${esc(u.email)}</td>
+                <td style="padding:12px 8px">${getAdminUserStatusBadge(u.updatedAt || u.createdAt, isCurr)}</td>
                 <td style="padding:12px 8px;color:#a855f7;font-weight:700">${u.xp} XP</td>
                 <td style="padding:12px 8px">${u.streak > 0 ? `🔥 ${u.streak}d` : '0d'}</td>
                 <td style="padding:12px 8px">
@@ -1032,8 +1198,11 @@ function renderAdminDashboard() {
                   </div>
                 </td>
                 <td style="padding:12px 8px;color:#38bdf8;font-weight:600">${chCount} / 11</td>
+                <td style="padding:12px 8px">
+                  <div style="color:#fff;font-weight:500;font-size:12px">${getAdminUserTimeAgo(u.updatedAt || u.createdAt)}</div>
+                  <div style="font-size:11px;color:#64748b">${formatAdminDate(u.updatedAt || u.createdAt)}</div>
+                </td>
                 <td style="padding:12px 8px;color:#94a3b8;font-size:11.5px;white-space:nowrap">${formatAdminDate(u.createdAt)}</td>
-                <td style="padding:12px 8px;color:#94a3b8;font-size:11.5px;white-space:nowrap">${formatAdminDate(u.updatedAt)}</td>
                 <td style="padding:12px 8px;text-align:right">
                   <button class="primary small-btn" style="background:rgba(124,92,255,0.25);border:1px solid #7c5cff;color:#fff;font-weight:600" onclick="viewUserDetail(${u.id})">Inspect ➔</button>
                 </td>
@@ -1242,7 +1411,8 @@ function viewUserDetail(userId, tab = 'lessons') {
       <div style="padding:14px 24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;background:#0d1424;font-size:11.5px;color:#94a3b8">
         <div>
           <div>Joined: <strong>${formatAdminDate(u.createdAt)}</strong></div>
-          <div style="margin-top:2px">Last Active: <strong>${formatAdminDate(u.updatedAt)}</strong></div>
+          <div style="margin-top:2px">Last Active: <strong>${formatAdminDate(u.updatedAt || u.createdAt)}</strong> (${getAdminUserTimeAgo(u.updatedAt || u.createdAt)})</div>
+          <div style="margin-top:4px">Status: ${getAdminUserStatusBadge(u.updatedAt || u.createdAt, currentUser && currentUser.id === u.id)}</div>
         </div>
         <button class="primary small-btn" onclick="closeUserDetailModal()">Done</button>
       </div>
@@ -1457,21 +1627,21 @@ function renderAuthModal() {
       ${authTab === 'register' ? `
         <div class="form-group">
           <label>Choose Username</label>
-          <input id="authUsername" type="text" required placeholder="Choose a username" minlength="2" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
+          <input id="authUsername" type="text" required placeholder="Choose a username" minlength="2" autocomplete="username">
         </div>
         <div class="form-group">
           <label>Email Address (Optional)</label>
-          <input id="authIdentifier" type="text" placeholder="you@example.com (or leave blank)" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
+          <input id="authIdentifier" type="text" placeholder="you@example.com (or leave blank)" autocomplete="email">
         </div>
       ` : `
         <div class="form-group">
           <label>Student Name, Username, or Email</label>
-          <input id="authIdentifier" type="text" required placeholder="Enter your name or email" autocomplete="off" readonly onfocus="this.removeAttribute('readonly')">
+          <input id="authIdentifier" type="text" required placeholder="Enter your name or email" autocomplete="username">
         </div>
       `}
       <div class="form-group">
         <label>Password</label>
-        <input id="authPassword" type="password" required placeholder="Enter password (min 4 chars)" minlength="4" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')">
+        <input id="authPassword" type="password" required placeholder="Enter password (min 4 chars)" minlength="4" autocomplete="current-password">
       </div>
       <button type="submit" class="primary" style="width:100%;margin-top:10px;justify-content:center;font-size:14px;padding:12px">
         ${authTab === 'login' ? 'Start Learning & Sync Progress ➔' : 'Create Account & Sync Progress ➔'}
@@ -1487,22 +1657,6 @@ function renderAuthModal() {
       ${isCloudOnline ? '🟢 Connected to 24/7 Cloud Backend' : '🟡 Cloud backend online (ready to sync)'}
     </div>
   `;
-  setTimeout(() => {
-    const idEl = document.getElementById('authIdentifier');
-    const pwEl = document.getElementById('authPassword');
-    const uEl = document.getElementById('authUsername');
-    if (idEl) { idEl.value = ''; }
-    if (pwEl) { pwEl.value = ''; }
-    if (uEl) { uEl.value = ''; }
-  }, 40);
-  setTimeout(() => {
-    const idEl = document.getElementById('authIdentifier');
-    const pwEl = document.getElementById('authPassword');
-    const uEl = document.getElementById('authUsername');
-    if (idEl && (idEl.value.toLowerCase() === 'admin' || idEl.value.toLowerCase() === 'rohithdub')) { idEl.value = ''; }
-    if (pwEl && (pwEl.value === 'king 55666' || pwEl.value === 'king55666')) { pwEl.value = ''; }
-    if (uEl && (uEl.value.toLowerCase() === 'admin' || uEl.value.toLowerCase() === 'rohithdub')) { uEl.value = ''; }
-  }, 180);
 }
 
 async function handleAuthSubmit(e) {
@@ -1530,7 +1684,7 @@ async function handleAuthSubmit(e) {
       }
       authToken = data.token;
       currentUser = data.user;
-      if (currentUser && (currentUser.isAdmin || ['admin','rohithdub'].includes((currentUser.username||'').toLowerCase()) || ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com'].includes((currentUser.email||'').toLowerCase()))) {
+      if (currentUser && isUserAdmin(currentUser)) {
         currentUser.isAdmin = true;
       }
       localStorage.setItem('py_academy_token', authToken);
@@ -1566,7 +1720,7 @@ async function handleAuthSubmit(e) {
       }
       authToken = data.token;
       currentUser = data.user;
-      if (currentUser && (currentUser.isAdmin || ['admin','rohithdub'].includes((currentUser.username||'').toLowerCase()) || ['rohithkumar55666@gmail.com', 'admin@pythonacademy.com'].includes((currentUser.email||'').toLowerCase()))) {
+      if (currentUser && isUserAdmin(currentUser)) {
         currentUser.isAdmin = true;
       }
       localStorage.setItem('py_academy_token', authToken);
@@ -1710,7 +1864,12 @@ function renderDashboardStudentListHtml() {
     return '<div style="text-align:center;padding:24px;color:#94a3b8">⏳ Loading registered students from Render backend…</div>';
   }
   const users = adminCachedData.users || [];
-  const students = users.filter(u => !u.isAdmin && (u.username || '').toLowerCase() !== 'rohithdub');
+  const students = users.filter(u => !isUserAdmin(u));
+  students.sort((a, b) => {
+    const ta = new Date((a.updatedAt || a.createdAt || '').replace(' ', 'T')).getTime() || 0;
+    const tb = new Date((b.updatedAt || b.createdAt || '').replace(' ', 'T')).getTime() || 0;
+    return tb - ta;
+  });
   if (students.length === 0) {
     return `
       <div style="text-align:center;padding:28px 16px;color:#94a3b8;background:rgba(255,255,255,0.02);border-radius:12px">
@@ -1734,8 +1893,9 @@ function renderDashboardStudentListHtml() {
                 <span style="font-size:10.5px;padding:1px 6px;background:rgba(255,255,255,0.06);color:#94a3b8;border-radius:4px;font-weight:normal">#${s.id}</span>
               </div>
               <div style="font-size:12px;color:#38bdf8;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.email)}</div>
-              <div style="font-size:12px;color:#94a3b8;margin-top:4px">
-                <span style="color:#a855f7;font-weight:700">${s.xp} XP</span> · 📚 ${s.completedCount || 0}/88 · ${s.streak > 0 ? `🔥 ${s.streak}d` : '0d streak'}
+              <div style="font-size:11.5px;color:#94a3b8;margin-top:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                ${getAdminUserStatusBadge(s.updatedAt || s.createdAt, false)}
+                <span>${s.xp} XP</span> · <span>📚 ${s.completedCount || 0}/88</span>
               </div>
             </div>
           </div>
