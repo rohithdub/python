@@ -1,4 +1,4 @@
-const CACHE = "python-academy-shell-v19";
+const CACHE = "python-academy-shell-v20";
 const APP = [
   "./manifest.json",
   "./assets/icons/icon-192.png",
